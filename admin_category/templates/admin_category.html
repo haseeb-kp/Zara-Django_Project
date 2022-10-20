@@ -1,0 +1,37 @@
+
+{% extends 'admin_base.html' %}
+{% load static%}
+
+{% block content%}
+ <div class="main-panel">
+      <div class="content-wrapper">
+        <a href="/admin_category/add_category"><button class="btn btn-outline-primary mt-5">ADD CATEGORY</button></a>
+
+        <table class="table table-hover table-responsive mt-5 ">
+          <thead>
+            <tr>
+            
+            <th scope="col">Category Name</th>
+            <th scope="col">Image</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            
+            {%for category in category%}
+    
+            <tr>
+            <td >{{category.category_name}}</td>
+            <td><img src="{{category.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
+            
+            <td><a href="edit_category/{{category.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit</button></a></td>
+			<td><a href="delete_category/{{category.id}}"> <button onclick ="return confirm('Delete {{category.category_name}}?')" class="btn btn-outline-danger " type="submit">Delete</button></a></td>
+			</tr>
+            {%endfor%}
+            
+          </tbody>
+          </table>
+      </div>
+  </div> 
+
+{%endblock%}

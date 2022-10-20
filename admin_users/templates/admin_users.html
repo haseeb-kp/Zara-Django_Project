@@ -1,0 +1,49 @@
+
+{% extends 'admin_base.html' %}
+{% load static%}
+
+{% block content%}
+ <div class="main-panel">
+      <div class="content-wrapper">
+        <table class="table table-hover table-responsive mt-5 ">
+          <thead>
+            <tr>
+            <!-- <th scope="col">#</th> -->
+            <th scope="col">Username</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email id</th>
+            <th scope="col">Phone number</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            {%for user in user_list%}
+    
+            <tr>
+            <td style="color: white;">{{user.username}}</td>
+            <td>{{user.first_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.phone_number}}</td>
+            <td>
+
+            {% if user.is_active %}
+                                    
+            <a  class="btn btn-outline-danger" href= "/admin_users/block_user/{{user.id}}"><i onclick="return confirm('Are you sure to block '+' {{user.first_name}} ?')">Block</i></a>
+                                        
+            {% else %}
+                                   
+            <a class="btn btn-outline-danger" href= "/admin_users/unblock_user/{{user.id}}"><i onclick="return confirm('Are you sure to unblock '+' {{user.first_name}} ?')">unblock</i></a>
+                                    
+            {% endif %}
+
+            </td>
+            </tr>
+            {%endfor%}
+            
+          </tbody>
+          </table>
+
+      </div>
+  </div> 
+
+{%endblock%}
