@@ -11,9 +11,12 @@ class MessageHandler:
 
     def sent_otp_on_phone(self):
         client=Client(settings.ACCOUNT_SID,settings.AUTH_TOKEN)
-        message = client.messages.create(
-            body='Your OTP for login is'+str(self.otp),
-            from_='+13854176848',
-            to=self.phone_number
-            )
-        print(message.sid)
+        verification = client.verify.services(
+    'VA29a4d611a341913b3a967202769fe894'
+).verifications.create(to=self.phone_number, channel='sms')
+
+        verification_check = client.verify.services(
+                'VA29a4d611a341913b3a967202769fe894'
+                    ).verification_checks.create(to=self.phone_number, code=self.otp)
+        print(verification_check.status)
+    

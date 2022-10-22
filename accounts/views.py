@@ -117,6 +117,7 @@ def otp_validate(request):
             print (user)
             
             return redirect('home')
+        
     return render(request,'otp_validate.html')
     
 
