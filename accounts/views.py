@@ -91,11 +91,7 @@ def products(request,id):
     return render(request,'products.html',{'product':product,'category':category})
 
 
-def otpgenerate():
-    otp = random.randint(100000, 999999)
-    return otp
 
-otp= otpgenerate()
 def number_check(request):
     if request.method=='POST':
         
@@ -109,9 +105,9 @@ def number_check(request):
 def otp_validate(request):
     if request.method=='POST':
         otp1= int(request.POST['otp'])
-        if otp==otp1:
-            print("phone2=",phone)
-
+        validate = MessageHandler(phone,otp1).validate()
+        print("validate=",validate)
+        if validate=="approved":
             user=CustomBackend.authenticate(request,phone_number=phone)
             print("-----")
             print (user)
