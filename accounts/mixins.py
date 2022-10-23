@@ -8,7 +8,6 @@ class MessageHandler:
     def __init__(self,phone_number,otp)->None:
         self.phone_number = phone_number
         self.otp = otp
-        print("generated otp=",self.otp)
 
     def sent_otp_on_phone(self):
         client=Client(settings.ACCOUNT_SID,settings.AUTH_TOKEN)

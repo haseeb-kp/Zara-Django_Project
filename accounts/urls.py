@@ -10,6 +10,7 @@ urlpatterns = [
     path('user_logout', views.user_logout, name="user_logout"),
     path('number_check', views.number_check, name="number_check"),
     path('otp_validate', views.otp_validate, name="otp_validate"),
+    path('signup_otp_validate', views.signup_otp_validate, name="signup_otp_validate"),
 
     
 ]

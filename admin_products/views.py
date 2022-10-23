@@ -30,6 +30,10 @@ def edit_product(request,id):
             price= request.POST['price']
             desc= request.POST['desc']
             image= request.FILES.get('image',product.image)
+
+            if Products.objects.filter(product_name=product_name).exists():
+                messages.error(request,'Product Exists!')
+                return redirect('edit_product')
             
             category=Category.objects.get(id=category)
             product.product_name = product_name

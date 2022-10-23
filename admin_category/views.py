@@ -21,6 +21,9 @@ def add_category(request):
         if request.method=='POST':
             category_name= request.POST['category_name']
             image= request.FILES['image']
+            if Category.objects.filter(category_name=category_name).exists():
+                messages.error(request,'Category Exists!')
+                return redirect('add_category')
 
             category = Category.objects.create(category_name=category_name,image=image,)
             category.save()
