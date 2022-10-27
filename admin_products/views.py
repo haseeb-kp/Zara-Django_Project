@@ -30,15 +30,17 @@ def edit_product(request,id):
             price= request.POST['price']
             desc= request.POST['desc']
             image= request.FILES.get('image',product.image)
+            image2= request.FILES.get('image2',product.image2)
+            quantity= request.POST['quantity']
 
-            if Products.objects.filter(product_name=product_name).exists():
-                messages.error(request,'Product Exists!')
-                return redirect('edit_product')
+
             
             category=Category.objects.get(id=category)
+            product.quantity=quantity
             product.product_name = product_name
             product.category = category
             product.image = image
+            product.image2 = image2
             product.price = price
             product.desc = desc
             product.save()
@@ -65,11 +67,14 @@ def add_product(request):
             product_name= request.POST['product_name']
             category= request.POST['category']
             image= request.FILES['image']
+            image2= request.FILES['image2']
             price= request.POST['price']
             desc= request.POST['desc']
+            quantity= request.POST['quantity']
+
 
             category=Category.objects.get(id=category)
-            product = Products.objects.create(product_name=product_name,desc=desc,price=price,category=category,image=image,)
+            product = Products.objects.create(product_name=product_name,desc=desc,price=price,category=category,image=image,image2=image2,quantity=quantity)
             product.save()
             return redirect('admin_products')
     return redirect('admin_login')

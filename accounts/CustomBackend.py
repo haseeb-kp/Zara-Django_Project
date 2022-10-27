@@ -9,7 +9,7 @@ class CustomBackend(BaseBackend):
     def authenticate(request, phone_number):
         # Check the token and return a user.
         try:
-            phone_number=phone_number[3:]
+            # phone_number=phone_number[3:]
             print(phone_number)
             user = User.objects.get(phone_number=phone_number)
             auth.login(request,user,backend='django.contrib.auth.backends.ModelBackend')

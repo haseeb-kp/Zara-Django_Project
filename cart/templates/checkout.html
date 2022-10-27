@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load static%}
+
+
+
+{% block content%}
+
+<style>
+
+</style>
+
+<div class="bg0 m-t-100 p-b-140">
+    <div class="container">
+
+        <div >
+            <h3 class="text-center font-weight-bold" style="color: #4D0808; font-family:poppins;text-transform: uppercase;">CHECKOUT</h3>
+        </div>
+        
+        <div class="row">
+            
+
+            <div class="col-12 col-xl-6 mt-5">
+
+                
+
+                <div class="col-md-12">
+                    
+                    <div class="card ">
+                        <div class="text-end">
+                            <a href="/cart/addaddress" class="btn btn-outline-secondary btn-sm ms-5 " style="color: #4D0808;">Add new address</a>
+                        </div>
+                        <div class="card-header d-flex">
+                            Choose Address
+                            
+                        </div>
+                        
+                        <div class="card-body">
+
+                            <form action = "/cart/checkout" method="POST">
+                        
+                                {% csrf_token %}
+                            {% for address in address %}
+
+             
+                                <input type="radio" class="m-1" name="address_id" value="{{address.id}}" checked><label>
+                                
+                                <div class="card-body" >
+                                    <div class="card-body">
+                                    <h5 class="card-title">{{address.name}}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">{{address.phone}}</h6>
+                                    <p class="card-text">{{address.address}}<br>
+                                        {{address.city}}<br>
+                                        {{address.pincode}}<br>
+                                        {{address.state}}<br>
+                                    </p>
+                                    </div>
+                                </div></label>
+                            
+                                {% endfor %}
+                                <div class="d-flex">
+                                
+                                    <!-- <button class="btn my-2 text-light button" type="submit" style="width:50%; background:#4D0808;">Select Address</button>  -->
+        
+                                </div>
+
+                                <div class="mt-5">
+                                    <h4 class="mtext-109 cl2 p-b-30">
+                                        Payment Method:
+                                    </h4>
+                                        
+                                      <ul>
+                                      <li>
+                                        <input type="radio" id="f-option" name="payment_selector">
+                                        <label for="f-option" style="color: #4D0808;">Cash on delivery</label>
+                                        
+                                        <div class="check"></div>
+                                      </li>
+                                      
+                                      <li>
+                                        <input type="radio" id="s-option" name="payment_selector">
+                                        <label for="s-option" style="color: #4D0808;">Credit/Debit Card</label>
+                                        
+                                        <div class="check"><div class="inside"></div></div>
+                                      </li>
+                                      
+                                      <li>
+                                        <input type="radio" id="t-option" name="payment_selector">
+                                        <label for="t-option" style="color: #4D0808;">Paypal</label>
+                                        
+                                        <div class="check"><div class="inside"></div></div>
+                                      </li>
+                                    </ul>
+        
+                                </div>
+                                <div class="text-center mt-10">
+                                    <a href="/cart/checkout"><button class="btn my-2 text-light button" type="submit" style=" background:#4D0808;">Make order</button> 
+                                    </a> 
+                                 </div>
+                             </form>
+        
+                            
+                            
+                            </div>
+                            
+                        </div>
+
+                        
+                        <!-- <div class="card" style="width: 18rem;">
+                            
+                            <div class="card-body">
+                              <h5 class="card-title">Choose Address</h5>
+                              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              <a href="#" class="btn btn-primary"></a>
+                            </div>
+                        </div> -->
+
+                        
+
+                        
+
+                    </div>
+
+            </div>
+
+            <div class="col-12 col-xl-6 mt-5" style="float: right;">
+                <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                        Cart Totals
+                    </h4>
+
+                    <div class="flex-w flex-t bor12 p-b-13">
+                        <div class="size-208">
+                            <span class="stext-110 cl2">
+                                Subtotal:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2">
+                                ₹{{subtotal}}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="flex-w flex-t bor12 mt-3 pb-2">
+                        <div class="size-208">
+                            <span class="stext-110 cl2">
+                                Shipping:
+                            </span>
+                        </div>
+
+                        <div class="size-209">
+                            <span class="mtext-110 cl2">
+                                Free
+                            </span>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="flex-w flex-t p-t-27 p-b-33">
+                        <div class="size-208">
+                            <span class="mtext-101 cl2">
+                                Total:
+                            </span>
+                        </div>
+
+                        <div class="size-209 p-t-1">
+                            <span class="mtext-110 cl2">
+                                ₹{{total}}
+                            </span>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>
+
+
+        </div>
+
+        
+
+        
+    </div>
+
+</div>
+
+{% endblock%}

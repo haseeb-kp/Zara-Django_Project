@@ -13,7 +13,7 @@
 
 
     
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css"> -->
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.0/normalize.min.css">
@@ -30,7 +30,11 @@
 
     <link href="https://cdn.jsdelivr.net/npm/weathericons@2.1.0/css/weather-icons.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.9.0/dist/fullcalendar.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{% static 'admin_css/lib/datatable/dataTables.bootstrap.min.css' %}">
+    <!-- <link rel="stylesheet" href="{% static 'admin_css/lib/datatable/dataTables.bootstrap.min.css' %}"> -->
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+    
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 
    <style>
@@ -87,8 +91,11 @@
                   <a href="/admin_category/category"><i class="menu-icon fa fa-th-large"></i>Category </a>
                 </li>
                 <li class="active">
-                  <a href="/admin_products/admin_products"><i class="menu-icon fa fa-square"></i>product</a>
+                  <a href="/admin_products/admin_products"><i class="menu-icon fa fa-square"></i>Products</a>
                 </li>
+                <li class="active">
+                    <a href="/admin_orders/admin_orders"><i class="menu-icon fa  fa-angle-double-right"></i>Orders</a>
+                  </li>
                 
               </ul>
             </div><!-- /.navbar-collapse -->
@@ -126,7 +133,7 @@
 {%endblock%}
 
 
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+    <!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script> -->
 
 
     <script src="https://ajax.googleapis.com//ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -148,23 +155,19 @@
     });
     </script> -->
 
-    <script src="{% static 'admin_js/lib/data-table/datatables.min.js' %}"></script>
+    <!-- <script src="{% static 'admin_js/lib/data-table/datatables.min.js' %}"></script>
     <script src="{% static 'admin_js/lib/data-table/dataTables.bootstrap.min.js' %}"></script>
-    <script src="{% static 'admin_js/lib/data-table/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'admin_js/lib/data-table/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'admin_js/lib/data-table/dataTables.buttons.min.js' %}"></script> -->
+    <!-- <script src="{% static 'admin_js/lib/data-table/buttons.bootstrap.min.js' %}"></script>
     <script src="{% static 'admin_js/lib/data-table/jszip.min.js' %}"></script>
     <script src="{% static 'admin_js/lib/data-table/vfs_fonts.js' %}"></script>
     <script src="{% static 'admin_js/lib/data-table/buttons.html5.min.js' %}"></script>
     <script src="{% static 'admin_js/lib/data-table/buttons.print.min.js' %}"></script>
-    <script src="{% static 'admin_js/lib/data-table/buttons.colVis.min.js' %}"></script>
-    <script src="{% static 'admin_js/init/datatables-init.js' %}"></script>
+    <script src="{% static 'admin_js/lib/data-table/buttons.colVis.min.js' %}"></script> -->
+    <!-- <script src="{% static 'admin_js/init/datatables-init.js' %}"></script> -->
 
 
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $('#example').DataTable();
-      } );
-  </script>
+    
 
 </body>
 </html>

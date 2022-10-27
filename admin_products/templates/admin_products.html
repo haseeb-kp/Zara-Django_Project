@@ -19,8 +19,10 @@
             <th scope="col">Product Name</th>
             <th scope="col">Category</th>
             <th scope="col">Image</th>
+            <th scope="col">Image2</th>
             <th scope="col">Price</th>
             <th scope="col">Description</th>
+            <th scope="col">Stock</th>
 
             </tr>
           </thead>
@@ -35,20 +37,30 @@
                 rows="5"
                 required
             >{{product.product_name}}</textarea>
-            </div></td>
+            </td>
             <td>{{product.category}}</td>
             <td><img src="{{product.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
+            <!-- <td>
+              {% if product.image2 %}       
+                <img src="{{ product.image2.url }}" style="height:100px;width: 100px;border-radius: 14%;" alt="">
+            {% else %}
+            <img src="{{product.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt="">
+            {% endif %}
+            </td> -->
+            <td><img src="{{product.image2.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
             <td>₹{{product.price}}</td>
             <td><textarea  readonly style="background-color: #ffffff;"                  
               class="form-control validate tm-small"
               name="desc"
               rows="5"
               required
-          >{{product.desc}}</textarea>
-          </div></td>
+            >{{product.desc}}</textarea>
+            </td>
+            <td>{{product.quantity}}</td>
+
             
             <td><a href="edit_product/{{product.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit</button></a></td>
-			<td><a href="delete_product/{{product.id}}"> <button onclick ="return confirm('Delete {{product.product_name}}?')" class="btn btn-outline-danger " type="submit">Delete</button></a></td>
+			      <td><a href="delete_product/{{product.id}}"> <button onclick ="return confirm('Delete {{product.product_name}}?')" class="btn btn-outline-danger " type="submit">Delete</button></a></td>
 			</tr>
             {%endfor%}
             

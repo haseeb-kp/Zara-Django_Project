@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static%}
+
+
+
+{% block content%}
+
+
+<div class="bg0 " style="padding-bottom:50rem;margin-top: 8rem;">
+    <div class="container">
+
+        <div >
+            <h3 class="text-center font-weight-bold" style="color: #4D0808; font-family:poppins;text-transform: uppercase;">Profile</h3>
+        </div>
+
+        <div class="d-flex">
+            <div class="col-md-6 col-sm-12  ps-1 caro-img d-none d-sm-block text-start mt-5">
+                <img height="250px" width="250px" style="border-radius:100%;"src="https://cdn.pixabay.com/photo/2017/11/10/05/48/user-2935527_960_720.png">
+              </div>
+              <div class="mt-5 d-sm-flex">
+                <div class="my-5" >
+                    <p>NAME : {{user.first_name}}</p>
+                    <p>EMAIL : {{user.email}}</p>
+                    <p>PHONE NUMBER : {{user.phone_number}}</p>
+                </div>
+              </div>
+              <div class="mt-5 d-sm-flex">
+                <a href="edit_product/{{product.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit User</button></a>
+                <a href="delete_product/{{product.id}}"> <button onclick ="return confirm('Delete {{product.product_name}}?')" class="btn btn-outline-danger " type="submit">Add New Address</button></a>
+
+              </div>
+			      <td></td>
+             
+
+        </div>
+
+
+           
+
+
+
+        </div>
+
+    </div>
+
+
+{%endblock%}

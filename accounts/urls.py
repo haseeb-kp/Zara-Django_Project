@@ -11,6 +11,10 @@ urlpatterns = [
     path('number_check', views.number_check, name="number_check"),
     path('otp_validate', views.otp_validate, name="otp_validate"),
     path('signup_otp_validate', views.signup_otp_validate, name="signup_otp_validate"),
+    path('product_details/<int:id>', views.product_details, name="product_details"),
+    # path('addaddress', views.addaddress, name="addaddress"),
+    path('profile', views.profile, name="profile"),
+
 
     
 ]

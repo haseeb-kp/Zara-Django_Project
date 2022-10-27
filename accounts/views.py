@@ -83,6 +83,7 @@ def signup_otp_validate(request):
     if request.method=='POST':
         otp1= int(request.POST['otp'])
         validate = MessageHandler(new_phone_number,otp1).validate()
+        print("new=",new_phone_number)
         print("validate=",validate)
         if validate=="approved":
             user=User.objects.create_user(username=new_username,password=new_pass2,email=new_email,first_name=new_name,phone_number=new_phone_number)
@@ -133,9 +134,21 @@ def otp_validate(request):
             return redirect('home')
         
     return render(request,'otp_validate.html')
+
+
+def product_details(request,id):
+    product = Products.objects.get(id=id)
+    print(product)
+
+    return render(request,'product_details.html',{'product':product})
+
+def profile(request):
+    if request.user.is_authenticated:
+        return render(request,'profile.html')
+    return redirect('user_login')
     
         
-    
+
 
 
     
