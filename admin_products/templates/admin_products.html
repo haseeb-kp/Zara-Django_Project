@@ -39,15 +39,22 @@
             >{{product.product_name}}</textarea>
             </td>
             <td>{{product.category}}</td>
-            <td><img src="{{product.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
+            <td><img src="/media/{{product.image}}" style="height:100px;width: 100px;border-radius: 14%;" alt="IMG"></td>
             <!-- <td>
-              {% if product.image2 %}       
-                <img src="{{ product.image2.url }}" style="height:100px;width: 100px;border-radius: 14%;" alt="">
+              {% if product.image %}       
+                <img src="{{ product.image.url }}" style="height:100px;width: 100px;border-radius: 14%;" alt="IMG">
             {% else %}
-            <img src="{{product.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt="">
+            <img src="/media/images/Screenshot_from_2022-10-06_22-07-46.png" style="height:100px;width: 100px;border-radius: 14%;" alt="">
             {% endif %}
             </td> -->
-            <td><img src="{{product.image2.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
+            <!-- <td>
+              {% if product.image2 %}       
+                <img src="{{ product.image2.url }}" style="height:100px;width: 100px;border-radius: 14%;" alt="IMG">
+            {% else %}
+            <img src="/media/images/Screenshot_from_2022-10-06_22-07-46.png" style="height:100px;width: 100px;border-radius: 14%;" alt="">
+            {% endif %}
+            </td> -->
+            <td><img src="/media/{{product.image2}}" style="height:100px;width: 100px;border-radius: 14%;" alt="IMG"></td>
             <td>₹{{product.price}}</td>
             <td><textarea  readonly style="background-color: #ffffff;"                  
               class="form-control validate tm-small"

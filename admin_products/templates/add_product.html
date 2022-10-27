@@ -100,38 +100,21 @@
                                 data-large-mode="true"
                                 />
                             </div>
-                            <!-- <div class="form-group mb-3 col-xs-12 col-sm-6">
-                                <label
-                                for="stock"
-                                >Units In Stock
-                                </label>
-                                <input
-                                id="stock"
-                                name="stock"
-                                type="text"
-                                class="form-control validate"
-                                required
-                                />
-                            </div> -->
+                            
                         </div>
                         
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                    <div class="tm-product-img-dummy mx-auto">
-                        <i
-                        class="fas fa-cloud-upload-alt tm-upload-icon"
-                        onclick="document.getElementById('fileInput').click();"
-                        ></i>
-                    </div>
-                    <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" name="image" type="file" style="display:none;" />
-                        <input
-                        type="button"
-                        class="btn btn-primary btn-block mx-auto"
-                        value="UPLOAD PRODUCT IMAGE"
-                        onclick="document.getElementById('fileInput').click();"
-                        />
-                    </div>
+                        <div class="form-group mt-3">
+                            <label for="pimage">Image</label>
+                            <input type="file" class="form-control" name="image" id="image"  placeholder="Product Image">
+                            <span id="errorimage" class="text-danger">
+                          </div>
+                          <div class="form-group mt-3">
+                            <label for="pimage">Image 2</label>
+                            <input type="file" class="form-control" name="image2" id="image2"  placeholder="Product Image">
+                            <span id="errorimage" class="text-danger">
+                          </div>
                     </div>
                     {% for message in messages%}
 				<div  class="alert alert-light alert-dismissible fade show mt-3" role="alert">

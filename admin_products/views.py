@@ -13,7 +13,8 @@ from .models import *
 @never_cache
 def admin_products(request):
     if request.user.is_authenticated and  request.user.is_superuser :
-        products = Products.objects.all()
+        products = Products.objects.values('id','product_name','image','category','image2','price','desc','quantity')
+        print("product=",products)
         return render(request,'admin_products.html',{'products':products})
     else: 
         return redirect('admin_login')
@@ -66,8 +67,8 @@ def add_product(request):
         if request.method=='POST':
             product_name= request.POST['product_name']
             category= request.POST['category']
-            image= request.FILES['image']
-            image2= request.FILES['image2']
+            image= request.FILES.get('image',None)
+            image2= request.FILES.get('image2',None)
             price= request.POST['price']
             desc= request.POST['desc']
             quantity= request.POST['quantity']

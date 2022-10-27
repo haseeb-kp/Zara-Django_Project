@@ -93,8 +93,21 @@ def signup_otp_validate(request):
 
 @never_cache
 def home(request):
-    category = Category.objects.all()
+    x = ["Hampers","Others"]
+    category = Category.objects.exclude(category_name__in = x)
     return render(request,'home.html',{'category':category})
+
+def hampers(request):
+    category = Category.objects.get(category_name="Hampers")
+    product = Products.objects.filter(category=category).all()
+    return render(request,'products.html',{'product':product,'category':category})
+
+def others(request):
+    category = Category.objects.get(category_name="Others")
+    product = Products.objects.filter(category = category).all()
+    return render(request,'products.html',{'product':product,'category':category})
+
+    
 
 @never_cache
 def user_logout(request):
@@ -105,6 +118,7 @@ def user_logout(request):
 
 def products(request,id):
     category=Category.objects.get(id=id)
+    print("category",category)
     product = Products.objects.filter(category=category).all()
     return render(request,'products.html',{'product':product,'category':category})
 

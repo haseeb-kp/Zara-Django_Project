@@ -20,6 +20,8 @@
           <tbody>
             
             {%for user in user_list%}
+
+            
     
             <tr>
             <td >{{user.username}}</td>
@@ -30,7 +32,7 @@
 
             {% if user.is_active %}
                                     
-            <a  class="btn btn-outline-danger" href= "/admin_users/block_user/{{user.id}}"><i onclick="return confirm('Are you sure to block '+' {{user.first_name}} ?')">Block</i></a>
+            <a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#exampleModal{{user.id}}"><i >Block</i></a>
                                         
             {% else %}
                                    
@@ -40,6 +42,29 @@
 
             </td>
             </tr>
+
+
+
+            <!-- Modal -->
+              <div class="modal fade" id="exampleModal{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a href="/admin_users/block_user/{{user.id}}"><button type="button" class="btn btn-primary">Save changes</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {%endfor%}
             
           </tbody>

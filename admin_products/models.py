@@ -14,9 +14,9 @@ class Products(models.Model):
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     price=models.IntegerField(default=0)
     desc=models.CharField(max_length=300)
-    image= models.ImageField(upload_to="images",default="")
+    image= models.ImageField(upload_to="images",default="",null=True, blank=True)
     quantity = models.IntegerField(default=1)
-    image2= models.ImageField(upload_to="images/2",null=True, blank=True)
+    image2= models.ImageField(upload_to="images/2",null=True, blank=True,default="")
 
 
     def __str__(self):
