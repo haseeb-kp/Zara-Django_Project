@@ -118,7 +118,6 @@ def user_logout(request):
 
 def products(request,id):
     category=Category.objects.get(id=id)
-    print("category",category)
     product = Products.objects.filter(category=category).all()
     return render(request,'products.html',{'product':product,'category':category})
 
@@ -129,7 +128,6 @@ def number_check(request):
         
         global phone 
         phone=request.POST['phone_number']
-        print("phone1=",phone)
         otp=123456
         message_handler = MessageHandler(phone,otp).sent_otp_on_phone()
         return redirect('otp_validate')

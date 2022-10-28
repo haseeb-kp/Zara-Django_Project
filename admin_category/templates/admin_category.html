@@ -25,12 +25,42 @@
             <td><img src="{{category.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
             
             <td><a href="edit_category/{{category.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit</button></a></td>
-			<td><a href="delete_category/{{category.id}}"> <button onclick ="return confirm('Delete {{category.category_name}}?')" class="btn btn-outline-danger " type="submit">Delete</button></a></td>
+			<td><a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#catModal{{category.id}}"><i >Delete</i></a></td>
 			</tr>
+
+      <!-- Modal Delete Category-->
+      <div class="modal fade" id="catModal{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <p class="modal-title text-danger" id="exampleModalLabel">Delete Category</p>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body ">
+              Are You sure to Delete the Category?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <a href="delete_category/{{category.id}}"><button type="button" class="btn btn-danger">Delete</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
             {%endfor%}
             
           </tbody>
           </table>
       </div>
 
+{%endblock%}
+{%block scripts%}
+      <script>
+        
+          $(function () {
+              $("#example").dataTable();
+          })
+      
+      </script>
 {%endblock%}

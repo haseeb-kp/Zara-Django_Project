@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import login,logout,authenticate,get_user_model
 from django.views.decorators.cache import never_cache
 from admin_products.models import *
+from django.utils.datastructures import MultiValueDictKeyError
 
 
 @never_cache
@@ -20,7 +21,12 @@ def add_category(request):
             return render(request,'add_category.html')
         if request.method=='POST':
             category_name= request.POST['category_name']
-            image= request.FILES['image']
+            try:
+                image= request.FILES['image']
+            except MultiValueDictKeyError:
+                messages.error(request, 'Upload image')
+                return redirect('add_category')
+                
             if Category.objects.filter(category_name=category_name).exists():
                 messages.error(request,'Category Exists!')
                 return redirect('add_category')

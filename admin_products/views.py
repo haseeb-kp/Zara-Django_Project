@@ -4,6 +4,8 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import login,logout,authenticate,get_user_model
 from django.views.decorators.cache import never_cache
 from .models import *
+from django.utils.datastructures import MultiValueDictKeyError
+
 
 # from django.contrib.auth import get_user_model
 
@@ -13,8 +15,8 @@ from .models import *
 @never_cache
 def admin_products(request):
     if request.user.is_authenticated and  request.user.is_superuser :
-        products = Products.objects.values('id','product_name','image','category','image2','price','desc','quantity')
-        print("product=",products)
+        # products = Products.objects.values('id','product_name','image','category','image2','price','desc','quantity')
+        products = Products.objects.all()
         return render(request,'admin_products.html',{'products':products})
     else: 
         return redirect('admin_login')
@@ -67,11 +69,19 @@ def add_product(request):
         if request.method=='POST':
             product_name= request.POST['product_name']
             category= request.POST['category']
-            image= request.FILES.get('image',None)
-            image2= request.FILES.get('image2',None)
             price= request.POST['price']
             desc= request.POST['desc']
             quantity= request.POST['quantity']
+            try:
+                image= request.FILES['image']
+            except MultiValueDictKeyError:
+                messages.error(request, 'Upload image')
+                return redirect('add_product')
+            try:
+                image2= request.FILES['image2']
+            except MultiValueDictKeyError:
+                messages.error(request, 'Upload image')
+                return redirect('add_product')
 
 
             category=Category.objects.get(id=category)

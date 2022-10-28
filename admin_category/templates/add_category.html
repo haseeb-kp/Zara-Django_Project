@@ -22,42 +22,32 @@
                             >Category Name
                         </label>
                         <input
-                            id="name"
+                            id="category" 
+                            onkeyup="validateCategory()"
                             name="category_name"
                             type="text"
                             class="form-control validate"
-                            required
+                            
                         />
                         </div>
+                        <span id="category-error"></span>
+
                         
                     </div>
                     
-                    <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
-                    <div clascategory-img-dummy mx-auto">
-                        <i
-                        class="fas fa-cloud-upload-alt tm-upload-icon"
-                        onclick="document.getElementById('fileInput').click();"
-                        ></i>
-                    </div>
-                    <div class="custom-file mt-5">
-                        <input id="fileInput" name="image" type="file" style="display:none;" />
-                        <input
-                        type="button"
-                        class="btn btn-primary btn-block mx-auto"
-                        value="UPLOAD CATEGORY IMAGE"
-                        onclick="document.getElementById('fileInput').click();"
-                        />
-                    </div>
+                    <div class="form-group mt-3">
+                        <label for="pimage">Image</label>
+                        <input type="file" class="form-control" name="image"  id="image" accept="image/*" onclick="validateImage()"  placeholder="Product Image">
+                        <span id="image-error"></span>
+                        
+                      </div>
                     
-                    </div>
+                    
                     {% for message in messages%}
-				<div  class="alert alert-light alert-dismissible fade show mt-3" role="alert">
-					<strong class="text-danger">{{message}}</strong>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				  </div>
-				  {%endfor%}
+                    <script>
+                    swal('{{message}}')
+                    </script>
+                    {%endfor%}
                     <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Category Now</button>
                     </div>
@@ -68,6 +58,65 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var categoryError = document.getElementById('category-error');
+        var imageError = document.getElementById('image-error');
+        
+
+        function validateCategory() {
+            
+            var category=document.getElementById('category').value.trim();
+            var image = document.getElementById('image')
+            console.log(image.value)
+            
+            
+            var Required=4;
+            var left=Required - category.length;  
+        
+            if (category.length==0) {
+                categoryError.innerHTML='category is Required';
+                categoryError.style.color='red'
+                return false;
+                }
+            if (left>0){
+            
+                categoryError.innerHTML =left+ 'more character Required';
+                categoryError.style.color='red'
+                return false;
+            
+            }
+            categoryError.innerHTML='category is valid';
+            categoryError.style.color='green'
+            return true;
+        }
+
+        function validateImage() {
+            var image=document.getElementById('image').value();  
+        
+            if (image=='') {
+                imageError.innerHTML='image is Required';
+                imageError.style.color='red'
+                return false;
+                }
+        
+            imageError.innerHTML='image is valid';
+            imageError.style.color='green'
+            return true;
+            }
+        jQuery_1_7_1(document).on("submit", "form", function (e) {
+        
+        
+            if (validateCategory()) {
+                
+            } else {
+                e.preventDefault();
+                swal('Invalid data! Ensure You have entered correct data');
+                return true;
+            }
+        });
+
+    </script>
 
 
 

@@ -23,32 +23,34 @@
                             >Category Name
                         </label>
                         <input
-                            id="name"
+                            id="category" 
+                            onkeyup="validateCategory()"
                             name="category_name"
                             type="text"
                             value="{{category.category_name}}"
                             class="form-control validate"
                         />
-                        </div>
+                        <span id="category-error"></span>
+                    </div>
                         
                         
                         
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                         <div class="tm-product-img-edit mx-auto">
-                        <img src="{{category.image.url}}" alt="Category image" type="file" name="image" class="img-fluid d-block mx-auto">
+                        <img src="{{category.image.url}}" alt="Category image" type="file" accept="image/*" name="image" class="img-fluid d-block mx-auto">
                         <i
                         class="fas fa-cloud-upload-alt tm-upload-icon"
-                        onclick="document.getElementById('fileInput').click();"
+                        onclick="document.getElementById('viewImg1').click();"
                         ></i>
                         </div>
                         <div class="custom-file mt-3 mb-3">
-                        <input id="fileInput" type="file" name="image" style="display:none;" />
+                        <input id="viewImg1" type="file" name="image" style="display:none;" onchange="viewImage1(event)"  />
                         <input
                         type="button"
                         class="btn btn-primary btn-block mx-auto"
                         value="CHANGE IMAGE NOW"
-                        onclick="document.getElementById('fileInput').click();"
+                        onclick="document.getElementById('viewImg1').click();"
                         />
                         </div>
                         </div>
@@ -70,5 +72,40 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        function viewImage1(event){
+            document.getElementById('viewImg1').src=URL.createObjectURL(event.target.files[0])
+          }
+        var categoryError = document.getElementById('category-error');
+
+        function validateCategory() {
+            var category=document.getElementById('category').value.trim();  
+        
+            if (category.length==0) {
+                categoryError.innerHTML='category is Required';
+                categoryError.style.color='red'
+                return false;
+                }
+        
+            categoryError.innerHTML='category is valid';
+            categoryError.style.color='green'
+            return true;
+            }
+
+        jQuery_1_7_1(document).on("submit", "form", function (e) {
+    
+    
+            if (validateCategory()) {
+                
+            } else {
+                e.preventDefault();
+                swal('Invalid data! Ensure You have entered correct data');
+                return true;
+            }
+        });
+    
+        </script>
    
 {% endblock%}

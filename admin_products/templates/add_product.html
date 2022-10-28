@@ -22,38 +22,32 @@
                             >Product Name
                         </label>
                         <input
-                            id="name"
+                        id="name"
+                        onkeyup="validateName()"
                             name="product_name"
                             type="text"
                             class="form-control validate"
-                            required
+                            
                         />
                         </div>
+                        <span id="name-error" ></span>
+
                         <div class="form-group mb-3">
                         <label
                             for="description"
                             >Description</label
                         >
                         <textarea
+                        id="description"               
+                        onkeyup="validateDescription()"
                             name="desc"
                             class="form-control validate"
                             rows="3"
-                            required
                         ></textarea>
                         </div>
-                        <!-- <div class="form-group mb-3">
-                            <label
-                                for="name"
-                                >Category
-                            </label>
-                            <input
-                                id="category"
-                                name="category"
-                                type="text"
-                                class="form-control validate"
-                                required
-                            />
-                            </div> -->
+                        <span id="description-error" ></span>
+
+                        
 
                             
 
@@ -64,15 +58,17 @@
                         >
                         <select
                             class="custom-select tm-select-accounts"
-                            id="category"
-                            name="category"
+                            id="category" onkeyup="validateCategory()"
+                            name="category" required
                         >
                             <option selected>Select category</option>
                             {%for category in category%}
-                            <option value="{{category.id}}">{{category.category_name}}</option>
+                            <option value="{{category.id}}" >{{category.category_name}}</option>
                             {%endfor%}
                         </select>
                         </div>
+                        <span id="category-error"></span>
+
                         <div class="row">
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
                                 <label
@@ -80,26 +76,32 @@
                                 >Price
                                 </label>
                                 <input
-                                id="price"
+                                id="price" 
+                            onkeyup="validatePrice()"
                                 name="price"
                                 type="text"
                                 class="form-control validate"
                                 data-large-mode="true"
                                 />
                             </div>
+                            <span id="price-error"></span>
+
                             <div class="form-group mb-3 col-xs-12 col-sm-6">
                                 <label
                                 for="price"
                                 >Stock
                                 </label>
                                 <input
-                                id="price"
+                                id="stock"
+                                onkeyup="validateStock()"
                                 name="quantity"
                                 type="text"
                                 class="form-control validate"
                                 data-large-mode="true"
                                 />
-                            </div>
+                            <span id="stock-error"></span>
+
+                        </div>
                             
                         </div>
                         
@@ -112,17 +114,14 @@
                           </div>
                           <div class="form-group mt-3">
                             <label for="pimage">Image 2</label>
-                            <input type="file" class="form-control" name="image2" id="image2"  placeholder="Product Image">
+                            <input type="file" class="form-control" name="image2" id="image2"   placeholder="Product Image">
                             <span id="errorimage" class="text-danger">
                           </div>
                     </div>
                     {% for message in messages%}
-				<div  class="alert alert-light alert-dismissible fade show mt-3" role="alert">
-					<strong class="text-danger">{{message}}</strong>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				  </div>
+                          <script>
+                            swal('{{message}}')
+                          </script>
 				  {%endfor%}
                     <div class="col-12">
                     <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
@@ -134,6 +133,134 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        var nameError = document.getElementById('name-error');
+        var descriptionError = document.getElementById('description-error');
+        var categoryError = document.getElementById('category-error');
+        var priceError = document.getElementById('price-error');
+        var stockError = document.getElementById('stock-error');
+        var imageError = document.getElementById('image-error');
+
+        
+        
+        
+        
+        function validateName() {
+            var name=document.getElementById('name').value.trim();  
+            var Required=4;
+            var left=Required - name.length;
+            if (name.length==0) {
+                nameError.innerHTML='Product name is Required';
+                nameError.style.color='red'
+                return false;
+                }
+            
+            if (left>0){
+                
+                nameError.innerHTML =left+ 'more character Required';
+                nameError.style.color='red'
+                return false;
+            
+            }
+            nameError.innerHTML='Name is valid';
+                nameError.style.color='green'
+                return true;
+            }
+        
+        
+        
+        function validateDescription() {
+            var description =document.getElementById('description').value.trim();
+            var Required=10;
+            var left=Required - description.length;
+        
+            if(left>0){
+                descriptionError.innerHTML =left+ 'more character Required';
+                descriptionError.style.color='red'
+                return false;
+        
+                }
+            descriptionError.innerHTML='Description is valid';
+            descriptionError.style.color='green'
+            return true;    
+        
+        }
+        
+        function validatePrice() {
+            var price=document.getElementById('price').value.trim();  
+        
+            if (price.length==0) {
+                priceError.innerHTML='Product price is Required';
+                priceError.style.color='red'
+                return false;
+                }
+            if (!/^[0-9]+$/.test(price)) {
+                    priceError.innerHTML = "price must be digits"
+                    priceError.style.color='red'
+                    return false;
+            }
+        
+            
+        
+            priceError.innerHTML='Price is valid';
+            priceError.style.color='green'
+            return true;
+            }
+        
+        function validateStock() {
+            var stock=document.getElementById('stock').value.trim();  
+        
+            if (stock.length==0) {
+                stockError.innerHTML='stock is Required';
+                stockError.style.color='red'
+                return false;
+                }
+            if (!/^[0-9]+$/.test(stock)) {
+                priceError.innerHTML = "stock must be digits"
+                priceError.style.color='red'
+                return false;
+            }
+        
+            stockError.innerHTML='stock is valid';
+            stockError.style.color='green'
+            return true;
+            }
+
+        function validateCategory() {
+            var category=document.getElementById('category');
+            var invalid = category.value == 'Select category'
+        
+            if (invalid) {
+                categoryError.innerHTML='category is Required';
+                categoryError.style.color='red'
+                return false;
+                }
+        
+            categoryError.innerHTML='Category is valid';
+            categoryError.style.color='green'
+            return true;
+        }
+        jQuery_1_7_1(document).on("submit", "form", function (e) {
+            
+            
+            if (validateName() && validateStock() && validatePrice() && validateDescription() ) {
+               
+            } else {
+                e.preventDefault();
+                swal('Invalid data! Ensure You have entered correct data');
+                return true;
+            }
+        });
+        
+
+        
+
+        
+
+        
+    </script>
 
 
 

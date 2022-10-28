@@ -32,11 +32,11 @@
 
             {% if user.is_active %}
                                     
-            <a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#exampleModal{{user.id}}"><i >Block</i></a>
+            <a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#blockModal{{user.id}}"><i >Block</i></a>
                                         
             {% else %}
                                    
-            <a class="btn btn-outline-danger" href= "/admin_users/unblock_user/{{user.id}}"><i onclick="return confirm('Are you sure to unblock '+' {{user.first_name}} ?')">unblock</i></a>
+            <a class="btn btn-outline-danger" data-toggle="modal" data-target="#unblockModal{{user.id}}">unblock</i></a>
                                     
             {% endif %}
 
@@ -45,22 +45,43 @@
 
 
 
-            <!-- Modal -->
-              <div class="modal fade" id="exampleModal{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modal Block User-->
+              <div class="modal fade" id="blockModal{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <p class="modal-title text-danger" id="exampleModalLabel">Block User</p>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
-                      ...
+                    <div class="modal-body ">
+                      Are You sure to block the user?
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <a href="/admin_users/block_user/{{user.id}}"><button type="button" class="btn btn-primary">Save changes</button></a>
+                      <a href="/admin_users/block_user/{{user.id}}"><button type="button" class="btn btn-danger">Block</button></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Modal Unblock-->
+              <div class="modal fade" id="unblockModal{{user.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <p class="modal-title text-danger" id="exampleModalLabel">Unblock User</p>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body ">
+                      Are You sure to unblock the user?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <a href="/admin_users/unblock_user/{{user.id}}"><button type="button" class="btn btn-danger">Un Block</button></a>
                     </div>
                   </div>
                 </div>
