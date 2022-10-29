@@ -7,7 +7,7 @@
         <h3 class=" mt-5" style="color: #4D0808; font-family:poppins;">CATEGORY MANAGEMENT</h3>
         <a href="/admin_category/add_category"><button class="btn btn-outline-primary mt-3 float-right">ADD CATEGORY</button></a>
 
-        <table id="example" class="table table-striped  mt-5">
+        <table id="catTab" class="table mt-5">
           <thead>
             <tr>
             
@@ -54,13 +54,15 @@
           </table>
       </div>
 
-{%endblock%}
-{%block scripts%}
       <script>
         
-          $(function () {
-              $("#example").dataTable();
-          })
+        $(document).ready( function () {
+          $('#catTab').DataTable();
+      } );
       
       </script>
+
+{%endblock%}
+{%block scripts%}
+      
 {%endblock%}

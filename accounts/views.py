@@ -40,7 +40,7 @@ def user_login(request):
 
     return render(request,'user_login.html')  
 
-@never_cache
+
 def user_signup(request) :
     if request.method=='POST':
         global new_name
@@ -53,8 +53,8 @@ def user_signup(request) :
         new_username=request.POST['username']
         new_email=request.POST['email']
         new_phone_number=request.POST['phone_number']
-        new_pass1=request.POST.get('pass1')
-        new_pass2=request.POST.get('pass2')
+        new_pass1=request.POST['pass1']
+        new_pass2=request.POST['pass2']
         
         if new_pass1==new_pass2:
             if User.objects.filter(email=new_email).exists():
@@ -88,7 +88,12 @@ def signup_otp_validate(request):
         if validate=="approved":
             user=User.objects.create_user(username=new_username,password=new_pass2,email=new_email,first_name=new_name,phone_number=new_phone_number)
             user.save()
-            return redirect('user_login')  
+            messages.error(request, 'Account created')
+            return redirect('user_login')
+        else :
+            messages.error(request, 'Wrong Credentials')
+            return redirect('signup_otp_validate')
+
     return render(request,'signup_otp_validate.html')
 
 @never_cache
@@ -141,9 +146,11 @@ def otp_validate(request):
         if validate=="approved":
             user=CustomBackend.authenticate(request,phone_number=phone)
             print("-----")
-            print (user)
-            
+            print ("user ",user)
             return redirect('home')
+        
+        messages.error(request, 'Wrong Credentials')
+        return redirect('otp_validate')
         
     return render(request,'otp_validate.html')
 

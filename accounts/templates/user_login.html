@@ -23,6 +23,14 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'login_css/main.css' %}">
 <!--===============================================================================================-->
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    var jQuery_1_7_1 = $.noConflict(true);
+    </script>
+	
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
 </head>
 <body>
 	
@@ -40,29 +48,32 @@
 						 Login
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "User name is required">
-						<input class="input100" type="name" name="username" placeholder="User name">
+					<div class="wrap-input100" >
+						<input class="input100" type="name" name="username" placeholder="User name" id="name"
+						onkeyup="validateName()">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-user" aria-hidden="true"></i>
 						</span>
 					</div>
+					<small class="ml-2" id="name-error"></small>
 
-					<div class="wrap-input100 validate-input" data-validate = "Password is required">
-						<input class="input100" type="password" name="password" placeholder="Password">
+
+					<div class="wrap-input100 mb-3" >
+						<input class="input100" type="password" name="password" placeholder="Password" id="password"
+						onkeyup="validatePassword()">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-lock" aria-hidden="true"></i>
 						</span>
 					</div>
+					<small id="password-error" ></small>
+
 
 					{% for message in messages%}
-					<div  class="alert alert-light alert-dismissible fade show mt-3" role="alert">
-					<strong class="text-danger">{{message}}</strong>
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-					  <span aria-hidden="true">&times;</span>
-					</button>
-				  </div>
+                          <script>
+                            swal('{{message}}')
+                          </script>
 				  {%endfor%}
 					
 					<div class="container-login100-form-btn">
@@ -87,6 +98,66 @@
 			</div>
 		</div>
 	</div>
+
+
+	<script>
+        var nameError = document.getElementById('name-error');
+        var passwordError = document.getElementById('password-error');
+        
+        
+        
+        
+        function validateName() {
+            var name=document.getElementById('name').value.trim(); 
+            if (name.length==0) {
+                nameError.innerHTML='user name is required';
+                nameError.style.color='red'
+                return false;
+                }
+            
+            
+            nameError.innerHTML='Name is valid';
+            nameError.style.color='green'
+            return true;
+            }
+		function validatePassword(){
+			var password=document.getElementById('password').value.trim(); 
+            if (password.length==0) {
+                passwordError.innerHTML='Password is required';
+                passwordError.style.color='red'
+                return false;
+                }
+            
+            
+            passwordError.innerHTML='password is valid';
+            passwordError.style.color='green'
+            return true;
+			
+
+		}
+        
+        
+        
+        
+        jQuery_1_7_1(document).on("submit", "form", function (e) {
+            
+            
+            if (validateName() && validatePassword() ) {
+               
+            } else {
+                e.preventDefault();
+                swal('Invalid data! Ensure You have entered correct data');
+                return true;
+            }
+        });
+        
+
+        
+
+        
+
+        
+    </script>
 	
 	
 

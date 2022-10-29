@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Otp Login</title>
 
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    var jQuery_1_7_1 = $.noConflict(true);
+    </script>
+	
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
@@ -90,13 +97,56 @@
         <div class="card py-5 px-3" style="color:#4D0808;font-family:Poppins-Medium;font-size:14px;">
             <h5 class="text-center" >Phone Number Verification</h5> 
             <div class="d-flex flex-row mt-5    ">
-                <input type="text" name="phone_number" class="numberplate"  id="your_name" placeholder="Enter phone number" required/>
+                <input type="text" name="phone_number" class="numberplate"  id="phonenumber" onkeyup="validatePhonenumber()" placeholder="Enter phone number"/>
             </div>
+					<span id="phonenumber-error" class="text-center m-t-15" ></span>
+
             <div class="text-center mt-5">
                 <input type="submit"  id="signin" class="form-submit" value="Log in"  />
             </div>
         </div>
     </div>
 </form>
+
+<script>
+  var phonenumberError = document.getElementById('phonenumber-error');
+  
+  function validatePhonenumber(){
+    var phonenumber = document.getElementById('phonenumber').value.trim();
+    var num = phonenumber.replace(/[^\d]/g, '');
+    console.log(num)
+    
+    if (num.length==0) {
+      phonenumberError.innerHTML='Phone number is Required';
+      phonenumberError.style.color='red'
+      return false;
+    }
+    if (num.length < 6 || num.length > 13) {  
+      phonenumberError.innerHTML='Phone number is Invalid';
+      phonenumberError.style.color='red'
+      return false;
+      
+    }
+    
+    
+    phonenumberError.innerHTML='Phone number is valid';
+    phonenumberError.style.color='green'
+    return true; 
+    
+  }
+  jQuery_1_7_1(document).on("submit", "form", function (e) {
+            
+            
+    if (validatePhonenumber()) {
+       
+    } else {
+        e.preventDefault();
+        swal('Invalid data! Ensure You have entered correct data');
+        return true;
+    }
+});
+
+</script>
+
 </body>
 </html>
