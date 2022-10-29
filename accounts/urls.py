@@ -16,6 +16,9 @@ urlpatterns = [
     path('profile', views.profile, name="profile"),
     path('hampers', views.hampers, name="hampers"),
     path('others', views.others, name="others"),
+    path('login_resend', views.login_resend, name="login_resend"),
+    path('signup_resend', views.signup_resend, name="signup_resend"),
+
 
 
     

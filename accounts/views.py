@@ -165,6 +165,16 @@ def profile(request):
     if request.user.is_authenticated:
         return render(request,'profile.html')
     return redirect('user_login')
+
+def login_resend(request):
+    otp=123456
+    message_handler = MessageHandler(phone,otp).sent_otp_on_phone()
+    return redirect('otp_validate')
+
+def signup_resend(request):
+    otp=123456
+    message_handler = MessageHandler(new_phone_number,otp).sent_otp_on_phone()
+    return redirect('signup_otp_validate')
     
         
 
