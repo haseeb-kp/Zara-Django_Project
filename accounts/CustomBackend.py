@@ -12,7 +12,7 @@ class CustomBackend(BaseBackend):
             # phone_number=phone_number[3:]
             print(phone_number)
             user = User.objects.get(phone_number=phone_number)
-            auth.login(request,user,backend='django.contrib.auth.backends.ModelBackend')
+            return user
 
         except User.DoesNotExist:
             return None

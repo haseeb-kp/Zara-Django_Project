@@ -34,6 +34,8 @@ def edit_product(request,id):
             desc= request.POST['desc']
             image= request.FILES.get('image',product.image)
             image2= request.FILES.get('image2',product.image2)
+            image3= request.FILES.get('image3',product.image3)
+            image4= request.FILES.get('image4',product.image4)
             quantity= request.POST['quantity']
 
 
@@ -44,6 +46,8 @@ def edit_product(request,id):
             product.category = category
             product.image = image
             product.image2 = image2
+            product.image3 = image2
+            product.image4 = image4
             product.price = price
             product.desc = desc
             product.save()
@@ -82,10 +86,23 @@ def add_product(request):
             except MultiValueDictKeyError:
                 messages.error(request, 'Upload image')
                 return redirect('add_product')
+            try:
+                image3= request.FILES['image3']
+            except MultiValueDictKeyError:
+                messages.error(request, 'Upload image')
+                return redirect('add_product')
+            try:
+                image4= request.FILES['image4']
+            except MultiValueDictKeyError:
+                messages.error(request, 'Upload image')
+                return redirect('add_product')
 
 
             category=Category.objects.get(id=category)
-            product = Products.objects.create(product_name=product_name,desc=desc,price=price,category=category,image=image,image2=image2,quantity=quantity)
+            product = Products.objects.create(
+                product_name=product_name,desc=desc,price=price,
+                category=category,image=image,image2=image2,quantity=quantity,
+                image3=image3,image4=image4)
             product.save()
             return redirect('admin_products')
     return redirect('admin_login')

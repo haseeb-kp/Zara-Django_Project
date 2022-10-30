@@ -17,6 +17,8 @@ class Products(models.Model):
     image= models.ImageField(upload_to="images",default="",null=True, blank=True)
     quantity = models.IntegerField(default=1)
     image2= models.ImageField(upload_to="images/2",null=True, blank=True,default="")
+    image3= models.ImageField(upload_to="images/3",null=True, blank=True,default="")
+    image4= models.ImageField(upload_to="images/4",null=True, blank=True,default="")
 
 
     def __str__(self):

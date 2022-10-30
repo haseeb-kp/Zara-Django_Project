@@ -9,6 +9,8 @@ from admin_products.models import *
 from accounts.mixins import MessageHandler
 import random
 from accounts.CustomBackend import *
+from django.contrib.auth.decorators import login_required
+from admin_products.views import *
 
 
 
@@ -18,11 +20,14 @@ User = get_user_model()
 def index(request):
     return redirect('home')
 
-
+@never_cache
 def user_login(request):
+    if request.user.is_superuser:
+        return redirect('admin_dashboard')
+
+
     if request.user.is_authenticated:
-        
-        return redirect('home')
+        return redirect('login_home')
     if request.method=='POST':
         username=request.POST['username']
         password=request.POST['password']
@@ -33,7 +38,7 @@ def user_login(request):
             auth.login(request,user)
             print(user.phone_number)
 
-            return redirect('home')
+            return redirect('login_home')
         else:
             messages.error(request,'Invalid Credentials')
             return redirect('user_login')
@@ -95,12 +100,23 @@ def signup_otp_validate(request):
             return redirect('signup_otp_validate')
 
     return render(request,'signup_otp_validate.html')
-
 @never_cache
 def home(request):
+    if request.user.is_authenticated:
+        return redirect('login_home')
+    if request.user.is_authenticated:
+        return redirect('login_home')
     x = ["Hampers","Others"]
     category = Category.objects.exclude(category_name__in = x)
     return render(request,'home.html',{'category':category})
+@never_cache
+@login_required
+def login_home(request):
+    if request.user.is_authenticated:
+        x = ["Hampers","Others"]
+        category = Category.objects.exclude(category_name__in = x)
+        return render(request,'home.html',{'category':category})
+    return redirect('user_login')
 
 def hampers(request):
     category = Category.objects.get(category_name="Hampers")
@@ -129,6 +145,8 @@ def products(request,id):
 
 
 def number_check(request):
+    if request.user.is_authenticated:
+        return redirect('login_home')
     if request.method=='POST':
         
         global phone 
@@ -139,15 +157,23 @@ def number_check(request):
     return render(request,'otp_login.html')
 
 def otp_validate(request):
+    if request.user.is_authenticated:
+        return redirect('login_home')
     if request.method=='POST':
         otp1= int(request.POST['otp'])
         validate = MessageHandler(phone,otp1).validate()
         print("validate=",validate)
         if validate=="approved":
-            user=CustomBackend.authenticate(request,phone_number=phone)
-            print("-----")
+            user = User.objects.get(phone_number=phone)
+            if user==None:
+                messages.error(request, 'Wrong Credentials')
+                return redirect('number_check')
+            login(request,user)
+            # user=CustomBackend.authenticate(request,phone_number=phone)
+            # auth.login(request,user,backend='django.contrib.auth.backends.ModelBackend')
+            # print("-----")
             print ("user ",user)
-            return redirect('home')
+            return redirect('login_home')
         
         messages.error(request, 'Wrong Credentials')
         return redirect('otp_validate')
