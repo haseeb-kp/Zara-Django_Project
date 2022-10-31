@@ -38,23 +38,24 @@
                                         <td class="column-3">{{cart.product.price}}</td>
                                         <td class="column-4">
                                             <div class="wrap-num-product flex-w m-l-auto m-r-0">
+                                                
                                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                    <a href="/cart/minus/{{cart.id}}"><i class="fs-16 zmdi zmdi-minus text-dark"></i></a>
-                                                    
+                                                    <!-- <a href="/cart/minus/{{cart.id}}" ><i class="fs-16 zmdi zmdi-minus text-dark"></i></a> -->
+                                                    <button class=" btn minus" onclick=down({{cart.id}})>-</button>
                                                 </div>
-    
-                                                <input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product1" value="{{cart.quantity}}">
-    
+                                                
+                                                <button class="mtext-104 cl3 txt-center num-product" id="{{cart.id}}"  type="number" name="num-product1" value="{{cart.quantity}}" >{{cart.quantity}}</button>
                                                 <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                                    <a href="/cart/up/{{cart.id}}"><button type="button"><i class="fs-16 zmdi zmdi-plus text-dark"></i></button></a>
+                                                    <!-- <a href="/cart/up/{{cart.id}}"><button type="button"><i class="fs-16 zmdi zmdi-plus text-dark"></i></button></a> -->
+                                                    <button class="border btn up" onclick=up({{cart.id}})>+</button>
                                                     
 
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="column-5">{{p_total}}</td>
-                                          
-                                          <td><a class="btn btn-outline-danger pr-2" id="removeCart" onclick="return confirm('Are you sure to delete item ?')" href= "/cart/removecart/{{cart.id}}"><i >remove</i></a> </td>
+                                            <!-- <td><button class="btn btn-outline-danger btn-sm remove mt-1" onclick=removeCart({{cart.id}})  id="removecart" >Remove</button></td> -->
+                                            <td><a href="/cart/removecart/{{cart.id}}">remove</a></td>
 
                                     </tr>
                                     
@@ -80,7 +81,7 @@
                                 </div>
     
                                 <div class="size-209">
-                                    <span class="mtext-110 cl2">
+                                    <span class="mtext-110 cl2" id="subTotal">
                                         ₹{{subtotal}}
                                     </span>
                                 </div>
@@ -110,7 +111,7 @@
                                 </div>
     
                                 <div class="size-209 p-t-1">
-                                    <span class="mtext-110 cl2">
+                                    <span class="mtext-110 cl2" id="Total">
                                         ₹{{total}}
                                     </span>
                                 </div>
@@ -134,64 +135,57 @@
     </div>
 </div>
 
+
+
+
+
+
 {% endblock%}
 
 {% block js %}
-
 <script>
-    
-    
+    function up(id){
+        console.log('up')
+        $.ajax({
+            type: "GET",
+            url: "up/"+id,
+            success: function(data){
+                console.log(data.qty)
+                
+                document.getElementById(id).innerHTML = data.qty;
+                document.getElementById("Total").innerHTML = data.total;
+                document.getElementById("subTotal").innerHTML = data.subtotal;
+            }
+        });
+    }
+    function down(id){
+        console.log('down')
         
+        $.ajax({
+            type: "GET",
+            url: "minus/"+id,
+            success: function(data){
+                if (data.qty == 0){
+                    console.log('remove')
+                    
+                   $.ajax({
+                        type: "GET",
+                        url: "removecart/"+id,
+                        success: function(data){
+                            location.reload();
+                        }
+                    });
+                }
+                else{
+                    document.getElementById(id).innerHTML = data.qty;
+                    document.getElementById("Total").innerHTML = data.total;
+                    document.getElementById("subTotal").innerHTML = data.subtotal;
+                }
+            }
+        });
+    }
     
+ 
 </script>
 
 {% endblock %}
-<!-- function up(id){
-    console.log(id)
-    $.ajax({
-        type: "GET",
-        url: "/cart/up/{{cart.id}}"+id,
-        success: function(data){
-            location.reload();
-        }
-    });
-}
-function down(id){
-    $.ajax({
-        type: "GET",
-        url: "/cart/minus/{{cart.id}}"+id,
-        success: function(data){
-            location.reload();
-        }
-    });
-} -->
-<!-- function removeCart(id){
-        console.log(id)
-        var id = id
-        swal({
-            title: "Are you sure?",
-            text: "Once you delete, product will remove from cart?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                url: 'removecart',
-                method: 'GET',
-                data: {id:id},
-                success: function(data){
-                    swal("Poof! Your imaginary file has been deleted!", {
-                        icon: "success",
-                      });
-                    location.reload();
-                    
-               }
-             })
-            
-              
-            } else {
-              swal("Your imaginary file is safe!");
-            }
-          }); -->

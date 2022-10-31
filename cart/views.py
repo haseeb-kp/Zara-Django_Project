@@ -6,7 +6,7 @@ from django.contrib.auth import login,logout,authenticate,get_user_model
 from django.views.decorators.cache import never_cache
 from .models import *
 
-@never_cache
+
 def cart(request):
     if request.user.is_authenticated:
         user = request.user
@@ -33,17 +33,30 @@ def cart(request):
 
 def minus(request,id):
     cart = Cart.objects.get(id=id)
-    qty = cart.quantity-1
-    print(qty)
+    qty = int(cart.quantity)-1
+    
+    crt = Cart.objects.filter(user=request.user)
     Cart.objects.filter(id=id).update(quantity=qty)
-    return redirect('cart')
+    subtotal = 0
+    for i in crt:
+        x = i.product.price*i.quantity
+        subtotal = subtotal+x
+    shipping = 0
+    total = subtotal + shipping
+    return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
 
 def up(request,id):
+    crt = Cart.objects.filter(user=request.user)
     cart = Cart.objects.get(id=id)
-    qty = cart.quantity+1
-    print(qty)
+    qty = int(cart.quantity)+1
     Cart.objects.filter(id=id).update(quantity=qty)
-    return redirect('cart')
+    subtotal = 0
+    for i in crt:
+        x = i.product.price*i.quantity
+        subtotal = subtotal+x
+    shipping = 0
+    total = subtotal + shipping
+    return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
 
 def addtocart(request,id):
     if request.user.is_authenticated:
@@ -57,7 +70,6 @@ def addtocart(request,id):
             return redirect('cart')
         else:
             cart = Cart.objects.create(product=product, user=uid)
-            # cart = Cart.objects.filter(user=uid)
             return redirect('cart')
     return redirect('user_login')
 

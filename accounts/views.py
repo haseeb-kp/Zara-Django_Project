@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from admin_products.views import *
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.http import JsonResponse, HttpResponse
 
 
 PRODUCTS_PER_PAGE = 4
