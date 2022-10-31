@@ -118,10 +118,10 @@
                 <!-- Block2 --><div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="{{product.image.url}}" alt="IMG-PRODUCT">
-                            <a href="/cart/addtocart/{{product.id}}">
-                        <button  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
+                            <!-- <a href="/cart/addtocart/{{product.id}}"></a> -->
+                        <button onclick=addtocart({{product.id}}) class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                             Add to cart
-                        </button></a>
+                        </button>
                     </div>
 
                     <div class="block2-txt flex-w flex-t p-t-14">
@@ -179,12 +179,7 @@
     {% endif %}
 
 
-        <!-- Load more -->
-        <!-- <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
-                Load More
-            </a>
-        </div> -->
+        
     </div>
 </div>
 
@@ -203,6 +198,21 @@
 {% endblock%}
 
 {% block js %}
+<script>
+    function addtocart(id){
+        $.ajax({
+            url:'/cart/addtocart/'+id,
+            method:'get',
+            success:(response)=>{
+                console.log(response.status)
+                if(response.status){
+                    
+                    swal('Item added to Cart');
+                }
+            }
+        })
+    }
+</script>
 <!-- <script>
 console.log('working');
 if(localStorage.getItem('cart') == null){

@@ -9,6 +9,7 @@ urlpatterns = [
     path('removecart/<int:id>', views.removecart, name="removecart"),
     path('addaddress', views.addaddress, name="addaddress"),
     path('checkout', views.checkout, name="checkout"),
+    path('wishlist', views.wishlist, name="wishlist"),
 
 
 ]
