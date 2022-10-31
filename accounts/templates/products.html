@@ -33,196 +33,78 @@
                         <i class="zmdi zmdi-search"></i>
                     </button>
 
-                    <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product" placeholder="Search">
+                    <form action="">
+                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" id="search" type="search" name="search" placeholder="Search">
+                    <button class="btn btn-primary d-none">Search</button>
+                    </form>
                 </div>	
             </div>
 
             <!-- Filter -->
             <div class="dis-none panel-filter w-full p-t-10">
                 <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                    <div class="filter-col1 p-r-15 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">
-                            Sort By
-                        </div>
-
-                        <ul>
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Default
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Popularity
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Average rating
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04 filter-link-active">
-                                    Newness
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Price: Low to High
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Price: High to Low
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    
 
                     <div class="filter-col2 p-r-15 p-b-27">
                         <div class="mtext-102 cl2 p-b-15">
                             Price
                         </div>
 
-                        <ul>
+                        <form action="">
+                            <select name="price" id="price-list" onchange="location = finalurl2();" style="margin-left: auto;">
+                                <option value="" id="price-placeholder" disabled selected hidden>Price</option>
+                                <option id="pr500" value="500">less than ₹500</option>
+                                <option id="pr1000" value="1000">less than ₹1000</option>
+                                <option id="pr2000" value="2000">less than ₹2000</option>
+                                <option id="pr5000" value="5000">less than ₹5000</option>
+                              </select>
+                        </form>
+                    
+
+
+                        <!-- <ul>
                             <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04 filter-link-active">
-                                    All
+                            <input type="hidden" name="topic" value="My Topic" placeholder="0098797" />
+                                
+                            </li>
+                            
+                            <li class="p-b-6">
+                                <a href="/product_filter" type="search" name="search500" class="filter-link stext-106 trans-04">
+                                    ₹0 - ₹500
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    $0.00 - $50.00
+                                <a href="/product_filter" type="search" name="search1000" class="filter-link stext-106 trans-04">
+                                    ₹500 - ₹1000
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    $50.00 - $100.00
+                                <a href="/product_filter" type="search" name="search1500" class="filter-link stext-106 trans-04">
+                                    ₹1000 - ₹1500
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    $100.00 - $150.00
+                                <a href="/product_filter" type="search" name="search2000" class="filter-link stext-106 trans-04">
+                                    ₹1500 - ₹2000
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    $150.00 - $200.00
+                                <a href="/product_filter" type="search" name="search2000+" class="filter-link stext-106 trans-04">
+                                    ₹2000+
                                 </a>
                             </li>
 
-                            <li class="p-b-6">
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    $200.00+
-                                </a>
-                            </li>
-                        </ul>
+                        </ul> -->
+                       
                     </div>
 
-                    <div class="filter-col3 p-r-15 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">
-                            Color
-                        </div>
+                    
 
-                        <ul>
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #222;">
-                                    <i class="zmdi zmdi-circle"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Black
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-                                    <i class="zmdi zmdi-circle"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04 filter-link-active">
-                                    Blue
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-                                    <i class="zmdi zmdi-circle"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Grey
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-                                    <i class="zmdi zmdi-circle"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Green
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-                                    <i class="zmdi zmdi-circle"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    Red
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-                                    <i class="zmdi zmdi-circle-o"></i>
-                                </span>
-
-                                <a href="{% static '#" class="filter-link stext-106 trans-04">
-                                    White
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-col4 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">
-                            Tags
-                        </div>
-
-                        <div class="flex-w p-t-4 m-r--5">
-                            <a href="{% static '#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                Fashion
-                            </a>
-
-                            <a href="{% static '#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                Lifestyle
-                            </a>
-
-                            <a href="{% static '#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                Denim
-                            </a>
-
-                            <a href="{% static '#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                Streetstyle
-                            </a>
-
-                            <a href="{% static '#" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                Crafts
-                            </a>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -237,7 +119,7 @@
                     <div class="block2-pic hov-img0">
                         <img src="{{product.image.url}}" alt="IMG-PRODUCT">
 
-                        <!-- <a href="{% static '#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
+                        <!-- <a href="" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1">
                             Quick View
                         </a> -->
                     </div>
@@ -255,7 +137,7 @@
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="{% static '#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
+                            <a href="" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
                                 <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
                                 <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
                             </a>
@@ -267,15 +149,55 @@
             {%endfor%}
         </div>
 
+          <!-- ** pagination section** .... -->
+    {% if is_paginated %}
+    <nav class="pagination flex-c-m flex-w w-full p-t-45">
+      <ul class="pagination ">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" tabindex="-1" aria-disabled="true"
+            href="/products/{{category.id}}?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+        {% endif %}
+        {% for i in paginator.page_range %}
+        {% if i == page_obj.number%}
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" style="background-color: #4d0808;
+          border-color: #4d0808;" href="/products/{{category.id}}?page={{i}}" span class="visually-hidden">{{i}}</span></a>
+        </li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="/products/{{category.id}}?page={{i}}">{{i}}</a></li>
+        {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" tabindex="-1" href="/products/{{category.id}}?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+
 
         <!-- Load more -->
         <!-- <div class="flex-c-m flex-w w-full p-t-45">
-            <a href="{% static '#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+            <a href="" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
                 Load More
             </a>
         </div> -->
     </div>
 </div>
+
+<script>
+    function finalurl2() {
+        var url = new URL(window.location.href);
+        var search_params = url.searchParams;
+        search_params.set('price', document.getElementById("price-list").value);
+        url.search = search_params.toString();
+        var new_url = url.toString();
+        return new_url
+      }
+</script>
 
 
 {% endblock%}

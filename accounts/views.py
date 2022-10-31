@@ -11,9 +11,11 @@ import random
 from accounts.CustomBackend import *
 from django.contrib.auth.decorators import login_required
 from admin_products.views import *
+from django.db.models import Q
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
-
+PRODUCTS_PER_PAGE = 4
 User = get_user_model()
 
 
@@ -37,7 +39,7 @@ def user_login(request):
             print("hi")
             auth.login(request,user)
             print(user.phone_number)
-
+            messages.error(request, 'login success')
             return redirect('login_home')
         else:
             messages.error(request,'Invalid Credentials')
@@ -134,13 +136,36 @@ def others(request):
 def user_logout(request):
     if request.user.is_authenticated:
         auth.logout(request)
+        messages.error(request, 'logged out')
         return redirect('index')
 
 
 def products(request,id):
     category=Category.objects.get(id=id)
     product = Products.objects.filter(category=category).all()
-    return render(request,'products.html',{'product':product,'category':category})
+    price = request.GET.get('price', "")
+
+    if 'search' in request.GET:
+            search = request.GET['search']
+            multiple_search = Q(Q(product_name__icontains=search))
+            product = Products.objects.filter(multiple_search)
+    if price:
+        product = product.filter(price__lt = price).order_by(('-price'))
+    # else:
+    #     product = Products.objects.filter(category=category).all()
+    # return render(request,'products.html',{'product':product,'category':category})
+    page = request.GET.get('page',1)
+    product_paginator = Paginator(product, PRODUCTS_PER_PAGE)
+    try:
+        product = product_paginator.page(page)
+    except EmptyPage:
+        product = product_paginator.page(product_paginator.num_pages)
+    except:
+        product = product_paginator.page(PRODUCTS_PER_PAGE)
+    return render(request, "products.html", {"product":product,'category':category, 'page_obj':product, 'is_paginated':True, 'paginator':product_paginator})
+
+
+    
 
 
 
@@ -173,6 +198,7 @@ def otp_validate(request):
             # auth.login(request,user,backend='django.contrib.auth.backends.ModelBackend')
             # print("-----")
             print ("user ",user)
+            messages.error(request, 'login success')
             return redirect('login_home')
         
         messages.error(request, 'Wrong Credentials')
