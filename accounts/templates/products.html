@@ -118,10 +118,10 @@
                 <!-- Block2 --><div class="block2">
                     <div class="block2-pic hov-img0">
                         <img src="{{product.image.url}}" alt="IMG-PRODUCT">
-
-                        <button id="{{product.id}}"  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1 cart">
+                            <a href="/cart/addtocart/{{product.id}}">
+                        <button  class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 ">
                             Add to cart
-                        </button>
+                        </button></a>
                     </div>
 
                     <div class="block2-txt flex-w flex-t p-t-14">
@@ -203,7 +203,7 @@
 {% endblock%}
 
 {% block js %}
-<script>
+<!-- <script>
 console.log('working');
 if(localStorage.getItem('cart') == null){
 var cart = {};
@@ -226,5 +226,12 @@ cart[idstr] = 1;
 console.log(cart);
 localStorage.setItem('cart', JSON.stringify(cart));
 });
-</script>
+function updateCart(cart) {
+    for (var item in cart) {
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    updatePopover(cart);
+}
+</script> -->
 {% endblock %}

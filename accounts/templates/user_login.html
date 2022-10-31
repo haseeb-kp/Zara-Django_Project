@@ -140,7 +140,8 @@
         
         
         jQuery_1_7_1(document).on("submit", "form", function (e) {
-            
+            validateName()
+			validatePassword() 
             
             if (validateName() && validatePassword() ) {
                

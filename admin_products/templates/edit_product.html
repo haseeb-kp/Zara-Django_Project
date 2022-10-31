@@ -263,7 +263,10 @@
             return true;
         }
         jQuery_1_7_1(document).on("submit", "form", function (e) {
-            
+            validateName()
+            validateStock()
+            validatePrice()
+            validateDescription() 
             
             if (validateName() && validateStock() && validatePrice() && validateDescription() ) {
                

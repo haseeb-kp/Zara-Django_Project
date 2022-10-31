@@ -267,6 +267,13 @@
         
         
         jQuery_1_7_1(document).on("submit", "form", function (e) {
+			validateName()
+			validateUsername()
+			validateEmail()
+			validatePhonenumber()
+			validatePassword()
+			validateCPassword()
+
             
             
             if (validateName() && validateUsername() && validateEmail() && validatePhonenumber() && validatePassword()&& validateCPassword()) {
