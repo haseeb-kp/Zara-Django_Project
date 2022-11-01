@@ -13,36 +13,26 @@
             <tr>
             <!-- <th scope="col">#</th> -->
             <th scope="col">order Id</th>
+            <th scope="col">order Date</th>
             <th scope="col">Customer</th>
             <th scope="col">Amount</th>
             <th scope="col">Payment Method</th>
             <th scope="col">Order Status</th>
+            <th scope="col">Update</th>
+            <th scope="col">Cancel Order</th>
             </tr>
           </thead>
           <tbody>
             
-            {%for user in user_list%}
+            {%for order in orders%}
     
             <tr>
             <td >{{order.id}}</td>
-            <td>{{user.first_name}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.phone_number}}</td>
-            <td>{{user.phone_number}}</td>
-
-            <!-- <td>
-
-            {% if user.is_active %}
-                                    
-            <a  class="btn btn-outline-danger" href= "/admin_users/block_user/{{user.id}}"><i onclick="return confirm('Are you sure to block '+' {{user.first_name}} ?')">Block</i></a>
-                                        
-            {% else %}
-                                   
-            <a class="btn btn-outline-danger" href= "/admin_users/unblock_user/{{user.id}}"><i onclick="return confirm('Are you sure to unblock '+' {{user.first_name}} ?')">unblock</i></a>
-                                    
-            {% endif %}
-
-            </td> -->
+            <td>{{order.ordered_date}}</td>
+            <td>{{order.user}}</td>
+            <td>{{order.amount}}</td>
+            <td>{{order.method}}</td>
+            <td>{{order.status}}</td>
             </tr>
             {%endfor%}
             

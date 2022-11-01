@@ -30,3 +30,13 @@ class Order(models.Model):
     status = models.CharField(max_length=100, default='Confirmed')
     amount = models.FloatField(default=1)
     method = models.CharField(max_length=100, default='Cash On Delivery')
+
+class OldCart(models.Model):
+    quantity = models.IntegerField(default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    cancel = models.BooleanField(default=False)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=0)
+    
+    def __str__(self):
+        return self.product.name

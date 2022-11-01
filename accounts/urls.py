@@ -19,6 +19,8 @@ urlpatterns = [
     path('login_resend', views.login_resend, name="login_resend"),
     path('signup_resend', views.signup_resend, name="signup_resend"),
     path('login_home', views.login_home, name="login_home"),
+    path('addaddress', views.addaddress, name="addaddress"),
+
 
 
 

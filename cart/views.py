@@ -21,7 +21,7 @@ def cart(request):
             return render(request, 'cart.html', {'empty': empty})
         else:
             subtotal = 0
-            for i in crt:
+            for i in cart:
                 x = i.product.price*i.quantity
                 subtotal = subtotal+x
             shipping = 0
@@ -76,11 +76,14 @@ def removecart(request,id):
     print(id)
     cart = Cart.objects.get(id=id)
     cart.delete()
+    messages.error(request,"Item removed")
     return redirect('cart')
 
 def checkout(request):
-    if request.method == 'POST' and 'address_id' in request.POST :
+    if request.method == 'POST' and 'address_id' in request.POST   :
         address_id = request.POST['address_id']
+        payment = request.POST['payment_selector']
+        user= request.user
         address = Address.objects.get(id=address_id)
         cart = Cart.objects.filter(user=request.user)
         subtotal = 0
@@ -91,26 +94,39 @@ def checkout(request):
             else:
                 x = i.product.price*i.quantity
                 subtotal = subtotal+x
-        shipping = 0
-        total = subtotal+shipping
-        return render(request, 'placed.html', {'subtotal': subtotal, 'total': total, 'address': address,'cart':cart})
+        total = subtotal
+        print(total)
+        order = Order.objects.create(
+            user=user, address=address, amount=total, method=payment)
+        order.save()
+        for i in cart:
+            oldcart = OldCart.objects.create(
+                user=user, quantity=i.quantity, product=i.product, order=order)
+            oldcart.save()
+            cart.delete()
+        print("cart done")
+        return render(request, 'placed.html')
 
     else:
         user = request.user
-        print(user)
         cart = Cart.objects.filter(user=user)
+        if len(cart)!=0:
+            # cart = Cart.objects.filter(user=user)
 
-        address = Address.objects.filter(user=user)
-        subtotal = 0
-        for i in cart:
-            if i.product.price !=0:
-                x = i.product.price*i.quantity
-                subtotal = subtotal+x
-            else:
-                x = i.product.price*i.quantity
-                subtotal = subtotal+x
-        total = subtotal
-        return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+            address = Address.objects.filter(user=user)
+            subtotal = 0
+            for i in cart:
+                if i.product.price !=0:
+                    x = i.product.price*i.quantity
+                    subtotal = subtotal+x
+                else:
+                    x = i.product.price*i.quantity
+                    subtotal = subtotal+x
+            total = subtotal
+            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+        messages.error(request, 'Cart is empty')
+        return redirect('cart')
+
 
 def addaddress(request):
     if request.method == 'POST':

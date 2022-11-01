@@ -14,6 +14,7 @@ from admin_products.views import *
 from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse, HttpResponse
+from cart.models import *
 
 
 PRODUCTS_PER_PAGE = 4
@@ -105,8 +106,6 @@ def signup_otp_validate(request):
     return render(request,'signup_otp_validate.html')
 @never_cache
 def home(request):
-    if request.user.is_authenticated:
-        return redirect('login_home')
     if request.user.is_authenticated:
         return redirect('login_home')
     x = ["Hampers","Others"]
@@ -216,7 +215,8 @@ def product_details(request,id):
 
 def profile(request):
     if request.user.is_authenticated:
-        return render(request,'profile.html')
+        address = Address.objects.filter(user = request.user).all()
+        return render(request,'profile.html',{'address':address})
     return redirect('user_login')
 
 def login_resend(request):
@@ -229,6 +229,22 @@ def signup_resend(request):
     message_handler = MessageHandler(new_phone_number,otp).sent_otp_on_phone()
     return redirect('signup_otp_validate')
     
+def addaddress(request):
+    if request.method == 'POST':
+        user = request.user
+        name = request.POST['name']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        city = request.POST['city']
+        state = request.POST['state']
+        pincode = request.POST['pincode']
+        new_address = Address.objects.create(
+            name=name, phone=phone, address=address, city=city, state=state, pincode=pincode, user=user)
+        new_address.save()
+        print("saved address")
+        return redirect('profile')
+    else:
+        return render(request,'add_address.html')
         
 
 
