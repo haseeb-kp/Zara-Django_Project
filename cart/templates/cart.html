@@ -38,13 +38,15 @@
                                         <td class="column-3">{{cart.product.price}}</td>
                                         <td class="column-4">
                                             <div class="wrap-num-product flex-w m-l-auto m-r-0">
+
                                                 
                                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                                    <!-- <a href="/cart/minus/{{cart.id}}" ><i class="fs-16 zmdi zmdi-minus text-dark"></i></a> -->
-                                                    <button class=" btn minus" onclick=down({{cart.id}})>-</button>
+
+                                                    <button  class=" btn minus" onclick=down({{cart.id}}) id="myBtn">-</button>
                                                 </div>
                                                 
-                                                <button class="mtext-104 cl3 txt-center num-product" id="{{cart.id}}"  type="number" name="num-product1" value="{{cart.quantity}}" >{{cart.quantity}}</button>
+                                                <button class="mtext-104 cl3 txt-center num-product" id="cartId"  type="number" name="num-product1" value="{{cart.quantity}}" >{{cart.quantity}}</button>
+                                                
                                                 <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                                     <!-- <a href="/cart/up/{{cart.id}}"><button type="button"><i class="fs-16 zmdi zmdi-plus text-dark"></i></button></a> -->
                                                     <button class="border btn up" onclick=up({{cart.id}})>+</button>
@@ -146,7 +148,7 @@
                             </div>
     
                             
-                                <button class="flex-c-m stext-101 cl0 size-116  bor14 hov-btn3 p-lr-15 trans-04 pointer" style="background-color:#4d0808 ;">
+                                <button class="flex-c-m stext-101 cl0 size-116  bor14 hov-btn3 p-lr-15 trans-04 pointer" style="background-color:#4d0808 ;" id="check">
                                    <a href="/cart/checkout" class="text-white">Proceed to Checkout</a> 
                                 </button>
                             
@@ -168,6 +170,30 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function() {
+        /*console.log("entered")
+        let x=$('#{{cart.id}}').html()
+        console.log(x)*/
+        
+        if ($('#cartId').val() == 1) {
+            
+            $("#myBtn").attr("disabled", true);
+        }
+        if ($('#cartId').val() == undefined) {
+
+            console.log("undefined")
+            
+            $("#check").attr("aria-disabled", true).hide();
+            /*$("#check").css( "background-color", "grey");*/
+        }else{
+            console.log("else is working")
+            $("#check").attr("disabled", false).show();
+        }
+        
+    });
+</script>
+
 
 
 
@@ -185,9 +211,16 @@
             success: function(data){
                 console.log(data.qty)
                 
-                document.getElementById(id).innerHTML = data.qty;
+                document.getElementById('cartId').innerHTML = data.qty;
                 document.getElementById("Total").innerHTML = data.total;
                 document.getElementById("subTotal").innerHTML = data.subtotal;
+                if (data.qty > 1){
+                    console.log('remove')
+                    document.getElementById("myBtn").disabled = false;
+                }
+                else{
+                    document.getElementById("myBtn").disabled = true;
+                }
             }
         });
     }
@@ -198,22 +231,16 @@
             type: "GET",
             url: "minus/"+id,
             success: function(data){
-                if (data.qty == 0){
-                    console.log('remove')
+                document.getElementById('cartId').innerHTML = data.qty;
+                document.getElementById("Total").innerHTML = data.total;
+                document.getElementById("subTotal").innerHTML = data.subtotal;
+                if (data.qty != 1){
                     
-                   $.ajax({
-                        type: "GET",
-                        url: "removecart/"+id,
-                        success: function(data){
-                            swal("Item removed");
-                            location.reload();
-                        }
-                    });
+                    document.getElementById("myBtn").disabled = false;
                 }
                 else{
-                    document.getElementById(id).innerHTML = data.qty;
-                    document.getElementById("Total").innerHTML = data.total;
-                    document.getElementById("subTotal").innerHTML = data.subtotal;
+                    document.getElementById("myBtn").disabled = true;
+                    location.reload();
                 }
             }
         });
