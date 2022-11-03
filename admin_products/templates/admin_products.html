@@ -76,14 +76,14 @@
 
             
             <td><a href="edit_product/{{product.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit</button></a></td>
-			      <td><a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#productModal{{product.id}}"><i >Delete</i></a></td>
+			      <td><a onclick=deleteProduct(event) href="delete_product/{{product.id}}" class="btn btn-outline-danger"  ><i >Delete</i></a></td>
 			</tr>
 
 
 
 
       <!-- Modal Delete Product-->
-      <div class="modal fade" id="productModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="productModal{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -101,7 +101,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
             {%endfor%}
             
           </tbody>
@@ -109,6 +109,31 @@
           </div>
   
       </div>
+
+      <script>
+        function deleteProduct(event){
+          event.preventDefault();
+          var link = event.currentTarget.href;
+          swal({
+            title: "Are you sure?",
+            text: "Once removed, you will not be able to recover this Item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Product has been removed!", {
+                icon: "success",
+              }).then(()=>{
+                window.location=link;
+              });
+            } else {
+             /* swal("Your imaginary file is safe!");*/
+            }
+          });
+        }
+      </script>
 
 
 {%endblock%}

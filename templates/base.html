@@ -1,6 +1,7 @@
 {% load static%}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<title>ZARA</title>
 	<meta charset="UTF-8">
@@ -13,45 +14,45 @@
 	<link href="https://cdn.usebootstrap.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
-    <script type="text/javascript">
-    var jQuery_1_7_1 = $.noConflict(true);
-    </script>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script> -->
+	<script type="text/javascript">
+		var jQuery_1_7_1 = $.noConflict(true);
+	</script>
 
 
-<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}"/>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}" />
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'fonts/linearicons-v1.0.0/icon-font.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/slick/slick.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/MagnificPopup/magnific-popup.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/zoom.css' %}">
 
-	
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	<!-- cropper -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.1.0/cropper.min.js"></script>
@@ -59,22 +60,23 @@
 
 
 
-<!--===============================================================================================-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Beau+Rivage">
 </head>
+
 <body class="animsition">
-	
+
 	<!-- Header -->
 	<header>
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
-			
+
 
 			<div class="wrap-menu-desktop">
 				<nav class="limiter-menu-desktop container-fluid">
-					
-					<!-- Logo desktop -->		
+
+					<!-- Logo desktop -->
 					<a href="/home" class="logo">
 						<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
 					</a>
@@ -82,7 +84,7 @@
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							
+
 
 							<li>
 								<a href="#dry_fruits">Dry Fruits</a>
@@ -97,37 +99,45 @@
 								<a href="/others">Other Products</a>
 							</li>
 
-							
+
 						</ul>
-					</div>	
+					</div>
 
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 
-						<a href="/cart/wishlist" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<a href="/cart/wishlist"
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+							data-notify="0">
 							<i class="zmdi zmdi-favorite-outline"></i>
 						</a>
-						<a href="/cart/cart" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<a href="/cart/cart"
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+							data-notify="0">
 							<i class="zmdi zmdi-shopping-cart"></i>
 						</a>
 
-						<a href="/profile" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
+						<a href="/profile"
+							class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti"
+							data-notify="0">
 							<i class="zmdi zmdi-account"></i>
 						</a>
 
 						{% if request.user.is_authenticated %}
-            			<a class="p-r-11 p-l-11" style="color:#4D0808;font-family:Poppins-Medium;" href="/user_logout">Logout</a>
-            			{% else %}
-            			<a class="p-r-11 p-l-11"  style="color:#4D0808;font-family:Poppins-Medium;"  href="/user_login">login</a>
-            			{% endif %}
+						<a class="p-r-11 p-l-11" style="color:#4D0808;font-family:Poppins-Medium;"
+							href="/user_logout">Logout</a>
+						{% else %}
+						<a class="p-r-11 p-l-11" style="color:#4D0808;font-family:Poppins-Medium;"
+							href="/user_login">login</a>
+						{% endif %}
 					</div>
 				</nav>
-			</div>	
+			</div>
 		</div>
 
 		<!-- Header Mobile -->
 		<div class="wrap-header-mobile">
-			<!-- Logo moblie -->		
+			<!-- Logo moblie -->
 			<div class="logo-mobile">
 				<a href="/home">
 					<img src="{% static 'images/icons/logo-01.png' %}" alt="IMG-LOGO">
@@ -136,13 +146,13 @@
 
 			<!-- Icon header -->
 			<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-				
+
 
 				{% if request.user.is_authenticated %}
-            			<a style="color:#4D0808;font-family:Poppins-Medium;" href="/user_logout">Logout</a>
-            			{% else %}
-            			<a style="color:#4D0808;font-family:Poppins-Medium;"  href="/user_login">login</a>
-            			{% endif %}
+				<a style="color:#4D0808;font-family:Poppins-Medium;" href="/user_logout">Logout</a>
+				{% else %}
+				<a style="color:#4D0808;font-family:Poppins-Medium;" href="/user_login">login</a>
+				{% endif %}
 			</div>
 
 			<!-- Button show menu -->
@@ -156,16 +166,16 @@
 
 		<!-- Menu Mobile -->
 		<div class="menu-mobile">
-			
+
 
 			<ul class="main-menu-m">
-				
+
 
 				<li>
 					<a href="#dry_fruits">Dry Fruits</a>
 				</li>
 
-				
+
 
 				<li>
 					<a href="/hampers">Hampers</a>
@@ -187,20 +197,20 @@
 			</ul>
 		</div>
 
-		
+
 	</header>
 
 
-    {% block content%}
+	{% block content%}
 
-    {%endblock%}
-
-
-    <!-- footer -->
+	{%endblock%}
 
 
+	<!-- footer -->
 
-    <footer class="bg3 p-t-75 p-b-32">
+
+
+	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 p-b-50">
@@ -249,7 +259,7 @@
 
 						<li class="p-b-10">
 							<a href="{% static '#" class="stext-107 cl7 hov-cl1 trans-04">
-								Returns 
+								Returns
 							</a>
 						</li>
 
@@ -298,7 +308,8 @@
 
 					<form>
 						<div class="wrap-input1 w-full p-b-4">
-							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email" placeholder="email@example.com">
+							<input class="input1 bg-none plh1 stext-107 cl7" type="text" name="email"
+								placeholder="email@example.com">
 							<div class="focus-input1 trans-04"></div>
 						</div>
 
@@ -322,7 +333,7 @@
 		</span>
 	</div>
 
-	
+
 
 
 
@@ -331,39 +342,39 @@
 
 
 
-{% block js%}
+	{% block js%}
 
 	{% endblock %}
 
-<!--===============================================================================================-->	
+	<!--===============================================================================================-->
 	<!-- <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script> -->
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
 	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
 	<script>
-		$(".js-select2").each(function(){
+		$(".js-select2").each(function () {
 			$(this).select2({
 				minimumResultsForSearch: 20,
 				dropdownParent: $(this).next('.dropDownSelect2')
 			});
 		})
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
 	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/slick/slick.min.js' %}"></script>
 	<script src="{% static 'js/slick-custom.js' %}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/parallax100/parallax100.js' %}"></script>
 	<script>
-        $('.parallax100').parallax100();
+		$('.parallax100').parallax100();
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<!-- <script src="{% static 'vendor/MagnificPopup/jquery.magnific-popup.min.js' %}"></script>
 	<script>
 		$('.gallery-lb').each(function() { // the containers for all your galleries
@@ -377,30 +388,31 @@
 		    });
 		});
 	</script> -->
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/isotope/isotope.pkgd.min.js' %}"></script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 
 
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
 	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
+		$('.js-pscroll').each(function () {
+			$(this).css('position', 'relative');
+			$(this).css('overflow', 'hidden');
 			var ps = new PerfectScrollbar(this, {
 				wheelSpeed: 1,
 				scrollingThreshold: 1000,
 				wheelPropagation: false,
 			});
 
-			$(window).on('resize', function(){
+			$(window).on('resize', function () {
 				ps.update();
 			})
 		});
 	</script>
-<!--===============================================================================================-->
+	<!--===============================================================================================-->
 	<script src="{% static 'js/main.js' %}"></script>
 
 </body>
+
 </html>

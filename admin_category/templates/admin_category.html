@@ -32,11 +32,11 @@
             <td><img src="{{category.image.url}}" style="height:100px;width: 100px;border-radius: 14%;" alt=""></td>
             
             <td><a href="edit_category/{{category.id}}"> <button class="btn btn-outline-primary " type="submit" >Edit</button></a></td>
-			<td><a  class="btn btn-outline-danger"  data-toggle="modal" data-target="#catModal{{category.id}}"><i >Delete</i></a></td>
+			<td><a onclick=deleteCategory(event) href="delete_category/{{category.id}}" class="btn btn-outline-danger" ><i >Delete</i></a></td>
 			</tr>
 
       <!-- Modal Delete Category-->
-      <div class="modal fade" id="catModal{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <!-- <div class="modal fade" id="catModal{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
 
     </div>
@@ -83,6 +83,30 @@
           </tbody>
           </table>
       </div>
+      <script>
+        function deleteCategory(event){
+          event.preventDefault();
+          var link = event.currentTarget.href;
+          swal({
+            title: "Are you sure?",
+            text: "Once removed, you will not be able to recover this Item!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("category has been removed!", {
+                icon: "success",
+              }).then(()=>{
+                window.location=link;
+              });
+            } else {
+             /* swal("Your imaginary file is safe!");*/
+            }
+          });
+        }
+      </script>
 
       
 
