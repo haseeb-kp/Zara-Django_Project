@@ -123,12 +123,28 @@ def login_home(request):
 def hampers(request):
     category = Category.objects.get(category_name="Hampers")
     product = Products.objects.filter(category=category).all()
-    return render(request,'products.html',{'product':product,'category':category})
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        wishlistItems=[]
+        for i in wishlist:
+            wishlistItems.append(i.product)
+    else:
+        wishlist={}
+        wishlistItems={}
+    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems})
 
 def others(request):
     category = Category.objects.get(category_name="Others")
     product = Products.objects.filter(category = category).all()
-    return render(request,'products.html',{'product':product,'category':category})
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        wishlistItems=[]
+        for i in wishlist:
+            wishlistItems.append(i.product)
+    else:
+        wishlist={}
+        wishlistItems={}
+    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems})
 
     
 
@@ -162,7 +178,22 @@ def products(request,id):
         product = product_paginator.page(product_paginator.num_pages)
     except:
         product = product_paginator.page(PRODUCTS_PER_PAGE)
-    return render(request, "products.html", {"product":product,'category':category, 'page_obj':product, 'is_paginated':True, 'paginator':product_paginator})
+    
+    
+    
+    # wishlist=Wishlist.objects.all()
+    if request.user.is_authenticated:
+        wishlist = Wishlist.objects.filter(user=request.user)
+        wishlistItems=[]
+        for i in wishlist:
+            wishlistItems.append(i.product)
+    else:
+        wishlist={}
+        wishlistItems={}
+
+    return render(request, "products.html", {"product":product,'category':category,
+         'page_obj':product, 'is_paginated':True,
+          'paginator':product_paginator,'wishlistItems':wishlistItems})
 
 
     
@@ -245,6 +276,84 @@ def addaddress(request):
         return redirect('profile')
     else:
         return render(request,'add_address.html')
+
+def edit_user(request,id):
+    if request.user.is_authenticated:
+    
+        newUser =  User.objects.get(id=id)
+        
+        if request.method=='POST':
+            name= request.POST['name']
+            email= request.POST['email']
+            phone= request.POST['phone']
+
+        
+            newUser.first_name = name
+            newUser.email = email
+            newUser.phone_number = phone
+            newUser.save()
+            return redirect('profile')
+
+        # return render(request,'edit_user.html',{'newUser':newUser})
+    else:
+        return redirect('user_login')
+
+def changePassword(request,id):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            user =  User.objects.get(id=id)
+            old=request.POST['old']
+            new = request.POST['new']
+            confirm = request.POST['confirm']
+            if new != confirm:
+                messages.info(request,"New Passwords aren't matching")
+                return redirect('profile')
+            elif not user.check_password(old):
+                messages.info(request,"Wrong Old Password")
+                return redirect('profile')
+            else:
+                user.set_password(new)
+                user.save()
+                messages.info(request,"Passsword changed Successfully:) Login to continue")
+                
+                return redirect('profile')
+    return redirect('user_login')
+
+def editAddress(request):
+    if request.user.is_authenticated:
+        address = Address.objects.get(id=request.user.id)
+        print(address)
+        print(address.name)
+
+        if request.method == 'POST':
+            user = request.user
+            name = request.POST['name']
+            print("name is ",name)
+            phone = request.POST['phone']
+            new_address = request.POST['address']
+            city = request.POST['city']
+            state = request.POST['state']
+            pincode = request.POST['pincode']
+            
+
+            address.name=name
+            address.phone=phone
+            address.address=new_address
+            address.city=city
+            address.state=state
+            address.pincode=pincode
+            address.save()
+            print("address edited")
+            return redirect('profile')
+        else:
+            return render(request,'edit_address.html',{'address':address})
+    return redirect('user_login')
+
+def deleteAddress(request,id):
+    address = Address.objects.get(id=id)
+    address.delete()
+    return redirect('profile')
+
         
 
 

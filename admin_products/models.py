@@ -10,10 +10,10 @@ class Category(models.Model):
 
 class Products(models.Model):
     
-    product_name=models.CharField(max_length=200)
+    product_name=models.CharField(max_length=300)
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     price=models.IntegerField(default=0)
-    desc=models.CharField(max_length=300)
+    desc=models.CharField(max_length=1000)
     image= models.ImageField(upload_to="images",default="",null=True, blank=True)
     quantity = models.IntegerField(default=1)
     image2= models.ImageField(upload_to="images/2",null=True, blank=True,default="")

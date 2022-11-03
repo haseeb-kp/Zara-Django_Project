@@ -137,10 +137,20 @@
                         </div>
 
                         <div class="block2-txt-child2 flex-r p-t-3">
-                            <a href="" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-                                <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
-                                <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
+                        
+                            {% if product in wishlistItems %}
+                            
+                            <a  class=" dis-block pos-relative minus-wishlist" pid ="{{product.id}}">
+                                <img class="icon-heart2 dis-block trans-04" src="{% static 'images/icons/icon-heart-02.png' %}" alt="ICON">
                             </a>
+                            
+                            {% else %}
+                            <a  class="btn-addwish-b2 dis-block pos-relative plus-wishlist" pid="{{product.id}}">
+                                <img class="icon-heart1 dis-block trans-04" src="{% static 'images/icons/icon-heart-01.png' %}" alt="ICON">
+                            </a>
+                            
+                            {% endif %}
+                           
                         </div>
                     </div>
                 </div>
@@ -193,6 +203,75 @@
         return new_url
       }
 </script>
+<script>
+    $('.plus-wishlist').click(function(){
+        var id=$(this).attr("pid").toString();
+        $.ajax({
+            type:"GET",
+            url:"/cart/addToWishlist",
+            data:{
+                prod_id:id
+            },
+            success:(response)=>{
+                console.log(response.status)
+                if(response.status){
+                    
+                    swal('Item added to wishlist').then(()=>{
+                        location.reload();
+                        })
+                }
+            }
+        })
+    })
+    $('.minus-wishlist').click(function(){
+        var id=$(this).attr("pid").toString();
+        $.ajax({
+            type:"GET",
+            url:"/cart/removeFromWishlist",
+            data:{
+                prod_id:id
+            },
+            success:(response)=>{
+                console.log(response.status)
+                if(response.status){
+                    
+                    swal('Item removed from wishlist').then(()=>{
+                    location.reload();
+                    })
+
+                }
+            }
+        })
+    })
+</script>
+
+
+
+
+
+<!-- <script>
+    $(document).ready(function(){
+        $(document).on('click',".add-wishlist",function(){
+            var _pid=$(this).attr('data-product');
+            var _vm=$(this);
+            // Ajax
+            $.ajax({
+                url:"/cart/addToWishlist",
+                data:{
+                    product:_pid
+                },
+                dataType:'json',
+                success:function(res){
+                    if(res.bool==true){
+                        _vm.addClass('disabled').removeClass('add-wishlist');
+                    }
+                }
+            });
+            // EndAjax
+        });
+
+    });
+</script> -->
 
 
 {% endblock%}
@@ -213,35 +292,5 @@
         })
     }
 </script>
-<!-- <script>
-console.log('working');
-if(localStorage.getItem('cart') == null){
-var cart = {};
-}
-else
-{
-cart = JSON.parse(localStorage.getItem('cart'));
-}
-$('.cart').click(function(){
-console.log('clicked');
-var idstr = this.id.toString();
-console.log(idstr);
-if (cart[idstr] !=undefined){
-cart[idstr] = cart[idstr] + 1;
-}
-else
-{
-cart[idstr] = 1;
-}
-console.log(cart);
-localStorage.setItem('cart', JSON.stringify(cart));
-});
-function updateCart(cart) {
-    for (var item in cart) {
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
-    updatePopover(cart);
-}
-</script> -->
+
 {% endblock %}

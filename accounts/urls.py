@@ -20,6 +20,10 @@ urlpatterns = [
     path('signup_resend', views.signup_resend, name="signup_resend"),
     path('login_home', views.login_home, name="login_home"),
     path('addaddress', views.addaddress, name="addaddress"),
+    path('edit_user/<int:id>', views.edit_user, name="edit_user"),
+    path('changePassword/<int:id>', views.changePassword, name="changePassword"),
+    path('editAddress', views.editAddress, name="editAddress"),
+    path('deleteAddress/<int:id>', views.deleteAddress, name="deleteAddress"),
 
 
 

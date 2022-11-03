@@ -36,24 +36,17 @@
                         
                         
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+                    <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
                         <div class="tm-product-img-edit mx-auto">
-                        <img src="{{category.image.url}}" alt="Category image" type="file" accept="image/*" name="image" class="img-fluid d-block mx-auto">
-                        <i
-                        class="fas fa-cloud-upload-alt tm-upload-icon"
-                        onclick="document.getElementById('viewImg1').click();"
-                        ></i>
+                        <img src="{{category.image.url}}" alt="Category image" type="file" accept="image/*" name="image" id="image" class="img-fluid d-block mx-auto">
+                        <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('viewImg1').click();"></i>
                         </div>
+                        
                         <div class="custom-file mt-3 mb-3">
-                        <input id="viewImg1" type="file" name="image" style="display:none;" onchange="viewImage1(event)"  />
-                        <input
-                        type="button"
-                        class="btn btn-primary btn-block mx-auto"
-                        value="CHANGE IMAGE NOW"
-                        onclick="document.getElementById('viewImg1').click();"
-                        />
+                        <input id="viewImg1" type="file" name="image" style="display:none;" onchange=file_changed()  />
+                        <input type="button" class="btn btn-primary btn-block mx-auto" value="CHANGE IMAGE NOW" onclick="document.getElementById('viewImg1').click();"/>
                         </div>
-                        </div>
+                    </div>
                         {% for message in messages%}
 				<div  class="alert alert-light alert-dismissible fade show mt-3" role="alert">
 					<strong class="text-danger">{{message}}</strong>
@@ -72,6 +65,19 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function file_changed(){
+            var selectedFile = document.getElementById('viewImg1').files[0];
+            var img = document.getElementById('image')
+          
+            var reader = new FileReader();
+            reader.onload = function(){
+               img.src = this.result
+            }
+            reader.readAsDataURL(selectedFile);
+           }
+    </script>
 
 
     <script>

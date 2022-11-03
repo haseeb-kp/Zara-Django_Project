@@ -111,24 +111,49 @@
                         
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+
+
                         <div class="form-group mt-3">
+                            <img src="" alt="" id="myimg" >
                             <label for="pimage">Image</label>
-                            <input type="file" class="form-control" name="image" id="image"  placeholder="Product Image">
+                            <input type="file" class="form-control" name="image" id="image" onchange=file_changed()  placeholder="Product Image">
                             <span id="errorimage" class="text-danger">
                           </div>
+
+                          <!-- <div class="box-2">
+                            <div class="result">
+
+                            </div>
+                          </div>
+                          <div class="box-2 img-result hide">
+                            <img src="" alt="" class="cropped">
+
+                          </div>
+
+                          <div class="box">
+                            <div class="options hide">
+
+                            </div>
+                          </div> -->
+
+                          
+
                           <div class="form-group mt-3">
+                            <img src="" alt="" id="myimg2">
                             <label for="pimage">Image 2</label>
-                            <input type="file" class="form-control" name="image2" id="image2"   placeholder="Product Image">
+                            <input type="file" class="form-control" onchange=file_changed2() name="image2" id="image2"   placeholder="Product Image">
                             <span id="errorimage" class="text-danger">
                           </div>
                           <div class="form-group mt-3">
+                            <img src="" alt="" id="myimg3">
                             <label for="pimage">Image 3</label>
-                            <input type="file" class="form-control" name="image3" id="image3"   placeholder="Product Image">
+                            <input type="file" class="form-control" onchange=file_changed3() name="image3" id="image3"   placeholder="Product Image">
                             <span id="errorimage" class="text-danger">
                           </div>
                           <div class="form-group mt-3">
+                            <img src="" alt="" id="myimg4">
                             <label for="pimage">Image 4</label>
-                            <input type="file" class="form-control" name="image4" id="image4"   placeholder="Product Image">
+                            <input type="file" class="form-control" name="image4" onchange=file_changed4() id="image4"   placeholder="Product Image">
                             <span id="errorimage" class="text-danger">
                           </div>
                     </div>
@@ -141,14 +166,56 @@
                     <button type="submit" class="btn btn-primary btn-block text-uppercase">Add Product Now</button>
                     </div>
                 </form>
-                </div>
+            </div>
                 </div>
             </div>
             </div>
         </div>
-        <div id="alert-box"></div>
-                    <div class="image-area mb-3"><div id="image-box"></div>
-    </div>
+
+        <script>
+            function file_changed(){
+                var selectedFile = document.getElementById('image').files[0];
+                var img = document.getElementById('myimg')
+              
+                var reader = new FileReader();
+                reader.onload = function(){
+                   img.src = this.result
+                }
+                reader.readAsDataURL(selectedFile);
+               }
+
+               function file_changed2(){
+                var selectedFile = document.getElementById('image2').files[0];
+                var img = document.getElementById('myimg2')
+              
+                var reader = new FileReader();
+                reader.onload = function(){
+                   img.src = this.result
+                }
+                reader.readAsDataURL(selectedFile);
+               }
+               function file_changed3(){
+                var selectedFile = document.getElementById('image3').files[0];
+                var img = document.getElementById('myimg3')
+              
+                var reader = new FileReader();
+                reader.onload = function(){
+                   img.src = this.result
+                }
+                reader.readAsDataURL(selectedFile);
+               }
+               function file_changed4(){
+                var selectedFile = document.getElementById('image4').files[0];
+                var img = document.getElementById('myimg4')
+              
+                var reader = new FileReader();
+                reader.onload = function(){
+                   img.src = this.result
+                }
+                reader.readAsDataURL(selectedFile);
+               }
+        </script>
+        
 
 
     <script>

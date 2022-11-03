@@ -46,7 +46,7 @@ def edit_product(request,id):
             product.category = category
             product.image = image
             product.image2 = image2
-            product.image3 = image2
+            product.image3 = image3
             product.image4 = image4
             product.price = price
             product.desc = desc

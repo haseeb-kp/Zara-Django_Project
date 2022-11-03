@@ -178,6 +178,11 @@
 
 
         </div>
+        {% for message in messages %}
+				<script>
+					swal('{{message}}')
+				</script>
+				{% endfor %}
 
         
 

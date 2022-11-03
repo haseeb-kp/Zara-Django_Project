@@ -1,0 +1,382 @@
+{% extends 'base.html' %}
+{% load static%}
+
+
+
+{% block content%}
+<style>
+    html {
+        height: 100%;
+      }
+      body {
+        margin:0;
+        padding:0;
+        font-family: sans-serif;
+        
+      }
+      
+      .login-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 400px;
+        padding: 40px;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,.5);
+        box-sizing: border-box;
+        box-shadow: 0 15px 25px rgba(0,0,0,.6);
+        border-radius: 10px;
+      }
+      
+      .login-box h2 {
+        margin: 0 0 30px;
+        padding: 0;
+        color: #fff;
+        text-align: center;
+      }
+      
+      .login-box .user-box {
+        position: relative;
+      }
+      
+      .login-box .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+        background: transparent;
+      }
+      .login-box .user-box label {
+        position: absolute;
+        top:0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        pointer-events: none;
+        transition: .5s;
+      }
+      
+      .login-box .user-box input:focus ~ label,
+      .login-box .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #f5efef;
+        font-size: 12px;
+      }
+      
+      .login-box form a {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        color: #4D0808;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: .5s;
+        margin-top: 40px;
+        letter-spacing: 4px
+      }
+      
+      .login-box a:hover {
+        background: #4D0808;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #4D0808,
+                    0 0 25px #4D0808,
+                    0 0 50px #4D0808,
+                    0 0 100px #4D0808;
+      }
+      
+      .login-box a span {
+        position: absolute;
+        display: block;
+      }
+      
+      .login-box a span:nth-child(1) {
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #4D0808);
+        animation: btn-anim1 1s linear infinite;
+      }
+      
+      @keyframes btn-anim1 {
+        0% {
+          left: -100%;
+        }
+        50%,100% {
+          left: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(2) {
+        top: -100%;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, #4D0808);
+        animation: btn-anim2 1s linear infinite;
+        animation-delay: .25s
+      }
+      
+      @keyframes btn-anim2 {
+        0% {
+          top: -100%;
+        }
+        50%,100% {
+          top: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(3) {
+        bottom: 0;
+        right: -100%;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(270deg, transparent, #4D0808);
+        animation: btn-anim3 1s linear infinite;
+        animation-delay: .5s
+      }
+      
+      @keyframes btn-anim3 {
+        0% {
+          right: -100%;
+        }
+        50%,100% {
+          right: 100%;
+        }
+      }
+      
+      .login-box a span:nth-child(4) {
+        bottom: -100%;
+        left: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(360deg, transparent, #4D0808);
+        animation: btn-anim4 1s linear infinite;
+        animation-delay: .75s
+      }
+      
+      @keyframes btn-anim4 {
+        0% {
+          bottom: -100%;
+        }
+        50%,100% {
+          bottom: 100%;
+        }
+      }
+      
+</style>
+
+<div class="bg0 " style="padding-bottom:50rem;margin-top: 8rem;">
+    <div class="container text-center">
+
+       
+
+        <div class="login-box">
+            <h2>EDIT ADDRESS</h2>
+            <form action="" method="POST">
+                {% csrf_token%}
+              <small id="name-error" ></small>
+
+                <div class="user-box">
+                <input type="text" name="name" onkeyup="validateName()" id="name" value="{{address.name}}">
+
+                <label>Name</label>
+              </div>
+              <small id="phone-error" ></small>
+
+              <div class="user-box">
+                <input type="text" name="phone"  onkeyup="validatePhone()" id="phone" value="{{address.phone}}">
+                <label>Phone number</label>
+              </div>
+              <small id="address-error" ></small>
+              <div class="user-box">
+                <input type="text" name="address"  onkeyup="validateAddress()" id="address" value="{{address.address}}">
+                <label>Address</label>
+              </div>
+              <small id="city-error" ></small>
+
+              <div class="user-box">
+                <input type="text" name="city"  onkeyup="validateCity()" id="city" value="{{address.city}}">
+                <label>City</label>
+              </div>
+              <small id="state-error" ></small>
+              <div class="user-box">
+                <input type="text" name="state" onkeyup="validateState()" id="state" value="{{address.state}}">
+                <label>State</label>
+              </div>
+              <small id="pincode-error" ></small>
+              <div class="user-box">
+                <input type="text" name="pincode" onkeyup="validatePincode()" id="pincode" value="{{address.pincode}}">
+                <label>Pincode</label>
+              </div>
+
+              <button class="btn btn-outline-dark">submit</button>
+            </form>
+          </div>
+    
+
+        
+    </div>
+    </div>
+
+
+
+    <script>
+      var nameError = document.getElementById('name-error');
+      var phoneError = document.getElementById('phone-error');
+      var addressError = document.getElementById('address-error');
+      var cityError = document.getElementById('city-error');
+      var stateError = document.getElementById('state-error');
+      var pincodeError = document.getElementById('pincode-error');
+
+      
+      
+      
+      
+      function validateName() {
+          var name=document.getElementById('name').value.trim();  
+          var Required=4;
+          var left=Required - name.length;
+          if (name.length==0) {
+              nameError.innerHTML='Product name is Required';
+              nameError.style.color='red'
+              return false;
+              }
+          
+          if (left>0){
+              
+              nameError.innerHTML =left+ 'more character Required';
+              nameError.style.color='red'
+              return false;
+          
+          }
+              nameError.innerHTML='Name is valid';
+              nameError.style.color='white'
+              return true;
+          }
+      
+      
+      
+      function validateAddress() {
+          var address =document.getElementById('address').value.trim();
+          var Required=6;
+          var left=Required - address.length;
+      
+          if(left>0){
+              addressError.innerHTML =left+ 'more character Required';
+              addressError.style.color='red'
+              return false;
+      
+              }
+              addressError.innerHTML='Address is valid';
+              addressError.style.color='white'
+              return true;
+      
+      }
+      
+      function validatePhone() {
+          var phone=document.getElementById('phone').value.trim();  
+      
+          if (phone.length==0) {
+              phoneError.innerHTML='Phone number is Required';
+              phoneError.style.color='red'
+              return false;
+              }
+          if (!/^[0-9]+$/.test(phone)) {
+                  phoneError.innerHTML = "Phone number must be digits"
+                  phoneError.style.color='red'
+                  return false;
+          }
+
+      
+          
+      
+          phoneError.innerHTML='Phone number is valid';
+          phoneError.style.color='white'
+          return true;
+          }
+      
+      function validateCity() {
+          var city=document.getElementById('city').value.trim();  
+      
+          if (city.length==0) {
+              cityError.innerHTML='city is Required';
+              cityError.style.color='red'
+              return false;
+              }
+              cityError.innerHTML='City is valid';
+              cityError.style.color='white'
+              return true;
+          
+            }
+      function validateState() {
+          var state=document.getElementById('state').value.trim();  
+        
+          if (state.length==0) {
+              stateError.innerHTML='state is Required';
+              stateError.style.color='red'
+              return false;
+              }
+              stateError.innerHTML='State is valid';
+              stateError.style.color='white'
+              return true;
+
+      
+          /*categoryError.innerHTML='Category is valid';
+          categoryError.style.color='green'
+          return true;*/
+      }
+      function validatePincode() {
+        var pincode=document.getElementById('pincode').value.trim();  
+    
+        if (pincode.length==0) {
+            pincodeError.innerHTML='Pincode is Required';
+            pincodeError.style.color='red'
+            return false;
+            }
+        if (!/^[0-9]+$/.test(pincode)) {
+                pincodeError.innerHTML = "Pincode must be digits"
+                pincodeError.style.color='red'
+                return false;
+        }
+              pincodeError.innerHTML='Pincode is valid';
+              pincodeError.style.color='white'
+              return true;
+      
+      }
+      jQuery_1_7_1(document).on("submit", "form", function (e) {
+          validateName()
+          validateCity()
+          validateState()
+          validatePincode()
+          validatePhone()
+          validateAddress()
+          
+          if (validateName() && validateCity() && validateState() && validatePincode() && validatePhone() && validateAddress() ) {
+             
+          } else {
+              e.preventDefault();
+              swal('Invalid data! Ensure You have entered correct data');
+              return true;
+          }
+      });
+      
+
+      
+
+      
+
+      
+  </script>
+
+{%endblock%}
+

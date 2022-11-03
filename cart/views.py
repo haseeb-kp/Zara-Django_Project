@@ -57,6 +57,8 @@ def up(request,id):
     total = subtotal + shipping
     return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
 
+
+#add to cart using ajax
 def addtocart(request,id):
     if request.user.is_authenticated:
         product = Products.objects.get(id=id)
@@ -70,6 +72,21 @@ def addtocart(request,id):
         else:
             cart = Cart.objects.create(product=product, user=uid)
             return JsonResponse({'status': True})
+    return redirect('user_login')
+
+#add to cart without ajax => redirects to cart
+def addTocart(request,id):
+    if request.user.is_authenticated:
+        product = Products.objects.get(id=id)
+        uid = request.user
+        if Cart.objects.filter(product=id, user=uid).exists():
+            cart = Cart.objects.get(product=id, user=uid)
+            cart.quantity = cart.quantity+1
+            cart.save()
+            return redirect('cart')
+        else:
+            cart = Cart.objects.create(product=product, user=uid)
+            return redirect('cart')
     return redirect('user_login')
 
 def removecart(request,id):
@@ -95,7 +112,6 @@ def checkout(request):
                 x = i.product.price*i.quantity
                 subtotal = subtotal+x
         total = subtotal
-        print(total)
         order = Order.objects.create(
             user=user, address=address, amount=total, method=payment)
         order.save()
@@ -104,8 +120,8 @@ def checkout(request):
                 user=user, quantity=i.quantity, product=i.product, order=order)
             oldcart.save()
             cart.delete()
-        print("cart done")
-        return render(request, 'placed.html')
+        messages.error(request,"Order Placed")
+        return redirect('login_home')
 
     else:
         user = request.user
@@ -150,4 +166,37 @@ def order(request):
     return render(request,'placed.html')
 
 def wishlist(request):
-    return render(request,'wishlist.html')
+    if request.user.is_authenticated:
+        user=request.user
+        wishlist = Wishlist.objects.filter(user=request.user)
+        return render(request,'wishlist.html',{'wishlist':wishlist})
+    return redirect('user_login')
+
+def addToWishlist(request):
+  if request.method == 'GET':
+    prod_id = request.GET['prod_id']
+    product=Products.objects.get(id=prod_id)
+    user=request.user
+    wishlist = Wishlist.objects.create(user=user,product=product)
+    wishlist.save()
+    return JsonResponse({'status': True})
+
+
+# remove by clicking heart button
+def removeFromWishlist(request):
+  if request.method == 'GET':
+    prod_id = request.GET['prod_id']
+    product=Products.objects.get(id=prod_id)
+    user=request.user
+    wishlist = Wishlist.objects.filter(user=user,product=product)
+    wishlist.delete()
+    return JsonResponse({'status': True})
+
+#remove by clicking normal button in wishlist page
+def removeWishlist(request,id):
+    product=Products.objects.get(id=id)
+    user=request.user
+    wishlist = Wishlist.objects.filter(user=user,product=product)
+    wishlist.delete()
+    return redirect('wishlist')
+

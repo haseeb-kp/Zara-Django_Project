@@ -40,3 +40,8 @@ class OldCart(models.Model):
     
     def __str__(self):
         return self.product.name
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    is_wishlist=models.BooleanField(default=True)

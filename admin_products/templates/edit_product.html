@@ -47,20 +47,9 @@
                             required
                         >{{product.desc}}</textarea><span id="description-error"></span>
                         </div>
-                        
-
-
                         <div class="form-group mb-3">
-                            <label
-                                for="category"
-                                >Category</label
-                            >
-                            <select required
-                                class="custom-select tm-select-accounts"
-                                id="category"
-                                onkeyup="validateCategory()"
-                                name="category" 
-                            >
+                            <label for="category" >Category</label>
+                            <select required class="custom-select tm-select-accounts" id="category"onkeyup="validateCategory()" name="category">
                                 
                                 {%for category in category%}
                                 <option value="{{category.id}}"  >{{category.category_name}}</option>
@@ -70,45 +59,66 @@
                         
                             
 
-                        <div class="form-group mb-3">
-                            <label
-                                for="name"
-                                >Price
-                            </label>
-                            <input
-                            id="price" 
-                            onkeyup="validatePrice()"
-                                name="price"
-                                type="text"
-                                value="{{product.price}}"
-                                class="form-control validate"
-                            />
-                            <span id="price-error"></span>
+                            <div class="form-group mb-3">
+                                <label for="name">Price</label>
+                                <input id="price" onkeyup="validatePrice()" name="price" type="text" value="{{product.price}}" class="form-control validate" />
+                                <span id="price-error"></span>
                             </div>
                             
                             <div class="form-group mb-3">
                                 <label
-                                    for="name"
-                                    >Stock
-                                </label>
-                                <input
-                                id="stock"
-                                onkeyup="validateStock()"
-                                    name="quantity"
-                                    type="text"
-                                    value="{{product.quantity}}"
-                                    class="form-control validate"
-                                />
+                                    for="name">Stock</label>
+                                <input id="stock" onkeyup="validateStock()" name="quantity" type="text" value="{{product.quantity}}" class="form-control validate"/>
 
-                                </div>
+                            </div>
                             <span id="stock-error"></span>
+                        </div>
+                    </div>
 
+
+                        <div class="col-xl-4 col-lg-4 col-md-12 mx-auto mb-4 ">
+                            <div class="tm-product-img-edit mx-auto">
+                                <img src="{{product.image.url}}" alt="Category image" type="file" accept="image/*" name="image" id="image" class="img-fluid d-block mx-auto">
+                                <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('viewImg1').click();"></i>
+                                </div>
                                 
+                                <div class="custom-file mt-3 mb-3">
+                                <input id="viewImg1" type="file" name="image" style="display:none;" onchange=file_changed()  />
+                                <input type="button" class="btn btn-primary btn-block mx-auto" value="CHANGE IMAGE NOW" onclick="document.getElementById('viewImg1').click();"/>
+                            </div>
 
-                        
+                            <div class="tm-product-img-edit mx-auto">
+                                <img src="{{product.image2.url}}" alt="Category image" type="file" accept="image/*" name="image2" id="image2" class="img-fluid d-block mx-auto">
+                                <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('viewImg2').click();"></i>
+                                </div>
+                                
+                                <div class="custom-file mt-3 mb-3">
+                                <input id="viewImg2" type="file" name="image2" style="display:none;" onchange=file_changed2()  />
+                                <input type="button" class="btn btn-primary btn-block mx-auto" value="CHANGE IMAGE NOW" onclick="document.getElementById('viewImg2').click();"/>
+                            </div>
+
+                            <div class="tm-product-img-edit mx-auto">
+                                <img src="{{product.image3.url}}" alt="Category image" type="file" accept="image/*" name="image3" id="image3" class="img-fluid d-block mx-auto">
+                                <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('viewImg3').click();"></i>
+                                </div>
+                                
+                                <div class="custom-file mt-3 mb-3">
+                                <input id="viewImg3" type="file" name="image3" style="display:none;" onchange=file_changed3()  />
+                                <input type="button" class="btn btn-primary btn-block mx-auto" value="CHANGE IMAGE NOW" onclick="document.getElementById('viewImg3').click();"/>
+                            </div>
+
+                            <div class="tm-product-img-edit mx-auto">
+                                <img src="{{product.image4.url}}" alt="Category image" type="file" accept="image/*" name="image4" id="image4" class="img-fluid d-block mx-auto">
+                                <i class="fas fa-cloud-upload-alt tm-upload-icon" onclick="document.getElementById('viewImg4').click();"></i>
+                                </div>
+                                
+                                <div class="custom-file mt-3 mb-3">
+                                <input id="viewImg4" type="file" name="image4" style="display:none;" onchange=file_changed4()  />
+                                <input type="button" class="btn btn-primary btn-block mx-auto" value="CHANGE IMAGE NOW" onclick="document.getElementById('viewImg4').click();"/>
+                            </div>
                         </div>
 
-                        <div class="form-group mt-3">
+                        <!-- <div class="form-group mt-3">
                             <label for="pimage">Image</label>
                             <input type="file" class="form-control" name="image" id="image"  placeholder="Product Image">
                             <span id="image2-error" class="text-danger">
@@ -131,7 +141,7 @@
                             <label for="pimage">Image 4</label>
                             <input type="file" class="form-control" name="image4" id="image4"  placeholder="Product Image">
                             <span id="image-error"></span>
-                          </div>
+                          </div> -->
 
                          
                           
@@ -151,7 +161,65 @@
             </div>
             </div>
         </div>
-    </div>
+    
+
+    <script>
+        function viewImage1(event){
+            document.getElementById('viewImg1').src=URL.createObjectURL(event.target.files[0])
+          }
+          function viewImage2(event){
+            document.getElementById('viewImg2').src=URL.createObjectURL(event.target.files[0])
+          }
+          function viewImage3(event){
+            document.getElementById('viewImg3').src=URL.createObjectURL(event.target.files[0])
+          }
+          function viewImage4(event){
+            document.getElementById('viewImg4').src=URL.createObjectURL(event.target.files[0])
+          }
+        function file_changed(){
+            var selectedFile = document.getElementById('viewImg1').files[0];
+            var img = document.getElementById('image')
+          
+            var reader = new FileReader();
+            reader.onload = function(){
+               img.src = this.result
+            }
+            reader.readAsDataURL(selectedFile);
+           }
+        
+           function file_changed2(){
+            var selectedFile = document.getElementById('viewImg2').files[0];
+            var img = document.getElementById('image2')
+          
+            var reader = new FileReader();
+            reader.onload = function(){
+               img.src = this.result
+            }
+            reader.readAsDataURL(selectedFile);
+           }
+
+           function file_changed3(){
+            var selectedFile = document.getElementById('viewImg3').files[0];
+            var img = document.getElementById('image3')
+          
+            var reader = new FileReader();
+            reader.onload = function(){
+               img.src = this.result
+            }
+            reader.readAsDataURL(selectedFile);
+           }
+
+           function file_changed4(){
+            var selectedFile = document.getElementById('viewImg4').files[0];
+            var img = document.getElementById('image4')
+          
+            var reader = new FileReader();
+            reader.onload = function(){
+               img.src = this.result
+            }
+            reader.readAsDataURL(selectedFile);
+           }
+    </script>
     
 
     <!-- <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script> -->
