@@ -41,11 +41,15 @@
 
                                                 
                                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-
-                                                    <button  class=" btn minus" onclick=down({{cart.id}}) id="myBtn">-</button>
+                                                    <!-- -->
+                                                    {% if cart.quantity == 1 %}
+                                                    <button  onclick=down({{cart.id}}) id="myBtn{{cart.id}}" class="btn btn-minus btn-number" disabled>-</button>
+                                                    {% else %} 
+                                                    <button  onclick=down({{cart.id}}) id="myBtn{{cart.id}}" class="btn btn-minus btn-number" >-</button>
+                                                    {% endif %} 
                                                 </div>
                                                 
-                                                <button class="mtext-104 cl3 txt-center num-product" id="cartId"  type="number" name="num-product1" value="{{cart.quantity}}" >{{cart.quantity}}</button>
+                                                <button class="mtext-104 cl3 txt-center num-product qtyCheck" id="{{cart.id}}"  type="number" name="num-product1" value="{{cart.quantity}}" >{{cart.quantity}}</button>
                                                 
                                                 <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
                                                     <!-- <a href="/cart/up/{{cart.id}}"><button type="button"><i class="fs-16 zmdi zmdi-plus text-dark"></i></button></a> -->
@@ -172,15 +176,14 @@
 
 <script>
     $(document).ready(function() {
-        /*console.log("entered")
-        let x=$('#{{cart.id}}').html()
-        console.log(x)*/
+        //var x=document.getElementById('#{{cart.id}}').html();
+        //console.log(x)
         
-        if ($('#cartId').val() == 1) {
+        /*if ($('#{{cart.id}}').val() == 1) {
             
             $("#myBtn").attr("disabled", true);
-        }
-        if ($('#cartId').val() == undefined) {
+        }*/
+        if ($('.qtyCheck').val() == undefined) {
 
             console.log("undefined")
             
@@ -211,15 +214,15 @@
             success: function(data){
                 console.log(data.qty)
                 
-                document.getElementById('cartId').innerHTML = data.qty;
+                document.getElementById(id).innerHTML = data.qty;
                 document.getElementById("Total").innerHTML = data.total;
                 document.getElementById("subTotal").innerHTML = data.subtotal;
                 if (data.qty > 1){
                     console.log('remove')
-                    document.getElementById("myBtn").disabled = false;
+                    document.getElementById("myBtn"+id).disabled = false;
                 }
                 else{
-                    document.getElementById("myBtn").disabled = true;
+                    document.getElementById("myBtn"+id).disabled = true;
                 }
             }
         });
@@ -231,15 +234,15 @@
             type: "GET",
             url: "minus/"+id,
             success: function(data){
-                document.getElementById('cartId').innerHTML = data.qty;
+                document.getElementById(id).innerHTML = data.qty;
                 document.getElementById("Total").innerHTML = data.total;
                 document.getElementById("subTotal").innerHTML = data.subtotal;
                 if (data.qty != 1){
                     
-                    document.getElementById("myBtn").disabled = false;
+                    document.getElementById("myBtn"+id).disabled = false;
                 }
                 else{
-                    document.getElementById("myBtn").disabled = true;
+                    document.getElementById("myBtn"+id).disabled = true;
                     location.reload();
                 }
             }
