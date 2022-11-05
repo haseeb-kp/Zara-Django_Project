@@ -200,3 +200,12 @@ def removeWishlist(request,id):
     wishlist.delete()
     return redirect('wishlist')
 
+def razorpay(request):
+    cart = Cart.objects.filter(user=request.user)
+    subtotal = 0
+    for i in cart:
+        if i.product.price !=0:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+    total = subtotal
+    return JsonResponse({'total': total,})

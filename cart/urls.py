@@ -15,6 +15,7 @@ urlpatterns = [
     path('removeFromWishlist', views.removeFromWishlist, name="removeFromWishlist"),
     path('removeWishlist/<int:id>', views.removeWishlist, name="removeWishlist"),
     path('order', views.order, name="order"),
+    path('razorpay', views.razorpay, name="razorpay"),
 
 
 
