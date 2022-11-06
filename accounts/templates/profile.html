@@ -108,7 +108,7 @@
 												<a href="" class="btn btn-outline-primary btn-sm " data-toggle="modal" data-target="#modalLoginForm">Edit Profile</a>
 										
 											
-												<a href="" class="btn btn-outline-primary btn-sm  "  data-toggle="modal" data-target="#modalPasswordForm">Change Password</a>
+												<a href="" class="btn btn-outline-danger btn-sm  "  data-toggle="modal" data-target="#modalPasswordForm">Change Password</a>
 											</div>
 										</ul>
 									</div>
@@ -205,12 +205,64 @@
 
 
 
+    {% if orders %}
+    <div class="row ml-3 ">
+      <h4 style="color:#4D0808;font-family: Poppins-Medium;">Orders</h4>
+    </div>
+
+    <div class="row mt-3">
+    {% for o in oldcart%}
+
+      <div class="col-sm-3 mt-4">
+        <div class="card" style="width: 16rem;">
+          <img  class="card-img-top" style="width: 100%; height: 12vw; object-fit: cover;" src="{{o.product.image.url}}" alt="Card image cap">
+          <div class="card-body">
+            <h6 class="card-title" style="font-family:Poppins-Medium;color:#4D0808;">{{o.product.product_name | truncatewords:2}}</h5>
+              
+            <p class="card-text"> <span class="text-primary">Status :</span> {{o.order.status}}</p>
+            <p class="card-text"> <span class="text-primary">Amount :</span>  {{o.product.price}}</p>
+            <p class="card-text"> <span class="text-primary">Qty :</span>  {{o.quantity}}</p>
+            {%if o.order.method == 'Cash on delivery'%}
+            <p class="card-text"> <span class="text-primary">Payment Method :</span>  COD</p>
+            {%else%}
+            <p class="card-text"> <span class="text-primary">Payment Method :</span>  {{o.order.method}}</p>
+            {%endif%}
+            <p class="card-text"> <span class="text-primary"> Ordered on :</span> {{o.order.ordered_date | truncatewords:1 }}</p>
+
+              {% if o.order.status == 'cancelled'%}
+              <button class="btn btn-secondary mt-2 col-12 " disabled>Order cancelled</button>
+              
+              {%else%}
+              <a href="#" class="btn btn-outline-success mt-2">Invoice</a>
+            <a href="/cart/cancel_order/{{o.order.id}}" class="btn btn-outline-danger mt-2">Cancel order</a>
+
+            {%endif%}
+
+            
+          </div>
+        </div>
+        </div>
+        {%endfor%}
+
+    </div>
+   
+      
+      {%endif%}
+
+
+
+
+
+
+
+
+
       {% if address %}
-      <div class="row ml-3">
+      <div class="row ml-3 mt-5">
         <h4 style="color:#4D0808;font-family: Poppins-Medium;"> Saved Addresses</h4>
       </div>
 
-      <div class="row mt-3">
+      <div class="row mt-5">
         {% for address in address %}
 
         <div class="col-sm-3 ml-5	">
@@ -227,8 +279,8 @@
             <br>
 
 
-            <a href="/editAddress" class="btn btn-primary">Edit </a>
-            <a href=""  data-toggle="modal" data-target="#exampleModal4{{addres.id}}" class="btn btn-primary">Delete</a>
+            <a href="/editAddress" class="btn btn-outline-primary">Edit </a>
+            <a href=""  data-toggle="modal" data-target="#exampleModal4{{addres.id}}" class="btn btn-outline-danger">Delete</a>
           </div>
           </div>
         </div>
@@ -253,54 +305,19 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+        </div>
 
         {% endfor %}
-        </div>
+      </div>
 
         {% endif%}
 
 			<div class="mt-4 float-right m-r-50">
-				<a href="/addaddress" class="btn btn-outline-primary btn-sm ms-5 ">Add new address</a>
+				<a href="/addaddress" class="btn  btn-sm ms-5 " style="background-color:#4D0808;color: #fff;">Add new address</a>
 			</div>
+   
 
-      <!-- {% if orders %}
-      <div class="row ml-3">
-        <h4 style="color:#4D0808;font-family: Poppins-Medium;">Orders</h4>
-      </div>
-
-      <table id="example" class="table table-striped table-bordered" style="width:100%">
-        
-        <thead>
-          <tr>
-          <th scope="col">order Id</th>
-          <th scope="col">order Date</th>
-          <th scope="col">Customer</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Payment Method</th>
-          <th scope="col">Order Status</th>
-          <th scope="col">Update</th>
-          <th scope="col">Cancel Order</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-          {%for order in orders%}
-  
-          <tr>
-          <td >{{order.id}}</td>
-          <td>{{order.ordered_date}}</td>
-          <td>{{order.user}}</td>
-          <td>{{order.amount}}</td>
-          <td>{{order.method}}</td>
-          <td>{{order.status}}</td>
-          </tr>
-          {%endfor%}
-          
-        </tbody>
-        </table>
-
-        {%endif%} -->
+     
 
     
 			

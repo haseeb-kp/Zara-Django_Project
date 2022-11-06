@@ -112,16 +112,20 @@ def checkout(request):
                 x = i.product.price*i.quantity
                 subtotal = subtotal+x
         total = subtotal
-        order = Order.objects.create(
-            user=user, address=address, amount=total, method=payment)
-        order.save()
         for i in cart:
-            oldcart = OldCart.objects.create(
-                user=user, quantity=i.quantity, product=i.product, order=order)
+            order = Order.objects.create(
+            user=user, address=address, amount=total, method=payment)
+            order.save()
+            oldcart = OldCart.objects.create(user=user, quantity=i.quantity, product=i.product, order=order,total=i.quantity*i.product.price)
             oldcart.save()
-            cart.delete()
+        cart.delete()
+        # for i in cart:
+        #     oldcart = OldCart.objects.create(
+        #         user=user, quantity=i.quantity, product=i.product, order=order)
+        #     oldcart.save()
+        #     cart.delete()
         messages.error(request,"Order Placed")
-        return redirect('login_home')
+        return redirect('profile')
 
     else:
         user = request.user
@@ -209,3 +213,10 @@ def razorpay(request):
             subtotal = subtotal+x
     total = subtotal
     return JsonResponse({'total': total,})
+
+def cancel_order(request,id):
+    order = Order.objects.get(id=id)
+    order.status = "cancelled"
+    order.save()
+    print(order.status)
+    return redirect('profile')

@@ -15,6 +15,7 @@ from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse, HttpResponse
 from cart.models import *
+from guest_user.decorators import allow_guest_user
 
 
 PRODUCTS_PER_PAGE = 4
@@ -88,6 +89,7 @@ def user_signup(request) :
     else:
         return render (request,'user_signup.html')
 
+
 def signup_otp_validate(request):
     if request.method=='POST':
         otp1= int(request.POST['otp'])
@@ -104,6 +106,8 @@ def signup_otp_validate(request):
             return redirect('signup_otp_validate')
 
     return render(request,'signup_otp_validate.html')
+
+@allow_guest_user
 @never_cache
 def home(request):
     if request.user.is_authenticated:
@@ -111,6 +115,8 @@ def home(request):
     x = ["Hampers","Others"]
     category = Category.objects.exclude(category_name__in = x)
     return render(request,'home.html',{'category':category})
+
+
 @never_cache
 @login_required
 def login_home(request):
@@ -247,7 +253,10 @@ def product_details(request,id):
 def profile(request):
     if request.user.is_authenticated:
         address = Address.objects.filter(user = request.user).all()
-        return render(request,'profile.html',{'address':address})
+        orders= Order.objects.filter(user = request.user).all()
+        oldcart=OldCart.objects.filter(user = request.user).all()
+        oldCart = reversed(list(oldcart))
+        return render(request,'profile.html',{'address':address,'orders':orders,'oldcart':oldCart})
     return redirect('user_login')
 
 def login_resend(request):
