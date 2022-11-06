@@ -12,7 +12,7 @@ User = get_user_model()
 @never_cache
 def admin_users(request):
     if request.user.is_authenticated and  request.user.is_superuser :
-        user_list = User.objects.all()
+        user_list = User.objects.exclude(username='admin')
         return render(request,'admin_users.html',{'user_list':user_list})
     else: 
         return redirect('admin_login')

@@ -52,6 +52,7 @@
                             <select required class="custom-select tm-select-accounts" id="category"onkeyup="validateCategory()" name="category">
                                 
                                 {%for category in category%}
+                                
                                 <option value="{{category.id}}"  >{{category.category_name}}</option>
                                 {%endfor%}
                             </select>

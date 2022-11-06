@@ -15,7 +15,7 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text">$<span class="count">23569</span></div>
+                                    <div class="stat-text">₹<span class="count">{{revenue}}</span></div>
                                     <div class="stat-heading">Revenue</div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">3435</span></div>
+                                    <div class="stat-text"><span class="count">{{order_count}}</span></div>
                                     <div class="stat-heading">Orders</div>
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">349</span></div>
+                                    <div class="stat-text"><span class="count">{{product_count}}</span></div>
                                     <div class="stat-heading">Products</div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">2986</span></div>
+                                    <div class="stat-text"><span class="count">{{user_count}}</span></div>
                                     <div class="stat-heading">Users</div>
                                 </div>
                             </div>
@@ -79,7 +79,151 @@
             </div>
         </div>
     </div>
+    <div>
+        <div class="container d-flex">
+   
+            <div class="col-md-6 h-50 bg-light rounded mt-4 p-4 " style="width:50%; height:200px;">
+                <h5 class="mt-3 fw-bold ms-3">Product - Quantity Report</h5>
+                <hr>
+                        <canvas class="mt-3" id="myChart1" width="400" height="200"></canvas>
+                        <script>
+                            var ctx = document.getElementById('myChart1').getContext('2d');
+                            var myChart1 = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: [{% for product in product %} '{{product.product_name | truncatewords:1}}', {% endfor %}],
+                                datasets: [{
+                                label: 'Quantity',
+                                data: [{% for product in product %} {{ product.quantity }}, {% endfor %}],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                        borderWidth: 1
+                            }]
+                                },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                            });
+                        </script>
+                    
+            </div>
+            <div class="col-md-6 h-50 bg-light rounded mt-4 p-4 " style="width:50%; height:200px;">
+                <h5 class="mt-3 fw-bold ms-3">Order - Price Report</h5>
+                <hr>
+                        <canvas class="mt-3" id="myChart2" width="400" height="200"></canvas>
+                        <script>
+                            var ctx = document.getElementById('myChart2').getContext('2d');
+                            var myChart1 = new Chart(ctx, {
+                                type: 'line',
+                                data: {
+                                    labels: [{% for order in cart %} '{{order.order_id | truncatewords:1}}', {% endfor %}],
+                                datasets: [{
+                                label: 'Price',
+                                data: [{% for order  in cart %} {{ order.total }}, {% endfor %}],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                        borderWidth: 1
+                            }]
+                                },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                            });
+                        </script>
+                    
+            </div>
+            
+        <!-- <div class="col-md-6 h-50 bg-light rounded mt-5 ml-5 p-4 " style="width:50%; height:200px;">
+            <h3 class="mt-3 fw-bold ms-3">Product - Stock chart</h3>
+            <hr>
+                    <canvas class="mt-3 " id="myChart1" width="400" height="200"></canvas>
+                    <script>
+                        var ctx = document.getElementById('myChart1').getContext('2d');
+                        var myChart1 = new Chart(ctx, {
+                            type: 'bar',
+                            data: { 
+                                labels: [{% for p in p %} '{{p.product_name}}', {% endfor %}],
+                                
+                            datasets: [{
+                            label: 'Stock',
+                            data: [{% for p in p %} '{{ p.stock }}', {% endfor %}],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderWidth: 1
+                        }]
+                            },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        beginAtZero: true
+                                    }
+                                }]
+                            }
+                        }
+                        });
+                    </script>
+                
+        </div>
+    </div> -->
 
     
 </div>
 {% endblock%}
+{% block js %}
+
+{% endblock %}
