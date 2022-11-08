@@ -118,6 +118,9 @@ def checkout(request):
             order.save()
             oldcart = OldCart.objects.create(user=user, quantity=i.quantity, product=i.product, order=order,total=i.quantity*i.product.price)
             oldcart.save()
+            product= Products.objects.get(id=i.product_id)
+            product.quantity=product.quantity-i.quantity
+            product.save()
         cart.delete()
         # for i in cart:
         #     oldcart = OldCart.objects.create(
