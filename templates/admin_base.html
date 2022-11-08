@@ -121,8 +121,20 @@
           <li class="active">
             <a href="/admin_products/admin_products"><i class="menu-icon fa fa-square"></i>Products</a>
           </li>
+          
+          <!-- <li class=" dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Orders</a>
+            <ul class="sub-menu children dropdown-menu">
+                <li><i class="fa fa-table"></i><a href="/admin_orders/admin_orders">Orders</a></li>
+                <li><i class="fa-angle-double-right"></i><a href="/admin_orders/sales">Sales Report</a></li>
+            </ul>
+          </li> -->
+          
           <li class="active">
             <a href="/admin_orders/admin_orders"><i class="menu-icon fa  fa-angle-double-right"></i>Orders</a>
+          </li>
+          <li class="active">
+            <a href="/admin_orders/salesReport"><i class="menu-icon fa  fa fa-table"></i>Sales Report</a>
           </li>
 
         </ul>
@@ -156,6 +168,8 @@
     <!-- /.site-footer -->
   </div>
   <!-- /#right-panel -->
+
+ 
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.js"
@@ -223,6 +237,17 @@
 
   <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
+<!-- 
+  <script>
+    $(document).ready(function() {
+      $(".menu-item-has-children.dropdown").each(function() {
+        $(this).on('click', function() {
+          var $temp_text = $(this).children('.dropdown-toggle').html();
+          $(this).children('.sub-menu').prepend('<li class="subtitle">' + $temp_text + '</li>'); 
+        });
+      });
+    });
+  </script> -->
 
 
 

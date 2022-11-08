@@ -15,7 +15,12 @@ from django.db.models import Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse, HttpResponse
 from cart.models import *
+
 from guest_user.decorators import allow_guest_user
+
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from django.http import FileResponse
 
 
 PRODUCTS_PER_PAGE = 4
@@ -362,6 +367,34 @@ def deleteAddress(request,id):
     address = Address.objects.get(id=id)
     address.delete()
     return redirect('profile')
+
+
+# pip install reportlab==3.6.6 => since getstring io error occured
+
+def invoice_generate(request,id):
+    oldcart=OldCart.objects.get(order_id=id)
+
+    user = request.user
+    template_path = 'invoice.html'
+    print(oldcart.product.price)
+
+    context = {'oldcart': oldcart,'user': user}
+
+    response = HttpResponse(content_type='application/pdf')
+
+    response['Content-Disposition'] = 'filename="invoice.pdf"'
+
+    template = get_template(template_path)
+
+    html = template.render(context)
+
+    # create a pdf
+    pisa_status = pisa.CreatePDF(
+    html, dest=response)
+    # if error then show some funy view
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
 
         
 

@@ -24,6 +24,7 @@ urlpatterns = [
     path('changePassword/<int:id>', views.changePassword, name="changePassword"),
     path('editAddress', views.editAddress, name="editAddress"),
     path('deleteAddress/<int:id>', views.deleteAddress, name="deleteAddress"),
+    path('invoice_generate/<int:id>', views.invoice_generate, name="invoice_generate"),
 
 
 
