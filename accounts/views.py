@@ -16,7 +16,9 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import JsonResponse, HttpResponse
 from cart.models import *
 
-from guest_user.decorators import allow_guest_user
+
+# from guest_user.models import Guest
+# from guest_user.decorators import allow_guest_user
 
 from django.template.loader import get_template
 from xhtml2pdf import pisa
@@ -43,8 +45,29 @@ def user_login(request):
         password=request.POST['password']
         user=auth.authenticate(username=username,password=password)
         print(user)
-        if user is not None:
-            print("hi")
+        if user is not None and user.is_active==True:
+            if 'guest_key' in request.session:
+                p = request.session['guest_key']
+                guest_cart = guestCart.objects.filter(user_ref=p)
+
+                auth.login(request, user)
+                for i in guest_cart:
+                    try:
+                        cart = Cart.objects.get(user=request.user,product=i.product)
+                        print(cart)
+                    except:
+                        cart = None
+                    if cart:
+                        print("one")
+                        Cart.objects.filter(user=request.user, product=i.product).update(quantity = cart.quantity+i.quantity)
+                    else:
+                        print("two")
+                        k = Cart(user=request.user,product=i.product,quantity=i.quantity)
+                        k.save()
+                print("deleting guest cart")
+                guest_cart.delete()
+
+            print("logging in.......")
             auth.login(request,user)
             print(user.phone_number)
             messages.error(request, 'login success')
@@ -112,11 +135,12 @@ def signup_otp_validate(request):
 
     return render(request,'signup_otp_validate.html')
 
-@allow_guest_user
 @never_cache
 def home(request):
     if request.user.is_authenticated:
         return redirect('login_home')
+    # request.session.create()
+    # print(request.session.session_key)
     x = ["Hampers","Others"]
     category = Category.objects.exclude(category_name__in = x)
     return render(request,'home.html',{'category':category})
@@ -132,6 +156,9 @@ def login_home(request):
     return redirect('user_login')
 
 def hampers(request):
+    # if not request.user.is_authenticated and not request.session.session_key:
+    #         request.session.create()
+    #         print("hamper",request.session.session_key)
     category = Category.objects.get(category_name="Hampers")
     product = Products.objects.filter(category=category).all()
     if request.user.is_authenticated:
@@ -168,6 +195,7 @@ def user_logout(request):
 
 
 def products(request,id):
+    # request.session.create()
     category=Category.objects.get(id=id)
     product = Products.objects.filter(category=category).all()
     price = request.GET.get('price', "")

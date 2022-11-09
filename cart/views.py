@@ -5,10 +5,12 @@ from django.contrib.auth.models import User, auth
 from django.contrib.auth import login,logout,authenticate,get_user_model
 from django.views.decorators.cache import never_cache
 from .models import *
+# from guest_user.decorators import allow_guest_user
+# from guest_user.models import Guest
 
 
 def cart(request):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_active:
         user = request.user
         cart = Cart.objects.filter(user=user)
 
@@ -28,39 +30,80 @@ def cart(request):
             total = subtotal + shipping
             return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total})
     else:
-        return redirect('user_login')
+        if not request.session.session_key:
+            request.session.create()
+        request.session['guest_key']=request.session.session_key
+        key = request.session['guest_key']
+        print(request.session.session_key)
+        cart = guestCart.objects.filter(user_ref=request.session.session_key)
+        subtotal = 0
+        for i in cart:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+        shipping = 0
+        total = subtotal + shipping
+        return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total})
+        
 
 def minus(request,id):
-    cart = Cart.objects.get(id=id)
-    qty = int(cart.quantity)-1
-    
-    crt = Cart.objects.filter(user=request.user)
-    Cart.objects.filter(id=id).update(quantity=qty)
-    subtotal = 0
-    for i in crt:
-        x = i.product.price*i.quantity
-        subtotal = subtotal+x
-    shipping = 0
-    total = subtotal + shipping
-    return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+    if request.user.is_authenticated and request.user.is_active:
+        cart = Cart.objects.get(id=id)
+        qty = int(cart.quantity)-1
+        
+        crt = Cart.objects.filter(user=request.user)
+        Cart.objects.filter(id=id).update(quantity=qty)
+        subtotal = 0
+        for i in crt:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+        shipping = 0
+        total = subtotal + shipping
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+    else:
+        cart = guestCart.objects.get(id=id)
+        qty = int(cart.quantity)-1
+        
+        crt = guestCart.objects.filter(user_ref=request.session.session_key)
+        guestCart.objects.filter(id=id).update(quantity=qty)
+        subtotal = 0
+        for i in crt:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+        shipping = 0
+        total = subtotal + shipping
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+
 
 def up(request,id):
-    crt = Cart.objects.filter(user=request.user)
-    cart = Cart.objects.get(id=id)
-    qty = int(cart.quantity)+1
-    Cart.objects.filter(id=id).update(quantity=qty)
-    subtotal = 0
-    for i in crt:
-        x = i.product.price*i.quantity
-        subtotal = subtotal+x
-    shipping = 0
-    total = subtotal + shipping
-    return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+    if request.user.is_authenticated and request.user.is_active:
+        crt = Cart.objects.filter(user=request.user)
+        cart = Cart.objects.get(id=id)
+        qty = int(cart.quantity)+1
+        Cart.objects.filter(id=id).update(quantity=qty)
+        subtotal = 0
+        for i in crt:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+        shipping = 0
+        total = subtotal + shipping
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+    else:
+        crt = guestCart.objects.filter(user_ref=request.session.session_key)
+        cart = guestCart.objects.get(id=id)
+        qty = int(cart.quantity)+1
+        guestCart.objects.filter(id=id).update(quantity=qty)
+        subtotal = 0
+        for i in crt:
+            x = i.product.price*i.quantity
+            subtotal = subtotal+x
+        shipping = 0
+        total = subtotal + shipping
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
 
 
 #add to cart using ajax
 def addtocart(request,id):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_active:
         product = Products.objects.get(id=id)
         
         uid = request.user
@@ -72,11 +115,28 @@ def addtocart(request,id):
         else:
             cart = Cart.objects.create(product=product, user=uid)
             return JsonResponse({'status': True})
-    return redirect('user_login')
+    else:
+        if not request.session.session_key:
+            request.session.create()
+        print("in add to cart session key = ",request.session.session_key)
+        product = Products.objects.get(id=id)
+        
+        # uid = request.user
+        if guestCart.objects.filter(product=id).exists():
+            print("exists")
+            cart = guestCart.objects.get(product=id,user_ref=request.session.session_key)
+            cart.quantity = cart.quantity+1
+            cart.save()
+            return JsonResponse({'status': True})
+        else:
+            print("not exists")
+            cart = guestCart.objects.create(product=product,user_ref=request.session.session_key)
+            return JsonResponse({'status': True})
+
 
 #add to cart without ajax => redirects to cart
 def addTocart(request,id):
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_active:
         product = Products.objects.get(id=id)
         uid = request.user
         if Cart.objects.filter(product=id, user=uid).exists():
@@ -87,17 +147,32 @@ def addTocart(request,id):
         else:
             cart = Cart.objects.create(product=product, user=uid)
             return redirect('cart')
-    return redirect('user_login')
+    else:
+        product = Products.objects.get(id=id)
+        uid = request.user
+        if guestCart.objects.filter(product=id, user=uid).exists():
+            cart = guestCart.objects.get(product=id, user=uid)
+            cart.quantity = cart.quantity+1
+            cart.save()
+            return redirect('cart')
+        else:
+            cart = guestCart.objects.create(product=product, user=uid)
+            return redirect('cart')
 
 def removecart(request,id):
-    print(id)
-    cart = Cart.objects.get(id=id)
-    cart.delete()
-    messages.error(request,"Item removed")
-    return redirect('cart')
+    if request.user.is_authenticated and request.user.is_active:
+        cart = Cart.objects.get(id=id)
+        cart.delete()
+        messages.error(request,"Item removed")
+        return redirect('cart')
+    else:
+        cart =guestCart.objects.get(id=id)
+        cart.delete()
+        messages.error(request,"Item removed")
+        return redirect('cart')
 
 def checkout(request):
-    if request.method == 'POST' and 'address_id' in request.POST   :
+    if request.method == 'POST' and 'address_id' in request.POST:
         address_id = request.POST['address_id']
         payment = request.POST['payment_selector']
         user= request.user
@@ -130,7 +205,7 @@ def checkout(request):
         messages.error(request,"Order Placed")
         return redirect('profile')
 
-    else:
+    elif request.user.is_authenticated and request.user.is_active:
         user = request.user
         cart = Cart.objects.filter(user=user)
         if len(cart)!=0:
@@ -149,6 +224,8 @@ def checkout(request):
             return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
         messages.error(request, 'Cart is empty')
         return redirect('cart')
+    else:
+        return redirect('user_login')
 
 
 def addaddress(request):

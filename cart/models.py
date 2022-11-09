@@ -45,3 +45,11 @@ class Wishlist(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     is_wishlist=models.BooleanField(default=True)
+
+class guestCart(models.Model):
+    quantity = models.IntegerField(default=1)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE)
+    user_ref = models.CharField(max_length=200,null=True,blank=True)
+
+    def __str__(self):
+        return self.product.product_name

@@ -1,0 +1,151 @@
+@never_cache  
+def user_login(request):
+    if request.user.is_authenticated and request.user.is_active:
+        return redirect(viewproduct)
+
+    if request.method == 'POST':
+        email = request.POST['email'] 
+        password = request.POST['password']
+        
+
+        user = auth.authenticate(email=email,password=password)
+
+        if user is not None and user.active==True:
+            print(user.is_active)
+            if 'guest_key' in request.session:
+                p = request.session['guest_key']
+                guest_cart = Guestcart.objects.filter(userreference=p)
+
+                auth.login(request, user)
+                for i in guest_cart:
+                    try:
+                        cart = Cart.objects.get(userid=request.user,productid=i.productid)
+                        print(cart)
+                    except:
+                        cart = None
+                    if cart:
+                        Cart.objects.filter(userid=request.user, productid=i.productid).update(quantity = cart.quantity+i.quantity)
+                    else:
+                        k = Cart(userid=request.user,productid=i.productid,quantity=i.quantity,amount=i.amount,price=i.price,productname=i.productname,image=i.image)
+                        k.save()
+
+            auth.login(request, user)
+            
+            n= 'login Successfuly'
+            messages.success(request,n)
+            return redirect(viewproduct)
+        else:
+            n = 'invalid credentials'
+            messages.success(request,n)
+            return redirect(user_login)
+
+    return render(request, 'user_login.html')
+
+    # -----------------------------------------------------------------------------
+
+# Create your views here.
+@never_cache
+def viewcart(request):
+    if request.user.is_authenticated and request.user.is_active:
+        ob = Cart.objects.filter(userid=request.user.id).order_by('id')
+        print(ob)
+        onj = Category.objects.values('offers')
+        print(onj)
+
+        
+        total=0
+        for j in ob:
+            
+            total = total + j.amount
+            
+            t=total*100
+        context={'total':total,'ob':ob}
+
+        return render(request, 'mycart.html', context)
+    else:
+        
+        if not request.session.session_key:
+            request.session.create()
+        request.session['guest_key']=request.session.session_key
+        key = request.session['guest_key']
+        print(request.session.session_key)
+        
+        ob = Guestcart.objects.filter(userreference=request.session.session_key)
+        total=0
+        for j in ob:
+            
+            total = total + j.amount
+        context = {'total':total,'ob':ob}
+        return render(request, 'mycart.html', context)
+        
+    
+
+def removecart(request,id):
+    if request.user.is_authenticated and request.user.is_active:
+
+        o = Cart.objects.get(id=id)
+        o.delete()
+        n = 'Product Removed from cart'
+        messages.info(request,n)
+    else:
+        ob = Guestcart.objects.get(id=id)
+        ob.delete()
+        n = 'Product Removed from cart'
+        messages.info(request,n)
+    
+    return redirect(viewcart)
+
+def dquantity(request):
+    if request.user.is_authenticated and request.user.is_active:
+        
+        if request.method =="POST":
+            id = request.POST['id']
+            
+            ob=Cart.objects.values('quantity').get(id=id)
+            quantity = ob['quantity']
+            if quantity >= 2:
+
+
+                Cart.objects.filter(id=id).update(quantity=ob['quantity']-1)
+            ob=Cart.objects.values('quantity').get(id=id)
+            o=Cart.objects.values('quantity','price','amount').get(id=id)
+            Cart.objects.filter(id=id).update(amount=o['price']*o['quantity'])
+
+            Cart.objects.filter(id=id).update(amount=o['price']*o['quantity'])
+            o=Cart.objects.values('quantity','price','amount').get(id=id)
+            
+            cart = Cart.objects.filter(userid=request.user)
+            
+
+            amount = o['amount']
+            q =ob['quantity']
+            total = 0
+            for j in cart:
+            
+                total = total + j.amount
+            return JsonResponse({'amount':amount,'q':q,'total':total})
+
+    else:
+        if request.method =="POST":
+            id = request.POST['id']
+            ob=Guestcart.objects.values('quantity').get(id=id)
+            quantity = ob['quantity']
+            if quantity >= 2:
+
+                Guestcart.objects.filter(id=id).update(quantity=ob['quantity']-1)
+            ob=Guestcart.objects.values('quantity').get(id=id)
+            o=Guestcart.objects.values('quantity','price','amount').get(id=id)
+            Guestcart.objects.filter(id=id).update(amount=o['price']*o['quantity'])
+
+            Guestcart.objects.filter(id=id).update(amount=o['price']*o['quantity'])
+            o=Guestcart.objects.values('quantity','price','amount').get(id=id)
+
+            amount = o['amount']
+            q =ob['quantity']
+
+            cart = Guestcart.objects.filter(userreference=request.session.session_key)
+            total = 0
+            for j in cart:
+            
+                total = total + j.amount
+            return JsonResponse({'amount':amount,'q':q,'total':total})
