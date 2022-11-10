@@ -198,6 +198,8 @@
 
         
     </div>
+</div>
+
     <!-- paypal -->
     <script src="https://www.paypal.com/sdk/js?client-id=AfqNfHufjMpuXG-QXA06DOCV33KHlPsTbFhm4wNBLRlFuLR-RM74qcY9MbtABKE2r07emMSGhtlapFWc&currency=USD&disable-funding=card"></script>
     <script>
@@ -230,6 +232,9 @@
               //var amount = $('#grand_total').val()
               //var cart = $('#cart').val()
               var address = $('#address_id').val()
+              console.log("----------------------")
+              console.log(address)
+              
               var payment = "PayPal"
               var token = $("input[name='csrfmiddlewaretoken']").val()
               $.ajax({
@@ -256,6 +261,7 @@
                  
                 }
               })
+              
             });
           }
         }).render('#paypal-button-container');
@@ -298,7 +304,6 @@
         }).render('#paypal-button-container');
       </script> -->
 
-</div>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>

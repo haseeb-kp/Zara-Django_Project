@@ -148,15 +148,17 @@ def addTocart(request,id):
             cart = Cart.objects.create(product=product, user=uid)
             return redirect('cart')
     else:
+        if not request.session.session_key:
+            request.session.create()
         product = Products.objects.get(id=id)
         uid = request.user
-        if guestCart.objects.filter(product=id, user=uid).exists():
+        if guestCart.objects.filter(product=id,user_ref=request.session.session_key).exists():
             cart = guestCart.objects.get(product=id, user=uid)
             cart.quantity = cart.quantity+1
             cart.save()
             return redirect('cart')
         else:
-            cart = guestCart.objects.create(product=product, user=uid)
+            cart = guestCart.objects.create(product=product, user_ref=request.session.session_key)
             return redirect('cart')
 
 def removecart(request,id):
