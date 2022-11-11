@@ -125,8 +125,29 @@ def signup_otp_validate(request):
         print("new=",new_phone_number)
         print("validate=",validate)
         if validate=="approved":
+            
             user=User.objects.create_user(username=new_username,password=new_pass2,email=new_email,first_name=new_name,phone_number=new_phone_number)
             user.save()
+            if 'guest_key' in request.session:
+                p = request.session['guest_key']
+                guest_cart = guestCart.objects.filter(user_ref=p)
+
+                auth.login(request, user)
+                for i in guest_cart:
+                    try:
+                        cart = Cart.objects.get(user=request.user,product=i.product)
+                        print(cart)
+                    except:
+                        cart = None
+                    if cart:
+                        print("one")
+                        Cart.objects.filter(user=request.user, product=i.product).update(quantity = cart.quantity+i.quantity)
+                    else:
+                        print("two")
+                        k = Cart(user=request.user,product=i.product,quantity=i.quantity)
+                        k.save()
+                print("deleting guest cart")
+                guest_cart.delete()
             messages.error(request, 'Account created')
             return redirect('user_login')
         else :
