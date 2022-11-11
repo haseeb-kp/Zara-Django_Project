@@ -1,7 +1,134 @@
-i=20
-while i<=25:
-    if i==22:
-        i+=1
-        continue
-    print(i)
-    i+=1
+{% extends 'base.html' %}
+{% load static%}
+
+
+
+{% block content%}
+
+<div class="bg0 m-t-100 p-b-140">
+    <div class="container">
+        <section class="sec-product-detail bg0 p-t-65 p-b-60">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-lg-7 p-b-30">
+                        <div class="p-l-25 p-r-30 p-lr-0-lg">
+                            <div class="wrap-slick3 flex-sb flex-w">
+                                <div class="wrap-slick3-dots"></div>
+                                <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+
+
+                                <div class=" slick3 gallery-lb">
+                                    <div class=" item-slick3" data-thumb="{{product.image.url}}">
+                                        <div class=" show wrap-pic-w pos-relative" href="{{product.image.url}}" style="height: 20rem;width:20rem;">
+                                            <img id="show-img" src="{{product.image.url}}" alt="IMG-PRODUCT">
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="item-slick3" data-thumb="{{product.image.url}}">
+                                        <div class=" wrap-pic-w"  >
+                                            <img  src="{{product.image.url}}" data-magnify-src="{{product.image.url}}"  id="zoom" alt="IMG-PRODUCT">
+                                        </div>
+                                    </div> -->
+
+
+
+                                    <!-- <div class="zoom-box">
+                                        <img src="{{product.image.url}}"
+                                            data-magnify-src="{{product.image.url}}" width="200" height="300" id="zoom">
+                                    </div>
+                                     -->
+
+
+
+
+
+
+
+
+
+
+    
+                                    <div class="item-slick3" data-thumb="{{product.image2.url}}">
+                                        <div class="show wrap-pic-w pos-relative" href="{{product.image2.url}}" style="height: 20rem;width:20rem;">
+                                            <img id="show-img" src="{{product.image2.url}}" alt="IMG-PRODUCT" class="img-fluid">
+                                        </div>
+                                    </div>
+
+                                    <div class="item-slick3" data-thumb="{{product.image3.url}}">
+                                        <div class="show wrap-pic-w pos-relative" href="{{product.image3.url}}" style="height: 20rem;width:20rem;">
+                                            <img id="show-img" src="{{product.image3.url}}" alt="IMG-PRODUCT" class="img-fluid">
+                                        </div>
+                                    </div>
+
+                                    <div class="item-slick3" data-thumb="{{product.image4.url}}">
+                                        <div class="show wrap-pic-w pos-relative" href="{{product.image4.url}}" style="height: 20rem;width:20rem;">
+                                            <img id="show-img" src="{{product.image4.url}}" alt="IMG-PRODUCT" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                        
+                    <div class="col-md-6 col-lg-5 p-b-30">
+                        <div class="p-r-50 p-t-5 p-lr-0-lg">
+                            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                                {{product.product_name}}
+                            </h4>
+    
+                            <span class="mtext-106 cl2">
+                                ₹{{product.price}}
+                            </span>
+    
+                            <p class="stext-102 cl3 p-t-23">
+                                {{product.desc}}
+                            </p>
+                            
+                            <div class="p-t-33">
+                                <div class="flex-w flex-r-m p-b-10">
+                                    <div class="size-204 flex-w flex-m respon6-next">
+                                <a href="/cart/addTocart/{{product.id}}">
+                                    <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail mt-5">
+                                        Add to cart
+                                    </button>
+                                </a>
+                                        
+                                    </div>
+                                </div>	
+                            </div>
+    
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+    
+            </div>
+        </section>
+
+
+
+    </div>
+</div>
+
+<!-- <script src="{% static 'js/zoomsl.min.js' %}"></script>
+                                    <script>
+                                        $(document).ready(function(){
+                                            $('#zoom').imagezoomsl({
+                                            zoomrange:[4,4]
+                                            });
+                                        })
+                                    </script> -->
+
+
+
+
+
+
+
+{% endblock%}
+
+{% block js%}
+<script src="{% static 'js/zoom-image.js' %}"></script>
+<script src="{% static 'js/zoom-main.js' %}"></script>
+{%endblock%}

@@ -400,6 +400,15 @@
 	{% block js%}
 
 	{% endblock %}
+	<script src="{% static 'js/zoomsl.min.js' %}"></script>
+	<script>
+        $(document).ready(function(){
+            $('.zoom-p').imagezoomsl({
+            zoomrange:[3,3]
+            });
+        })
+    </script>
+
 
 	<!--===============================================================================================-->
 	<!-- <script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script> -->
