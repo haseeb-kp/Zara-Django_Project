@@ -53,3 +53,17 @@ class guestCart(models.Model):
 
     def __str__(self):
         return self.product.product_name
+
+class productOffer(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True, blank=True)
+    offer = models.IntegerField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.BooleanField(default=True)
+
+class categoryOffer(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    offer = models.IntegerField()
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.BooleanField(default=True)

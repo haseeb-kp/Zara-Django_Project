@@ -35,7 +35,42 @@
                                             </div>
                                         </td>
                                         <td class="column-2">{{cart.product.product_name}}</td>
-                                        <td class="column-3">{{cart.product.price}}</td>
+                                        <td class="column-3">
+                                            {%if cart.product.p_offer_price < 1 and cart.product.c_offer_price < 1  %}
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.price}}
+                                                </span>
+
+                                            {%elif cart.product.p_offer_price > 1 and cart.product.c_offer_price is 0 %}
+                                                
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.p_offer_price}}
+                                                </span>
+                                            {%elif cart.product.p_offer_price < 1 and cart.product.c_offer_price > 1 %}
+
+                                                
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.c_offer_price}}
+                                                </span>
+                                            
+                                            {%elif cart.product.p_offer_price < cart.product.c_offer_price and cart.product.c_offer_price > 1 %}
+                                                
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.p_offer_price}}
+                                                </span>
+                                            {%elif cart.product.c_offer_price < cart.product.p_offer_price and cart.product.p_offer_price > 1 %}
+                                                
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.c_offer_price}}
+                                                </span>
+                                            {%elif cart.product.c_offer_price == cart.product.p_offer_price and cart.product.p_offer_price > 1 and cart.product.c_offer_price > 1 %}
+                                                
+                                                <span class="stext-105 cl3">
+                                                    ₹{{cart.product.p_offer_price}}
+                                                </span>
+                                            {% else %}
+                                            {%endif%}
+                                        </td>
                                         <td class="column-4">
                                             <div class="wrap-num-product flex-w m-l-auto m-r-0">
 

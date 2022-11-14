@@ -7,6 +7,7 @@ from django.views.decorators.cache import never_cache
 from django.contrib.auth import get_user_model
 from cart.models import *
 from admin_products.models import *
+import math
 
 
 User = get_user_model()
@@ -58,5 +59,88 @@ def admin_logout(request):
         logout(request)
     return redirect('admin_login')
 
+def offers(request):
+    product_offers = productOffer.objects.all()
+    category_offers = categoryOffer.objects.all()
+    products = Products.objects.all()
+    category = Category.objects.all()
+    return render(request,"offer.html",{'products':products,'category':category,
+        'product_offers':product_offers,'category_offers':category_offers})
 
+def coupon(request):
+    return render(request,"coupon.html")
 
+def add_product_offer(request):
+    if request.method=='POST':
+        p_id=request.POST['product']
+        start=request.POST['start']
+        end=request.POST['end']
+        offer=request.POST['offer']
+
+        product = Products.objects.get(id=p_id)
+        new_offer = productOffer.objects.create(
+            product=product,start_date=start,end_date=end,offer=offer
+        )
+
+        product.p_offer=offer
+        product.p_offer_price= math.floor(product.price-(product.price*(int(offer)/100)))
+        product.save()
+        return redirect('offers')
+        
+def add_category_offer(request):
+    if request.method=='POST':
+        c_id=request.POST['category']
+        start=request.POST['start']
+        end=request.POST['end']
+        offer=request.POST['offer']
+        print(c_id,start,end,offer)
+
+        category = Category.objects.get(id=c_id)
+        new_offer = categoryOffer.objects.create(
+            category=category,start_date=start,end_date=end,offer=offer
+        )
+        category.offer=offer
+        category.save()
+        products = Products.objects.filter(category_id=category)
+        for i in products:
+            i.c_offer=offer
+            i.c_offer_price=math.floor(i.price-(i.price*(int(offer)/100)))
+            i.save()
+        return redirect('offers')
+
+def product_offer_block(request):
+    pass
+
+def product_offer_unblock(request):
+    pass
+
+def product_offer_remove(request,id):
+    offer=productOffer.objects.get(id=id)
+    p_id=offer.product.id
+    product=Products.objects.get(id=p_id)
+    product.p_offer= 0
+    product.p_offer_price= 0
+    product.save()
+    offer.delete()
+    return redirect('offers')
+
+def category_offer_block(request):
+    pass
+
+def category_offer_unblock(request):
+    pass
+
+def category_offer_remove(request,id):
+    offer=categoryOffer.objects.get(id=id)
+    c_id=offer.category.id
+    category=Category.objects.get(id=c_id)
+    category.offer= 0
+    category.save()
+    products = Products.objects.filter(category_id=category)
+    for i in products:
+        i.c_offer=0
+        i.c_offer_price=0
+        i.save()
+    
+    offer.delete()
+    return redirect('offers')

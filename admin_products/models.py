@@ -4,6 +4,7 @@ class Category(models.Model):
     
     category_name=models.CharField(max_length=50)
     image= models.ImageField(upload_to="images",default="")
+    offer=models.IntegerField(default=0)
 
     def __str__(self):
         return self.category_name
@@ -19,6 +20,11 @@ class Products(models.Model):
     image2= models.ImageField(upload_to="images/2",null=True, blank=True,default="")
     image3= models.ImageField(upload_to="images/3",null=True, blank=True,default="")
     image4= models.ImageField(upload_to="images/4",null=True, blank=True,default="")
+    p_offer=models.IntegerField(default=0)
+    p_offer_price=models.IntegerField(default=0)
+    c_offer=models.IntegerField(default=0)
+    c_offer_price=models.IntegerField(default=0)
+
 
 
     def __str__(self):

@@ -64,14 +64,28 @@
 				<div class="col-md-6 col-xl-4 p-b-30 m-lr-auto">
 					<!-- Block1 -->
 					<div class="block1 wrap-pic-w">
+						{%if category.offer > 0%}
+						<div class="p-b-18" style="position: absolute;margin-left: 19.5rem;margin-top: 0.8rem;" >
+							<span class="block1-name stext-102 trans-04 btn btn-light btn-sm" style="color: #4D0808;">
+								{{category.offer}}% off
+							</span>
+						</div>
+						{%endif%}
 						<img src="{{category.image.url}}" alt="IMG-BANNER" style="height:245px;">
+						
 
 						<a href="products/{{category.id}}" class="block1-txt ab-t-l s-full flex-col-l-sb p-lr-38 p-tb-34 trans-03 respon3">
-							<div class="block1-txt-child2 flex-col-l " ">
-								<span class="block1-name ltext-102 trans-04 p-b-8">
-									{{category.category_name}}
-								</span>
+							<div class="row ">
+								
+								<div class="block1-txt-child2 d-flex justify-content-end" style="border-bottom: 0px;">
+									<span class="block1-name ltext-102 trans-04 p-b-8">
+										{{category.category_name}}
+									</span>
+									
+								</div>
+								
 							</div>
+							
 
 							<div class="block1-txt-child2 p-b-5 trans-05">
 								<div class="block1-link stext-101 cl0 trans-09">

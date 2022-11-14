@@ -24,8 +24,24 @@ def cart(request):
         else:
             subtotal = 0
             for i in cart:
-                x = i.product.price*i.quantity
-                subtotal = subtotal+x
+                if i.product.p_offer_price < 1 and  i.product.c_offer_price < 1:
+                    x = i.product.price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price > 1 and  i.product.c_offer_price == 0:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < 1 and  i.product.c_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < i.product.c_offer_price and i.product.c_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.c_offer_price < i.product.p_offer_price and i.product.p_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price == i.product.c_offer_price and i.product.c_offer_price > 1 and i.product.p_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
             shipping = 0
             total = subtotal + shipping
             return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total})
@@ -152,6 +168,7 @@ def addTocart(request,id):
             request.session.create()
         product = Products.objects.get(id=id)
         uid = request.user
+        print(uid)
         if guestCart.objects.filter(product=id,user_ref=request.session.session_key).exists():
             cart = guestCart.objects.get(product=id, user=uid)
             cart.quantity = cart.quantity+1
@@ -182,11 +199,23 @@ def checkout(request):
         cart = Cart.objects.filter(user=request.user)
         subtotal = 0
         for i in cart:
-            if i.product.price !=0:
+            if i.product.p_offer_price < 1 and  i.product.c_offer_price < 1:
                 x = i.product.price*i.quantity
                 subtotal = subtotal+x
-            else:
-                x = i.product.price*i.quantity
+            elif i.product.p_offer_price > 1 and  i.product.c_offer_price == 0:
+                x = i.product.p_offer_price*i.quantity
+                subtotal = subtotal+x
+            elif i.product.p_offer_price < 1 and  i.product.c_offer_price > 1:
+                x = i.product.c_offer_price*i.quantity
+                subtotal = subtotal+x
+            elif i.product.p_offer_price < i.product.c_offer_price and i.product.c_offer_price > 1:
+                x = i.product.p_offer_price*i.quantity
+                subtotal = subtotal+x
+            elif i.product.c_offer_price < i.product.p_offer_price and i.product.p_offer_price > 1:
+                x = i.product.c_offer_price*i.quantity
+                subtotal = subtotal+x
+            elif i.product.p_offer_price == i.product.c_offer_price and i.product.c_offer_price > 1 and i.product.p_offer_price > 1:
+                x = i.product.p_offer_price*i.quantity
                 subtotal = subtotal+x
         total = subtotal
         for i in cart:
@@ -216,11 +245,23 @@ def checkout(request):
             address = Address.objects.filter(user=user)
             subtotal = 0
             for i in cart:
-                if i.product.price !=0:
+                if i.product.p_offer_price < 1 and  i.product.c_offer_price < 1:
                     x = i.product.price*i.quantity
                     subtotal = subtotal+x
-                else:
-                    x = i.product.price*i.quantity
+                elif i.product.p_offer_price > 1 and  i.product.c_offer_price == 0:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < 1 and  i.product.c_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < i.product.c_offer_price and i.product.c_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.c_offer_price < i.product.p_offer_price and i.product.p_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price == i.product.c_offer_price and i.product.c_offer_price > 1 and i.product.p_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
                     subtotal = subtotal+x
             total = subtotal
             return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
