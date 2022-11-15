@@ -232,9 +232,11 @@
               {% if o.order.status == 'cancelled'%}
               <button class="btn btn-secondary mt-2 col-12 " disabled>Order cancelled</button>
               {% elif o.order.status == 'Delivered' %}
-              <a href="/invoice_generate/{{o.order.id}}" target="_blank" class="btn btn-outline-success mt-2 col-12">Invoice</a>
+              <a href="/invoice_generate/{{o.order.id}}" target="_blank" class="btn btn-outline-success mt-2 col-5">Invoice</a>
+              <a href="/cart/return_item/{{o.order.id}}"  class="btn btn-outline-danger mt-2 col-5">Return</a>
+              {% elif o.order.status == 'Return' %}
+              <button class="btn btn-secondary mt-2 col-12 " disabled>Return Initited</button>
               {%else%}
-              <a  href="/invoice_generate/{{o.order.id}}" target="_blank" class="btn btn-outline-success mt-2">Invoice</a>
             <a href="/cart/cancel_order/{{o.order.id}}" class="btn btn-outline-danger mt-2">Cancel order</a>
 
             {%endif%}

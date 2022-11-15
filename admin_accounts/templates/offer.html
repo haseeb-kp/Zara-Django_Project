@@ -90,7 +90,7 @@
                         <td>{{offer.start_date}}</td>
                         <td>{{offer.end_date}}</td>
                         <td>{{offer.offer}}%</td>
-                        <td>
+                        <!-- <td>
 
                             {% if offer.is_active %}
 
@@ -104,8 +104,8 @@
 
 
 
-                        </td>
-                        <td><a onclick=remove_p_offer(event) href="/admin_accounts/product_offer_remove/{{offer.id}}"><i class="fa fa-trash-o"></i></a></td>
+                        </td> -->
+                        <td><a onclick=remove_p_offer(event) href="/admin_accounts/product_offer_remove/{{offer.id}}"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                     </tr>
                     {%endfor%}
 
@@ -202,7 +202,7 @@
                         <td>{{offer.start_date}}</td>
                         <td>{{offer.end_date}}</td>
                         <td>{{offer.offer}}%</td>
-                        <td>
+                        <!-- <td>
 
                             {% if offer.is_active %}
 
@@ -216,8 +216,8 @@
 
 
 
-                        </td>
-                        <td><a onclick=remove_c_offer(event) href="/admin_accounts/category_offer_remove/{{offer.id}}"><i class="fa fa-trash-o"></i></a></td>
+                        </td> -->
+                        <td><a onclick=remove_c_offer(event) href="/admin_accounts/category_offer_remove/{{offer.id}}"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
 
                     </tr>
                     {%endfor%}

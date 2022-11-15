@@ -217,6 +217,7 @@ def checkout(request):
             elif i.product.p_offer_price == i.product.c_offer_price and i.product.c_offer_price > 1 and i.product.p_offer_price > 1:
                 x = i.product.p_offer_price*i.quantity
                 subtotal = subtotal+x
+        
         total = subtotal
         for i in cart:
             order = Order.objects.create(
@@ -235,6 +236,55 @@ def checkout(request):
         #     cart.delete()
         messages.error(request,"Order Placed")
         return redirect('profile')
+    elif request.method =='POST' and 'code' in request.POST:
+        code=request.POST['code']
+        
+        user = request.user
+        cart = Cart.objects.filter(user=user)
+        if len(cart)!=0:
+            # cart = Cart.objects.filter(user=user)
+
+            address = Address.objects.filter(user=user)
+            subtotal = 0
+            for i in cart:
+                if i.product.p_offer_price < 1 and  i.product.c_offer_price < 1:
+                    x = i.product.price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price > 1 and  i.product.c_offer_price == 0:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < 1 and  i.product.c_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price < i.product.c_offer_price and i.product.c_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.c_offer_price < i.product.p_offer_price and i.product.p_offer_price > 1:
+                    x = i.product.c_offer_price*i.quantity
+                    subtotal = subtotal+x
+                elif i.product.p_offer_price == i.product.c_offer_price and i.product.c_offer_price > 1 and i.product.p_offer_price > 1:
+                    x = i.product.p_offer_price*i.quantity
+                    subtotal = subtotal+x
+            total = subtotal
+        try:
+            coupon=Coupon.objects.get(code=code)
+            print(coupon)
+        except:
+            messages.error(request,"Invalid Coupon Code")
+            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+        
+        if coupon.is_active:
+            if total<coupon.min_amount:
+                messages.error(request,"Offer only applicable for purchases above %s" % coupon.min_amount)
+            else:
+                total=total-coupon.discount_amount
+                print (total,coupon.discount_amount)
+                messages.error(request,"coupon applied")
+        else:
+            messages.error(request,"Coupon Expired")
+
+        return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+        
 
     elif request.user.is_authenticated and request.user.is_active:
         user = request.user
@@ -340,6 +390,13 @@ def razorpay(request):
 def cancel_order(request,id):
     order = Order.objects.get(id=id)
     order.status = "cancelled"
+    order.save()
+    print(order.status)
+    return redirect('profile')
+
+def return_item(request,id):
+    order = Order.objects.get(id=id)
+    order.status = "Return"
     order.save()
     print(order.status)
     return redirect('profile')

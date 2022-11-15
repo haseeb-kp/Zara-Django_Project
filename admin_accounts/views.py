@@ -67,8 +67,7 @@ def offers(request):
     return render(request,"offer.html",{'products':products,'category':category,
         'product_offers':product_offers,'category_offers':category_offers})
 
-def coupon(request):
-    return render(request,"coupon.html")
+
 
 def add_product_offer(request):
     if request.method=='POST':
@@ -144,3 +143,40 @@ def category_offer_remove(request,id):
     
     offer.delete()
     return redirect('offers')
+
+def coupon(request):
+    coupons=Coupon.objects.all()
+    return render(request,"coupon.html",{'coupons':coupons})
+
+def add_coupon(request):
+    
+    if request.method == 'POST':
+        code = request.POST['code']
+        start_date = request.POST['start']
+        end_date = request.POST['end']
+        min_amount=request.POST['min']
+        dis_amount=request.POST['dis']
+
+
+        coupon = Coupon.objects.create(code=code,start_date=start_date,
+            end_date=end_date,min_amount=min_amount,discount_amount=dis_amount)
+        coupon.save()
+        return redirect('coupon')
+
+def coupon_block(request,id):
+    coupon=Coupon.objects.get(id=id)
+    coupon.is_active=False
+    coupon.save()
+    return redirect('coupon')
+
+def coupon_unblock(request,id):
+    coupon=Coupon.objects.get(id=id)
+    coupon.is_active=True
+    coupon.save()
+    return redirect('coupon')
+
+def coupon_remove(request,id):
+    coupon=Coupon.objects.get(id=id)
+    coupon.delete()
+    return redirect('coupon')
+

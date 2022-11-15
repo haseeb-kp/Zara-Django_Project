@@ -57,6 +57,7 @@
                                 </div></label>
                             
                                 {% endfor %}
+                                <input hidden type="text" value="{{total}}" name="new_total">
                                 <div class="d-flex">
                                 
                                     <!-- <button class="btn my-2 text-light button" type="submit" style="width:50%; background:#4D0808;">Select Address</button>  -->
@@ -70,38 +71,36 @@
                                         
                                       <ul>
                                       <li>
-                                        <input type="radio" id="cod" name="payment_selector" value="Cash on delivery" checked>
-                                        <label for="cod" style="color: #4D0808;">Cash on delivery</label>
+                                        <input hidden type="radio" id="cod" name="payment_selector" value="Cash on delivery" checked>
                                         
                                         <div class="check"></div>
                                       </li>
-<!--                                       
-                                      <li>
-                                        <input id="paypal" name="payment_selector" value="PayPal">
-                                        <label for="paypal" style="color: #4D0808;">Paypal</label>
-                                        
-                                        <div class="check"><div class="inside"></div></div>
-                                      </li> -->
-                                      
-                                      <!-- <li>
-                                        <input type="radio" id="rpay" name="payment_selector" value="RazorPay">
-                                        <label for="rpay" style="color: #4D0808;">Razorpay</label>
-                                        
-                                        <div class="check"><div class="inside"></div></div>
-                                      </li> -->
                                     </ul>
+                                    <div class="p-lr-40 p-t-20 p-b-30 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                                      <a href="/cart/checkout"><button class="btn btn-dark payWithRazorpay w-100 rounded-pill" type="submit" style="height:45px;border-radius: 50px;font-weight:bold;font-size:19px;"
+                                        > <i>Cash on Delivery</i> </button> 
+                                      </a> 
+                                   </div>
+                                    <div class=" p-lr-40   m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm" id="paypal-button-container">
+                
+                                    </div>
+                                    <div class="  p-lr-40 p-t-20 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+                                    <button type="button" class="btn btn-dark payWithRazorpay w-100 rounded-pill" 
+                                     id="rzp-button1" style="height:45px;border-radius: 50px;font-weight:bold;font-size:19px;">
+                                     <i>RazorPay</i>
+                                    </button>
+                                    </div>
         
                                 </div>
-                                <div class="text-center mt-10">
-                                    <a href="/cart/checkout"><button class="btn my-2 text-light button" type="submit" style=" background:#4D0808;">Make order</button> 
-                                    </a> 
-                                 </div>
+                                
                              </form>        
                             
                             
                             </div>
                             
                         </div>
+                        
+                        
 
                         
                         <!-- <div class="card" style="width: 18rem;">
@@ -172,18 +171,19 @@
                     </div>
                     
                 </div>
-            <div class="mt-5 p-lr-40 p-t-30  m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm" id="paypal-button-container">
-                
-            </div>
-            <div class="  p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
-            <button type="button" class="btn btn-dark payWithRazorpay w-100 rounded-pill" 
-             id="rzp-button1" style="height:45px;border-radius: 50px;font-weight:bold;font-size:19px;">
-             <i>RazorPay</i>
-            </button>
-            </div>
+                  <div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm mt-4">
+                    <h4 class="mtext-109 cl2 p-b-30">
+                      ADD Coupon
+                  </h4>
+                  <form action="/cart/checkout" method="post">{%csrf_token%}
+                  <input type="text" class="form-control" name="code">
+                  <button type="submit" class="btn  btn-secondary col-12 mt-3 text-center mx-auto">APPLY</button>
+                </form>
+                    </div>
+            
 
                 
-            </div>
+          </div>
 
 
 
@@ -319,7 +319,8 @@
             success: function (response) {
                 var options={
                     "key": "rzp_test_JeIuBXxwdG9tNG", // Enter the Key ID generated from the Dashboard
-                    "amount": response.total*100,//response.total, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    //"amount": response.total*100,//response.total, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                    "amount":'{{total}}'*100,
                     "currency": "INR",
                     "name": "cart",
                     "description": "Thank you for shopping with us",
