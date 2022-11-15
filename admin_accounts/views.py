@@ -180,3 +180,66 @@ def coupon_remove(request,id):
     coupon.delete()
     return redirect('coupon')
 
+def product_offer_edit(request,id):
+    if request.method=='POST':
+        new_offer=productOffer.objects.get(id=id)
+        p_id=request.POST['product']
+        start=request.POST['start']
+        end=request.POST['end']
+        offer=request.POST['offer']
+        product = Products.objects.get(id=p_id)
+
+        new_offer.product=product
+        new_offer.offer=offer
+        new_offer.start_date=start
+        new_offer.end_date=end
+        new_offer.save()
+        product.p_offer=offer
+        product.p_offer_price= math.floor(product.price-(product.price*(int(offer)/100)))
+        product.save()
+        return redirect('offers')
+
+def category_offer_edit(request,id):
+    if request.method=='POST':
+        c_id=request.POST['category']
+        start=request.POST['start']
+        end=request.POST['end']
+        offer=request.POST['offer']
+
+        category = Category.objects.get(id=c_id)
+        new_offer = categoryOffer.objects.get(id=id)
+        new_offer.category=category
+        new_offer.start_date=start
+        new_offer.end_date=end
+        new_offer.offer=offer
+        new_offer.save()
+
+        category.offer=offer
+        category.save()
+        products = Products.objects.filter(category_id=category)
+        for i in products:
+            i.c_offer=offer
+            i.c_offer_price=math.floor(i.price-(i.price*(int(offer)/100)))
+            i.save()
+        return redirect('offers')
+
+def edit_coupon(request,id):
+    if request.method == 'POST':
+        code = request.POST['code']
+        start_date = request.POST['start']
+        end_date = request.POST['end']
+        min_amount=request.POST['min']
+        dis_amount=request.POST['dis']
+
+
+        coupon = Coupon.objects.get(id=id)
+        coupon.code=code
+        coupon.start_date=start_date
+        coupon.end_date=end_date
+        coupon.min_amount=min_amount
+        coupon.discount_amount=dis_amount
+        coupon.save()
+        return redirect('coupon')
+    
+
+    

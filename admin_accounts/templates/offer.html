@@ -86,6 +86,7 @@
 
                     <tr>
                         {%for offer in product_offers%}
+                        <!-- <td>{{offer.id}}</td> -->
                         <td>{{offer.product |truncatewords:3}}</td>
                         <td>{{offer.start_date}}</td>
                         <td>{{offer.end_date}}</td>
@@ -105,12 +106,82 @@
 
 
                         </td> -->
+                        <td><a  data-toggle="modal" data-target="#modalEditOffer{{offer.id}}"><i class="fa fa-pencil" style="color:red;"></i></a></td>
                         <td><a onclick=remove_p_offer(event) href="/admin_accounts/product_offer_remove/{{offer.id}}"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                     </tr>
+
+
+                        <!-- edit product offer modal -->
+
+        <div class="modal fade" id="modalEditOffer{{offer.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" style="left: 0%;top: 16%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin_accounts/product_offer_edit/{{offer.id}}" method="post"> {% csrf_token%}
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Edit Product Offer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="margin-top: -48px;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="md-form mb-3">
+                            <label for="product">Product</label>
+                            <select required class="custom-select tm-select-accounts" id="product"
+                                name="product">
+
+                                {%for product in products%}
+
+                                <option value="{{product.id}}">{{product.product_name | truncatewords:4}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                        <div class="md-form mb-3">
+                            <label data-error="wrong" data-success="right" for="start">Start date</label>
+                            <input type="date" id="start" class="form-control" value="{{offer.start_date}}" name="start">
+                        </div>
+                        <div class="md-form mb-3">
+                            <label data-error="wrong" data-success="right" for="end">End date</label>
+                            <input type="date" id="end" class="form-control" value="{{offer.end_date}}" name="end">
+                        </div>
+                        <div class="md-form  mt-3">
+                            <label data-error="wrong" data-success="right" for="offer">Offer % </label>
+                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="50"
+                                oninput="range_weight_disp.value = range_weight.value">
+                            <output id="range_weight_disp"></output>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-secondary">Add</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+                    <!-- modal end -->
+
+
+
+
+
+
+
+
+
+
                     {%endfor%}
 
                 </tbody>
             </table>
+
+            
 
 
 
@@ -118,6 +189,7 @@
 
 
         </div>
+        
         <div class="col-6">
             <h3 class=" mt-5 pb-3" style="color: #4D0808; font-family:poppins;">Category offer management</h3>
             <a  class="btn btn-sm text-left btn-outline-primary" data-toggle="modal"
@@ -217,9 +289,72 @@
 
 
                         </td> -->
+                        <td><a  data-toggle="modal" data-target="#modalEditOffer2{{offer.id}}"><i class="fa fa-pencil" style="color:red;"></i></a></td>
                         <td><a onclick=remove_c_offer(event) href="/admin_accounts/category_offer_remove/{{offer.id}}"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
-
+                        
                     </tr>
+                     <!-- edit category offer modal -->
+
+        <div class="modal fade" id="modalEditOffer2{{offer.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true" style="left: 0%;top: 16%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form action="/admin_accounts/category_offer_edit/{{offer.id}}" method="post"> {% csrf_token%}
+                    <div class="modal-header text-center">
+                        <h4 class="modal-title w-100 font-weight-bold">Edit Category Offer</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                            style="margin-top: -48px;">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body mx-3">
+                        <div class="md-form mb-3">
+                            <label for="category">Category</label>
+                            <select required class="custom-select tm-select-accounts" id="category"
+                                name="category">
+
+                                {%for category in category%}
+
+                                <option value="{{category.id}}">{{category.category_name}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+
+                        <div class="md-form mb-3">
+                            <label data-error="wrong" data-success="right" for="start1">Start date</label>
+                            <input type="date" id="start1" class="form-control" value="{{offer.start_date}}" name="start">
+                        </div>
+                        <div class="md-form mb-3">
+                            <label data-error="wrong" data-success="right" for="end1">End date</label>
+                            <input type="date" id="end1" class="form-control" value="{{offer.end_date}}" name="end">
+                        </div>
+                        <div class="md-form  mt-3">
+                            <label data-error="wrong" data-success="right" for="offer">Offer % </label>
+                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="30"
+                                oninput="range_weight_disp.value = range_weight.value">
+                            <output id="range_weight_disp"></output>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer d-flex justify-content-center">
+                        <button class="btn btn-secondary">Add</button>
+                    </div>
+                   </form>
+
+               </div>
+           </div>
+       </div>
+
+                    <!-- modal end -->
+        
+
+                    <!-- modal end -->
+
+
+
+
                     {%endfor%}
 
                 </tbody>

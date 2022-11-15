@@ -102,7 +102,8 @@ def up(request,id):
             subtotal = subtotal+x
         shipping = 0
         total = subtotal + shipping
-        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+        stock=cart.product.quantity
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal,'stock':stock})
     else:
         crt = guestCart.objects.filter(user_ref=request.session.session_key)
         cart = guestCart.objects.get(id=id)
@@ -267,7 +268,7 @@ def checkout(request):
                     subtotal = subtotal+x
             total = subtotal
         try:
-            coupon=Coupon.objects.get(code=code)
+            coupon=Coupon.objects.get(code__contains=code)
             print(coupon)
         except:
             messages.error(request,"Invalid Coupon Code")

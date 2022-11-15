@@ -46,7 +46,7 @@
                   
                 <option value="Shipped">Shipped</option> 
                 <option value="Cancelled">Cancelled</option> </select>
-                <button type="submit" class="btn btn-warning btn-sm">Update</button>
+                <button  type="submit" class="btn btn-warning btn-sm">Update</button>
 
               {%elif ol.order.status == 'Shipped' %}
   
@@ -88,6 +88,30 @@
           </table>
 
       </div>
+      <script>
+        function update(event) {
+          event.preventDefault();
+          var link = event.currentTarget.href;
+          swal({
+            title: "Are you sure?",
+            text: "proceeding will update the order status",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+            .then((willDelete) => {
+              if (willDelete) {
+                swal("Updated!", {
+                  icon: "success",
+                }).then(() => {
+                  window.location = link;
+                });
+              } else {
+                /* swal("Your imaginary file is safe!");*/
+              }
+            });
+        }
+      </script>
 
   {%endblock%}
   {% block js %}
