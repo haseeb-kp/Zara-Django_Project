@@ -6,10 +6,10 @@
     <div class="row">
         <div class="col-12">
             <h3 class=" mt-5 pb-3" style="color: #4D0808; font-family:poppins;">Coupon management</h3>
-            <a href="" class="btn btn-sm text-left btn-outline-primary" data-toggle="modal"
+            <a href="" class="btn btn-sm text-left btn-outline-primary mb-3" data-toggle="modal"
                 data-target="#modalForm1">Add Coupon</a>
 
-            <!-- add product offer modal -->
+            <!-- add coupon modal -->
 
             <div class="modal fade" id="modalForm1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                 aria-hidden="true" style="left: 0%;top: 6%;">
@@ -73,8 +73,9 @@
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Minimum Amount</th>
-                        <!-- <th></th> -->
-                        <!-- <th></th> -->
+                        <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -108,7 +109,7 @@
                         <td><a onclick=remove_p_offer(event) href="/admin_accounts/coupon_remove/{{coupon.id}}"><i class="fa fa-trash-o" style="color:red;"></i></a></td>
                     </tr>
 
-                    <!-- add product offer modal -->
+                    <!--edit coupon offer modal -->
 
             <div class="modal fade" id="modalEditCoupon{{coupon.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
             aria-hidden="true" style="left: 0%;top: 6%;">
@@ -130,12 +131,12 @@
                             
 
                             <div class="md-form mb-3">
-                                <label data-error="wrong" data-success="right" for="start">Start date</label>
-                                <input type="date" id="start" class="form-control" value="{{coupon.start_date}}" name="start">
+                                <label data-error="wrong" data-success="right" for="start1">Start date</label>
+                                <input type="date" id="start1" class="form-control" value="{{coupon.start_date}}" name="start">
                             </div>
                             <div class="md-form mb-3">
-                                <label data-error="wrong" data-success="right" for="end">End date</label>
-                                <input type="date" id="end" class="form-control" value="{{coupon.end_date}}" name="end">
+                                <label data-error="wrong" data-success="right" for="end1">End date</label>
+                                <input type="date" id="end1" class="form-control" value="{{coupon.end_date}}" name="end">
                             </div>
                             <div class="md-form mb-3">
                                 <label data-error="wrong" data-success="right" for="dis">Discount Amount</label>
@@ -236,4 +237,16 @@
             });
     }
 </script>
+{%endblock%}
+{% block js %}
+
+      <script>
+        $(document).ready(function () {
+          $('#example').DataTable();
+      });
+      </script>
+      
+      
+
+
 {%endblock%}

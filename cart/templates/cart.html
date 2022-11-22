@@ -255,6 +255,7 @@
                 console.log(data.stock)
                 if(data.qty==data.stock){
                     document.getElementById("myBtn2"+id).disabled = true;
+                    swal("limit reached")
                 }
                 if (data.qty > 1){
                     console.log('remove')

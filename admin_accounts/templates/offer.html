@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-6">
             <h3 class=" mt-5 pb-3" style="color: #4D0808; font-family:poppins;">Product offer management</h3>
-            <a href="" class="btn btn-sm text-left btn-outline-primary" data-toggle="modal"
+            <a href="" class="btn btn-sm text-left btn-outline-primary mb-3" data-toggle="modal"
                 data-target="#modalForm1">Add offer</a>
 
             <!-- add product offer modal -->
@@ -47,10 +47,11 @@
                                 </div>
                                 <div class="md-form  mt-3">
                                     <label data-error="wrong" data-success="right" for="offer">Offer % </label>
-                                    <input type="range" name="offer" id="range_weight" value="5" min="1" max="50"
+                                    <input type="range" name="offer" id="range_weight" value="5" min="1" max="70"
                                         oninput="range_weight_disp.value = range_weight.value">
                                     <output id="range_weight_disp"></output>
                                 </div>
+                                
 
 
                             </div>
@@ -67,7 +68,9 @@
                 </div>
             </div>
 
-            <table id="example" class="table table-striped table-bordered mt-3" >
+            <!-- <table id="example" class="table table-striped table-bordered mt-3" > -->
+            <table id="example" class="table table-striped table-bordered">
+
 
                 <thead>
                     <tr>
@@ -75,8 +78,8 @@
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Offer</th>
-                        <!-- <th></th> -->
-                        <!-- <th></th> -->
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,24 +135,27 @@
                                 name="product">
 
                                 {%for product in products%}
-
-                                <option value="{{product.id}}">{{product.product_name | truncatewords:4}}
-                                </option>
+                                {%if product.product_name == offer.product.product_name%}
+                                <option value="{{offer.product.id}}"  selected>{{offer.product.product_name| truncatewords:4}}</option>
+                                {%else%}
+                                <option value="{{product.id}}">{{product.product_name | truncatewords:4}}</option>
+                                {%endif%}
+                                
                                 {%endfor%}
                             </select>
                         </div>
 
                         <div class="md-form mb-3">
-                            <label data-error="wrong" data-success="right" for="start">Start date</label>
-                            <input type="date" id="start" class="form-control" value="{{offer.start_date}}" name="start">
+                            <label data-error="wrong" data-success="right" for="start1">Start date</label>
+                            <input type="date" id="start1" class="form-control" value="2001-11-20" name="start" required>
                         </div>
                         <div class="md-form mb-3">
-                            <label data-error="wrong" data-success="right" for="end">End date</label>
-                            <input type="date" id="end" class="form-control" value="{{offer.end_date}}" name="end">
+                            <label data-error="wrong" data-success="right" for="end1">End date</label>
+                            <input type="date" id="end1" class="form-control" value="{{offer.end_date}}" name="end" required>
                         </div>
                         <div class="md-form  mt-3">
                             <label data-error="wrong" data-success="right" for="offer">Offer % </label>
-                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="50"
+                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="70"
                                 oninput="range_weight_disp.value = range_weight.value">
                             <output id="range_weight_disp"></output>
                         </div>
@@ -192,10 +198,10 @@
         
         <div class="col-6">
             <h3 class=" mt-5 pb-3" style="color: #4D0808; font-family:poppins;">Category offer management</h3>
-            <a  class="btn btn-sm text-left btn-outline-primary" data-toggle="modal"
+            <a  class="btn btn-sm text-left btn-outline-primary mb-3" data-toggle="modal"
             data-target="#modalForm2">Add offer</a>
 
-             <!-- add offer modal -->
+             <!-- add category offer modal -->
 
              <div class="modal fade" id="modalForm2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
              aria-hidden="true" style="left: 0%;top: 16%;">
@@ -216,6 +222,7 @@
                                      name="category">
 
                                      {%for category in category%}
+                                     
 
                                      <option value="{{category.id}}">{{category.category_name}}
                                      </option>
@@ -224,19 +231,21 @@
                              </div>
 
                              <div class="md-form mb-3">
-                                 <label data-error="wrong" data-success="right" for="start1">Start date</label>
-                                 <input type="date" id="start1" class="form-control" value="" name="start">
+                                 <label data-error="wrong" data-success="right" for="start2">Start date</label>
+                                 <input type="date" id="start2" class="form-control" value="" name="start" required>
                              </div>
                              <div class="md-form mb-3">
-                                 <label data-error="wrong" data-success="right" for="end1">End date</label>
-                                 <input type="date" id="end1" class="form-control" value="" name="end">
+                                 <label data-error="wrong" data-success="right" for="end2">End date</label>
+                                 <input type="date" id="end2" class="form-control" value="" name="end" required>
                              </div>
+                             
                              <div class="md-form  mt-3">
                                  <label data-error="wrong" data-success="right" for="offer">Offer % </label>
-                                 <input type="range" name="offer" id="range_weight" value="" min="1" max="30"
+                                 <input type="range" name="offer" id="range_weight" value="" min="1" max="70"
                                      oninput="range_weight_disp.value = range_weight.value">
                                  <output id="range_weight_disp"></output>
                              </div>
+                             
 
 
                          </div>
@@ -252,7 +261,9 @@
                          <!-- modal end -->
 
 
-            <table id="example" class="table table-striped table-bordered mt-3" >
+            <!-- <table id="example" class="table table-striped table-bordered mt-3" > -->
+            <table id="example2" class="table table-striped table-bordered">
+
 
                 <thead>
                     <tr>
@@ -260,6 +271,8 @@
                         <th scope="col">Start Date</th>
                         <th scope="col">End Date</th>
                         <th scope="col">Offer</th>
+                        <th></th>
+                        <th></th>
                         
                     </tr>
                 </thead>
@@ -314,24 +327,28 @@
                                 name="category">
 
                                 {%for category in category%}
+                                {%if category.category_name == offer.category.category_name%}
+                                <option value="{{offer.category.id}}"  selected>{{offer.category.category_name| truncatewords:4}}</option>
+                                {%else%}
 
                                 <option value="{{category.id}}">{{category.category_name}}
                                 </option>
+                                {%endif%}
                                 {%endfor%}
                             </select>
                         </div>
 
                         <div class="md-form mb-3">
-                            <label data-error="wrong" data-success="right" for="start1">Start date</label>
-                            <input type="date" id="start1" class="form-control" value="{{offer.start_date}}" name="start">
+                            <label data-error="wrong" data-success="right" for="start3">Start date</label>
+                            <input type="date" id="start3" class="form-control" value="{{offer.start_date}}" name="start" required>
                         </div>
                         <div class="md-form mb-3">
-                            <label data-error="wrong" data-success="right" for="end1">End date</label>
-                            <input type="date" id="end1" class="form-control" value="{{offer.end_date}}" name="end">
+                            <label data-error="wrong" data-success="right" for="end3">End date</label>
+                            <input type="date" id="end3" class="form-control" value="{{offer.end_date}}" name="end" required>
                         </div>
                         <div class="md-form  mt-3">
                             <label data-error="wrong" data-success="right" for="offer">Offer % </label>
-                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="30"
+                            <input type="range" name="offer" id="range_weight" value="{{offer.offer}}" min="1" max="70"
                                 oninput="range_weight_disp.value = range_weight.value">
                             <output id="range_weight_disp"></output>
                         </div>
@@ -365,16 +382,67 @@
     </div>
 </div>
 
+<!-- script to not choose  start date before today -->
+
+
+<script>
+    $(document).ready(function () {
+        let today = new Date()
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd;
+
+        $('#start').attr('min', today)
+        $('#start').change(function () {
+            let date = document.getElementById('start').value
+            $('#start').attr('min', date)
+        })
+
+        $('#start1').attr('min', today)
+        $('#start1').change(function () {
+            let date = document.getElementById('start1').value
+            $('#start1').attr('min', date)
+        })
+
+        $('#start2').attr('min', today)
+        $('#start2').change(function () {
+            let date = document.getElementById('start2').value
+            $('#start2').attr('min', date)
+        })
+
+        $('#start3').attr('min', today)
+        $('#start3').change(function () {
+            let date = document.getElementById('start3').value
+            $('#start3').attr('min', date)
+        })
+    })
+</script>
+
 <!-- script to not choose expiry date before start date  -->
 <script>
-
     $("#start").on("change", function () {
         $("#end").attr("min", $(this).val());
     });
+    
     $("#start1").on("change", function () {
         $("#end1").attr("min", $(this).val());
     });
 
+    $("#start2").on("change", function () {
+        $("#end2").attr("min", $(this).val());
+    });
+
+    $("#start3").on("change", function () {
+        $("#end3").attr("min", $(this).val());
+    });
 </script>
 
 
@@ -512,6 +580,22 @@
             });
     }
 </script>
+
+
+{%endblock%}
+{% block js %}
+
+      <script>
+        $(document).ready(function () {
+          $('#example').DataTable();
+      });
+      </script>
+      <script>
+        $(document).ready(function () {
+          $('#example2').DataTable();
+      });
+      </script>
+      
 
 
 {%endblock%}

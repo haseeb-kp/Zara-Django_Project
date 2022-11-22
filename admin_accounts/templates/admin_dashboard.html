@@ -172,30 +172,24 @@
                         </script>
                     
             </div>
-            
-        <!-- <div class="col-md-6 h-50 bg-light rounded mt-5 ml-5 p-4 " style="width:50%; height:200px;">
-            <h3 class="mt-3 fw-bold ms-3">Product - Stock chart</h3>
-            <hr>
-                    <canvas class="mt-3 " id="myChart1" width="400" height="200"></canvas>
-                    <script>
-                        var ctx = document.getElementById('myChart1').getContext('2d');
-                        var myChart1 = new Chart(ctx, {
-                            type: 'bar',
-                            data: { 
-                                labels: [{% for p in p %} '{{p.product_name}}', {% endfor %}],
-                                
-                            datasets: [{
-                            label: 'Stock',
-                            data: [{% for p in p %} '{{ p.stock }}', {% endfor %}],
-                            backgroundColor: [
-                                'rgba(255, 99, 132, 1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                                borderColor: [
+
+    
+        </div>
+        <div class="container d-flex">
+            <div class="col-md-6 h-50 bg-light rounded mt-4 p-4 " style="width:50%; height:200px;">
+                <h5 class="mt-3 fw-bold ms-3">Weekely chart</h5>
+                <hr>
+                        <canvas class="mt-3" id="myChart3" width="400" height="200"></canvas>
+                        <script>
+                            var ctx = document.getElementById('myChart3').getContext('2d');
+                            var myChart1 = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: [{% for i in weekly_sales %} '{{i.name}}', {% endfor %}],
+                                datasets: [{
+                                label: 'sales',
+                                data: [{% for i in weekly_sales %} '{{ i.value }}', {% endfor %}],
+                                backgroundColor: [
                                     'rgba(255, 99, 132, 1)',
                                     'rgba(54, 162, 235, 1)',
                                     'rgba(255, 206, 86, 1)',
@@ -203,26 +197,80 @@
                                     'rgba(153, 102, 255, 1)',
                                     'rgba(255, 159, 64, 1)'
                                 ],
-                                    borderWidth: 1
-                        }]
-                            },
-                        options: {
-                            scales: {
-                                yAxes: [{
-                                    ticks: {
-                                        beginAtZero: true
-                                    }
-                                }]
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                        borderWidth: 1
+                            }]
+                                },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
                             }
-                        }
-                        });
-                    </script>
-                
+                            });
+                        </script>
+                    
+            </div>
+            <div class="col-md-6 h-30 bg-light rounded mt-4 p-4 " >
+                <h5 class="mt-3 fw-bold ms-3">Order vs Payment Method</h5>
+                <hr>
+                        <canvas class="mt-3" id="myChart4" width="100" height="100"></canvas>
+                        <script>
+                            
+                            var ctx = document.getElementById('myChart4').getContext('2d');
+                            var myChart1 = new Chart(ctx, {
+                                type: 'doughnut',
+                                indexLabelPlacement: "outside",
+                                radius:  "100", 
+                                innerRadius: "50",
+                                data: {
+                                    labels: ['Paypal','RazorPay','Cash on Delivery'],
+                                datasets: [{
+                                label: 'sales',
+                                data: [{{PayPal}},{{Razorpay}},{{cash}}],
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                    borderColor: [
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(75, 192, 192, 1)',
+                                        'rgba(153, 102, 255, 1)',
+                                        'rgba(255, 159, 64, 1)'
+                                    ],
+                                        borderWidth: 1
+                            }]
+                                },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        ticks: {
+                                            beginAtZero: true
+                                        }
+                                    }]
+                                }
+                            }
+                            });
+                        </script>
+                    
+            </div>
         </div>
-    </div> -->
-
-    
-</div>
 {% endblock%}
 {% block js %}
 

@@ -52,8 +52,12 @@
                             <select required class="custom-select tm-select-accounts" id="category"onkeyup="validateCategory()" name="category">
                                 
                                 {%for category in category%}
+                                {%if category.category_name == product.category.category_name%}
+                                <option value="{{product.category.id}}"  selected>{{product.category.category_name}}</option>
+                                {%else%}
                                 
                                 <option value="{{category.id}}"  >{{category.category_name}}</option>
+                                {%endif%}
                                 {%endfor%}
                             </select>
                             <span id="category-error"></span>

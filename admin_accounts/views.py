@@ -8,6 +8,9 @@ from django.contrib.auth import get_user_model
 from cart.models import *
 from admin_products.models import *
 import math
+import datetime
+from django.utils import timezone
+from operator import countOf
 
 
 User = get_user_model()
@@ -40,17 +43,42 @@ def dashboard(request):
         for i in cart:
             order_count=order_count+1
             revenue = revenue+ i.total
-        product = Products.objects.all()
-        product_count =0
-        for i in product:
-            product_count = product_count+1
-        user_list=User.objects.exclude(username='admin')
-        user_count=0
-        for i in user_list:
-            user_count=user_count+1
+        product=Products.objects.all()
+        product_count = Products.objects.all().count()
+        
+
+        #user count
+        user_count=User.objects.exclude(username='admin').count()
+        
+
+        #payment method
+        paypal=Order.objects.filter(method='PayPal').count()
+        Razorpay=Order.objects.filter(method='Razorpay').count()
+        cash=Order.objects.filter(method='Cash on delivery').count()
+
+        
+
+        #weekely
+        ymax = timezone.now()
+        ymin = (timezone.now() - datetime.timedelta(days=7))
+        weekly = Order.objects.filter(ordered_date__lte=ymax, ordered_date__gte=ymin)
+        subw = timezone.now()
+        n = 7
+        b = []
+        for i in range(7):
+            k = 0
+            for i in weekly:
+                if i.ordered_date <= subw and i.ordered_date >= (subw - datetime.timedelta(days=1)):
+                    k += 1
+            b.append({'name': 'day' + str(n), 'value': k})
+            n -= 1
+            subw = subw - datetime.timedelta(days=1)
+        weekly_sales = list(reversed(b))
+        print(weekly_sales)
+
         return render(request,'admin_dashboard.html',
-        {'revenue':revenue,'order_count':order_count,'product':product,'cart':cart,
-        'product_count':product_count,'user_count':user_count})
+        {'revenue':revenue,'order_count':order_count,'product':product,'cart':cart,'PayPal':paypal,'Razorpay':Razorpay,
+        'cash':cash,'product_count':product_count,'user_count':user_count,'weekly_sales':weekly_sales})
     else: 
         return redirect('admin_login')
 
@@ -61,6 +89,7 @@ def admin_logout(request):
 
 def offers(request):
     product_offers = productOffer.objects.all()
+    print(product_offers)
     category_offers = categoryOffer.objects.all()
     products = Products.objects.all()
     category = Category.objects.all()

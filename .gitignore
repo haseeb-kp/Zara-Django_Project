@@ -1,5 +1,3 @@
 *.env
-static/
-media/
 *.temp
 .temp

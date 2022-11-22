@@ -81,16 +81,16 @@ def user_login(request):
 
 def user_signup(request) :
     if request.method=='POST':
-        global new_name
-        global new_username
-        global new_email
-        global new_phone_number
-        global new_pass2
 
         new_name=request.POST['name']
         new_username=request.POST['username']
         new_email=request.POST['email']
         new_phone_number=request.POST['phone_number']
+        if '+91' in new_phone_number:
+            print("+91 in phone number")
+        else:
+            new_phone_number = '+91'+new_phone_number
+            print("new number = ",new_phone_number)
         new_pass1=request.POST['pass1']
         new_pass2=request.POST['pass2']
         
@@ -109,7 +109,9 @@ def user_signup(request) :
                 
                 otp=123456
                 message_handler = MessageHandler(new_phone_number,otp).sent_otp_on_phone()
-                return render(request,'signup_otp_validate.html')        
+                return render(request,'signup_otp_validate.html',{'new_name':new_name,
+                    'new_username':new_username,'new_email':new_email,
+                    'new_phone_number':new_phone_number,'new_pass2':new_pass2})        
         else:
             messages.error(request, 'Password not matching')
             return redirect('user_signup')
@@ -120,9 +122,19 @@ def user_signup(request) :
 
 def signup_otp_validate(request):
     if request.method=='POST':
+        new_name=request.POST['name']
+        new_username=request.POST['username']
+        new_email=request.POST['email']
+        new_phone_number=request.POST['phone_number']
+        if '+91' in new_phone_number:
+            print("+91 in phone number")
+        else:
+            new_phone_number = '+91'+new_phone_number
+            print("new number = ",new_phone_number)
+        new_pass2=request.POST['pass2']
         otp1= int(request.POST['otp'])
-        validate = MessageHandler(new_phone_number,otp1).validate()
         print("new=",new_phone_number)
+        validate = MessageHandler(new_phone_number,otp1).validate()
         print("validate=",validate)
         if validate=="approved":
             
@@ -265,17 +277,18 @@ def number_check(request):
         return redirect('login_home')
     if request.method=='POST':
         
-        global phone 
+        
         phone=request.POST['phone_number']
         otp=123456
         message_handler = MessageHandler(phone,otp).sent_otp_on_phone()
-        return redirect('otp_validate')
+        return render(request,'otp_validate.html',{'phone':phone})
     return render(request,'otp_login.html')
 
 def otp_validate(request):
     if request.user.is_authenticated:
         return redirect('login_home')
     if request.method=='POST':
+        phone=request.POST['phone']
         otp1= int(request.POST['otp'])
         validate = MessageHandler(phone,otp1).validate()
         print("validate=",validate)
@@ -295,7 +308,6 @@ def otp_validate(request):
         messages.error(request, 'Wrong Credentials')
         return redirect('otp_validate')
         
-    return render(request,'otp_validate.html')
 
 
 def product_details(request,id):
