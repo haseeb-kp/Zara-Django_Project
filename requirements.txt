@@ -2,13 +2,11 @@ arabic-reshaper==2.1.4
 asgiref==3.4.1
 certifi==2022.9.24
 charset-normalizer==2.0.12
-dataclasses==0.8
 Django==3.2.16
 django-shopping-cart==0.1
 future==0.18.2
 html5lib==1.1
 idna==3.4
-mysqlclient==2.1.1
 Pillow==8.4.0
 PyJWT==2.4.0
 PyPDF2==2.11.1
