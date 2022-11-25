@@ -307,6 +307,7 @@ def otp_validate(request):
         
         messages.error(request, 'Wrong Credentials')
         return redirect('otp_validate')
+    return render(request,'otp_validate.html')
         
 
 
@@ -325,12 +326,13 @@ def profile(request):
         return render(request,'profile.html',{'address':address,'orders':orders,'oldcart':oldCart})
     return redirect('user_login')
 
-def login_resend(request):
+def login_resend(request,phone):
     otp=123456
     message_handler = MessageHandler(phone,otp).sent_otp_on_phone()
     return redirect('otp_validate')
 
-def signup_resend(request):
+def signup_resend(request,new_phone_number):
+    print("signup resend number = ",new_phone_number)
     otp=123456
     message_handler = MessageHandler(new_phone_number,otp).sent_otp_on_phone()
     return redirect('signup_otp_validate')

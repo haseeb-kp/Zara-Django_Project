@@ -28,7 +28,7 @@ AUTH_TOKEN = config('AUTH_TOKEN')
 SECRET_KEY = 'django-insecure-e!-0vxnpax#vq5u!=bavfjx_i8&wi--_iw5o0o6ztzr(k-8^xa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

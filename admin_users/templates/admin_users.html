@@ -19,11 +19,11 @@
       </tr>
     </thead>
     <tbody>
-
+      
       {%for user in user_list%}
 
 
-
+      {%if user.is_superuser is False%}
       <tr>
         <td>{{user.username}}</td>
         <td>{{user.first_name}}</td>
@@ -45,6 +45,7 @@
 
         </td>
       </tr>
+      {%endif%}
 
 
 
