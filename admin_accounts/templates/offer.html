@@ -39,7 +39,7 @@
 
                                 <div class="md-form mb-3">
                                     <label data-error="wrong" data-success="right" for="start">Start date</label>
-                                    <input type="date" id="start" class="form-control" value="" name="start">
+                                    <input type="date" id="start" class="form-control" value="{{offer.start_date | date:"Y-m-d" }}" name="start">
                                 </div>
                                 <div class="md-form mb-3">
                                     <label data-error="wrong" data-success="right" for="end">End date</label>
@@ -147,7 +147,7 @@
 
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="start1">Start date</label>
-                            <input type="date" id="start1" class="form-control" value="2001-11-20" name="start" required>
+                            <input type="date" id="start1" class="form-control" value="{{offer.start_date |date:"Y-m-d" }}" name="start" required>
                         </div>
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="end1">End date</label>
@@ -387,6 +387,7 @@
 
 <script>
     $(document).ready(function () {
+        console.log("offer check")
         let today = new Date()
         var dd = today.getDate();
         var mm = today.getMonth() + 1;
@@ -399,6 +400,7 @@
             mm = '0' + mm;
         }
         today = yyyy + '-' + mm + '-' + dd;
+
 
         $('#start').attr('min', today)
         $('#start').change(function () {

@@ -89,11 +89,19 @@
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-
-
-							<li>
-								<a href="#dry_fruits">Dry Fruits</a>
+							<li class="active-menu">
+								<a >Dry Fruits</a>
+								<ul class="sub-menu">
+									{% for c in cat %}
+									<li><a href="/products/{{c.id}}">{{c.category_name}}</a></li>
+									{%endfor%}
+								</ul>
 							</li>
+
+
+							<!-- <li>
+								<a href="#dry_fruits">Dry Fruits</a>
+							</li> -->
 
 
 							<li>
@@ -193,7 +201,7 @@
 			<!-- Logo moblie -->
 			<div class="logo-mobile">
 				<a href="/home">
-					<h4 class="font-weight-bolder ml-5 mt-1"  style="color: #4D0808; font-family:poppins">ZARA</h4>
+					<h4 class="font-weight-bolder ml-3 mt-1"  style="color: #4D0808; font-family:poppins">ZARA</h4>
 				</a>
 			</div>
 

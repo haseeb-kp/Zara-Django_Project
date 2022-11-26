@@ -29,6 +29,8 @@ PRODUCTS_PER_PAGE = 4
 User = get_user_model()
 
 
+
+
 def index(request):
     return redirect('home')
 
@@ -175,8 +177,9 @@ def home(request):
     # request.session.create()
     # print(request.session.session_key)
     x = ["Hampers","Others"]
+    cat = Category.objects.exclude(category_name__in = x)
     category = Category.objects.exclude(category_name__in = x)
-    return render(request,'home.html',{'category':category})
+    return render(request,'home.html',{'category':category,'cat':cat})
 
 
 @never_cache
@@ -184,14 +187,17 @@ def home(request):
 def login_home(request):
     if request.user.is_authenticated:
         x = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = x)
         category = Category.objects.exclude(category_name__in = x)
-        return render(request,'home.html',{'category':category})
+        return render(request,'home.html',{'category':category,'cat':cat})
     return redirect('user_login')
 
 def hampers(request):
     # if not request.user.is_authenticated and not request.session.session_key:
     #         request.session.create()
     #         print("hamper",request.session.session_key)
+    x = ["Hampers","Others"]
+    cat = Category.objects.exclude(category_name__in = x)
     category = Category.objects.get(category_name="Hampers")
     product = Products.objects.filter(category=category).all()
     if request.user.is_authenticated:
@@ -202,11 +208,13 @@ def hampers(request):
     else:
         wishlist={}
         wishlistItems={}
-    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems})
+    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems,'cat':cat})
 
 def others(request):
     category = Category.objects.get(category_name="Others")
     product = Products.objects.filter(category = category).all()
+    x = ["Hampers","Others"]
+    cat = Category.objects.exclude(category_name__in = x)
     if request.user.is_authenticated:
         wishlist = Wishlist.objects.filter(user=request.user)
         wishlistItems=[]
@@ -215,7 +223,7 @@ def others(request):
     else:
         wishlist={}
         wishlistItems={}
-    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems})
+    return render(request,'products.html',{'product':product,'category':category,'wishlistItems':wishlistItems,'cat':cat})
 
     
 
@@ -229,6 +237,8 @@ def user_logout(request):
 
 def products(request,id):
     # request.session.create()
+    x = ["Hampers","Others"]
+    cat = Category.objects.exclude(category_name__in = x)
     category=Category.objects.get(id=id)
     product = Products.objects.filter(category=category).all()
     price = request.GET.get('price', "")
@@ -265,7 +275,7 @@ def products(request,id):
 
     return render(request, "products.html", {"product":product,'category':category,
          'page_obj':product, 'is_paginated':True,
-          'paginator':product_paginator,'wishlistItems':wishlistItems})
+          'paginator':product_paginator,'wishlistItems':wishlistItems,'cat':cat})
 
 
     
@@ -279,6 +289,10 @@ def number_check(request):
         
         
         phone=request.POST['phone_number']
+        if '+91' in phone:
+            print("+91 in phone number")
+        else:
+            phone = '+91'+phone
         otp=123456
         message_handler = MessageHandler(phone,otp).sent_otp_on_phone()
         return render(request,'otp_validate.html',{'phone':phone})
@@ -312,18 +326,22 @@ def otp_validate(request):
 
 
 def product_details(request,id):
+    x = ["Hampers","Others"]
+    cat = Category.objects.exclude(category_name__in = x)
     product = Products.objects.get(id=id)
     print(product)
 
-    return render(request,'product_details.html',{'product':product})
+    return render(request,'product_details.html',{'product':product,'cat':cat})
 
 def profile(request):
     if request.user.is_authenticated:
+        x = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = x)
         address = Address.objects.filter(user = request.user).all()
         orders= Order.objects.filter(user = request.user).all()
         oldcart=OldCart.objects.filter(user = request.user).all()
         oldCart = reversed(list(oldcart))
-        return render(request,'profile.html',{'address':address,'orders':orders,'oldcart':oldCart})
+        return render(request,'profile.html',{'address':address,'orders':orders,'oldcart':oldCart,'cat':cat})
     return redirect('user_login')
 
 def login_resend(request,phone):

@@ -193,6 +193,7 @@ def removecart(request,id):
 
 def checkout(request):
     if request.method == 'POST' and 'address_id' in request.POST:
+        
         address_id = request.POST['address_id']
         payment = request.POST['payment_selector']
         user= request.user
@@ -238,6 +239,8 @@ def checkout(request):
         messages.error(request,"Order Placed")
         return redirect('profile')
     elif request.method =='POST' and 'code' in request.POST:
+        y = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = y)
         code=request.POST['code']
         
         user = request.user
@@ -272,7 +275,7 @@ def checkout(request):
             print(coupon)
         except:
             messages.error(request,"Invalid Coupon Code")
-            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address,'cat':cat})
         
         if coupon.is_active:
             if total<coupon.min_amount:
@@ -284,10 +287,12 @@ def checkout(request):
         else:
             messages.error(request,"Coupon Expired")
 
-        return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+        return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address,'cat':cat})
         
 
     elif request.user.is_authenticated and request.user.is_active:
+        y = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = y)
         user = request.user
         cart = Cart.objects.filter(user=user)
         if len(cart)!=0:
@@ -315,7 +320,7 @@ def checkout(request):
                     x = i.product.p_offer_price*i.quantity
                     subtotal = subtotal+x
             total = subtotal
-            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address})
+            return render(request, 'checkout.html', {'subtotal': subtotal, 'total': total, 'address': address,'cat':cat})
         messages.error(request, 'Cart is empty')
         return redirect('cart')
     else:
@@ -345,9 +350,11 @@ def order(request):
 
 def wishlist(request):
     if request.user.is_authenticated:
+        x = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = x)
         user=request.user
         wishlist = Wishlist.objects.filter(user=request.user)
-        return render(request,'wishlist.html',{'wishlist':wishlist})
+        return render(request,'wishlist.html',{'wishlist':wishlist,'cat':cat})
     return redirect('user_login')
 
 def addToWishlist(request):
