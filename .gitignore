@@ -1,4 +1,3 @@
 *.env
-*.temp
-.temp
-*.settings.py
+temp.py
+settings.py
