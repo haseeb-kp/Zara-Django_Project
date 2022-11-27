@@ -13,14 +13,16 @@ def cart(request):
     if request.user.is_authenticated and request.user.is_active:
         user = request.user
         cart = Cart.objects.filter(user=user)
+        cart_count = Cart.objects.filter(user=user).count()
+        print(cart_count)
+        
 
-        for i in cart:
+        # for i in cart:
 
-            if i.quantity <= 0:
-                i.delete()
+        #     if i.quantity <= 0:
+        #         i.delete()
         if len(cart) == 0:
-            empty = "Cart is Empty"
-            return render(request, 'cart.html', {'empty': empty})
+            return render(request,'cart.html',{'cart_count':cart_count})
         else:
             subtotal = 0
             for i in cart:
@@ -44,7 +46,7 @@ def cart(request):
                     subtotal = subtotal+x
             shipping = 0
             total = subtotal + shipping
-            return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total})
+            return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count})
     else:
         if not request.session.session_key:
             request.session.create()
@@ -52,13 +54,14 @@ def cart(request):
         key = request.session['guest_key']
         print(request.session.session_key)
         cart = guestCart.objects.filter(user_ref=request.session.session_key)
+        cart_count = guestCart.objects.filter(user_ref=request.session.session_key).count()
         subtotal = 0
         for i in cart:
             x = i.product.price*i.quantity
             subtotal = subtotal+x
         shipping = 0
         total = subtotal + shipping
-        return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total})
+        return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count})
         
 
 def minus(request,id):
