@@ -78,7 +78,7 @@
                 </div>
             </div>
                             <!-- modal end -->
-            {% if p_offer_count < 1 %}
+            {% if coupon_count < 1 %}
             <p class="text-center "> NO DATA FOUND</p>
             {%else%}
 
@@ -257,7 +257,7 @@
         mm = '0' + mm;
       }
       today = yyyy + '-' + mm + '-' + dd;
-      start = document.getElementById('start1'+id).value
+      start = document.getElementById('start'+id).value
       console.log(start)
       dd = new Date(start).getDate() + 1;
       mm = new Date(start).getMonth() + 1;
@@ -269,11 +269,11 @@
       }
       yyyy = new Date(start).getFullYear();
       date = yyyy + '-' + mm + '-' + dd;
-      document.getElementById('start1'+id).setAttribute("min", today);
+      document.getElementById('start'+id).setAttribute("min", today);
     }
     function changeEnd(id) {
-      start = document.getElementById('start1'+id).value
-      document.getElementById('end1'+id).setAttribute("min", start);
+      start = document.getElementById('start'+id).value
+      document.getElementById('end'+id).setAttribute("min", start);
       return true;
     }
     
