@@ -25,7 +25,7 @@ from xhtml2pdf import pisa
 from django.http import FileResponse
 
 
-PRODUCTS_PER_PAGE = 4
+PRODUCTS_PER_PAGE = 12
 User = get_user_model()
 
 
@@ -140,7 +140,7 @@ def signup_otp_validate(request):
         print("validate=",validate)
         if validate=="approved":
             
-            user=User.objects.create_user(username=new_username,password=new_pass2,email=new_email,first_name=new_name,phone_number=new_phone_number)
+            user=User.objects.create_user(first_name=new_name,username=new_username,password=new_pass2,email=new_email,phone_number=new_phone_number)
             user.save()
             if 'guest_key' in request.session:
                 p = request.session['guest_key']
@@ -166,7 +166,9 @@ def signup_otp_validate(request):
             return redirect('user_login')
         else :
             messages.error(request, 'Wrong Credentials')
-            return redirect('signup_otp_validate')
+            return render(request,'signup_otp_validate.html',{'new_name':new_name,
+                    'new_username':new_username,'new_email':new_email,
+                    'new_phone_number':new_phone_number,'new_pass2':new_pass2}) 
 
     return render(request,'signup_otp_validate.html')
 
@@ -174,6 +176,8 @@ def signup_otp_validate(request):
 def home(request):
     if request.user.is_authenticated:
         return redirect('login_home')
+    if not request.session.session_key:
+        request.session.create()
     # request.session.create()
     # print(request.session.session_key)
     x = ["Hampers","Others"]
@@ -303,6 +307,7 @@ def otp_validate(request):
         return redirect('login_home')
     if request.method=='POST':
         phone=request.POST['phone']
+        print(phone)
         otp1= int(request.POST['otp'])
         validate = MessageHandler(phone,otp1).validate()
         print("validate=",validate)
@@ -310,7 +315,7 @@ def otp_validate(request):
             user = User.objects.get(phone_number=phone)
             if user==None:
                 messages.error(request, 'Wrong Credentials')
-                return redirect('number_check')
+                return render(request,'otp_validate.html',{'phone':phone})
             login(request,user)
             # user=CustomBackend.authenticate(request,phone_number=phone)
             # auth.login(request,user,backend='django.contrib.auth.backends.ModelBackend')
@@ -320,7 +325,7 @@ def otp_validate(request):
             return redirect('login_home')
         
         messages.error(request, 'Wrong Credentials')
-        return redirect('otp_validate')
+        return render(request,'otp_validate.html',{'phone':phone})
     return render(request,'otp_validate.html')
         
 

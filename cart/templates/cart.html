@@ -215,28 +215,7 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        //var x=document.getElementById('#{{cart.id}}').html();
-        //console.log(x)
-        
-        /*if ($('#{{cart.id}}').val() == 1) {
-            
-            $("#myBtn").attr("disabled", true);
-        }*/
-        if ($('.qtyCheck').val() == undefined) {
 
-            console.log("undefined")
-            
-            $("#check").attr("aria-disabled", true).hide();
-            /*$("#check").css( "background-color", "grey");*/
-        }else{
-            console.log("else is working")
-            $("#check").attr("disabled", false).show();
-        }
-        
-    });
-</script>
 
 
 
@@ -289,7 +268,6 @@
                 }
                 else{
                     document.getElementById("myBtn"+id).disabled = true;
-                    location.reload();
                 }
             }
         });

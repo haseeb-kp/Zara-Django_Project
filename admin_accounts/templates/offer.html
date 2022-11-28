@@ -39,11 +39,11 @@
 
                                 <div class="md-form mb-3">
                                     <label data-error="wrong" data-success="right" for="start">Start date</label>
-                                    <input type="date" id="start" class="form-control" value="{{offer.start_date | date:"Y-m-d" }}" name="start">
+                                    <input  type="date" id="start" class="form-control" value="{{offer.start_date | date:"Y-m-d" }}" name="start" required>
                                 </div>
                                 <div class="md-form mb-3">
                                     <label data-error="wrong" data-success="right" for="end">End date</label>
-                                    <input type="date" id="end" class="form-control" value="" name="end">
+                                    <input type="date" id="end" class="form-control" value="{{offer.end_date | date:"Y-m-d" }}" name="end" required>
                                 </div>
                                 <div class="md-form  mt-3">
                                     <label data-error="wrong" data-success="right" for="offer">Offer % </label>
@@ -67,6 +67,9 @@
                     </div>
                 </div>
             </div>
+            {% if p_offer_count < 1 %}
+            <p class="text-center "> NO DATA FOUND</p>
+            {%else%}
 
             <!-- <table id="example" class="table table-striped table-bordered mt-3" > -->
             <table id="example" class="table table-striped table-bordered">
@@ -147,11 +150,13 @@
 
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="start1">Start date</label>
-                            <input type="date" id="start1" class="form-control" value="{{offer.start_date |date:"Y-m-d" }}" name="start" required>
+                            <input type="date" id="start1{{offer.id}}" onclick="changeStart({{offer.id}})"  class="form-control" value="{{offer.start_date |date:"Y-m-d" }}" name="start">
                         </div>
+					    <small id="date-error"  ></small>
+
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="end1">End date</label>
-                            <input type="date" id="end1" class="form-control" value="{{offer.end_date}}" name="end" required>
+                            <input type="date" id="end1{{offer.id}}" onclick="changeEnd({{offer.id}})" class="form-control" value="{{offer.end_date |date:"Y-m-d"}}" name="end" required>
                         </div>
                         <div class="md-form  mt-3">
                             <label data-error="wrong" data-success="right" for="offer">Offer % </label>
@@ -186,6 +191,7 @@
 
                 </tbody>
             </table>
+            {%endif%}
 
             
 
@@ -232,11 +238,11 @@
 
                              <div class="md-form mb-3">
                                  <label data-error="wrong" data-success="right" for="start2">Start date</label>
-                                 <input type="date" id="start2" class="form-control" value="" name="start" required>
+                                 <input type="date" id="start2" class="form-control" value="{{offer.start_date |date:"Y-m-d" }}" name="start" required>
                              </div>
                              <div class="md-form mb-3">
                                  <label data-error="wrong" data-success="right" for="end2">End date</label>
-                                 <input type="date" id="end2" class="form-control" value="" name="end" required>
+                                 <input type="date" id="end2" class="form-control" value="{{offer.end_date |date:"Y-m-d" }}" name="end" required>
                              </div>
                              
                              <div class="md-form  mt-3">
@@ -261,7 +267,9 @@
                          <!-- modal end -->
 
 
-            <!-- <table id="example" class="table table-striped table-bordered mt-3" > -->
+            {% if c_offer_count < 1 %}
+            <p class="text-center "> NO DATA FOUND</p>
+            {%else%}
             <table id="example2" class="table table-striped table-bordered">
 
 
@@ -340,11 +348,11 @@
 
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="start3">Start date</label>
-                            <input type="date" id="start3" class="form-control" value="{{offer.start_date}}" name="start" required>
+                            <input type="date" id="start3{{offer.id}}" onclick="changeStart1({{offer.id}})" class="form-control" value="{{offer.start_date |date:"Y-m-d"}}" name="start" required>
                         </div>
                         <div class="md-form mb-3">
                             <label data-error="wrong" data-success="right" for="end3">End date</label>
-                            <input type="date" id="end3" class="form-control" value="{{offer.end_date}}" name="end" required>
+                            <input type="date" id="end3{{offer.id}}" onclick="changeEnd1({{offer.id}})" class="form-control" value="{{offer.end_date |date:"Y-m-d"}}" name="end" required>
                         </div>
                         <div class="md-form  mt-3">
                             <label data-error="wrong" data-success="right" for="offer">Offer % </label>
@@ -376,12 +384,30 @@
 
                 </tbody>
             </table>
+            {%endif%}
 
 
         </div>
     </div>
 </div>
+<!-- script to not choose expiry date before start date  -->
+<script>
+    $("#start").on("change", function () {
+        $("#end").attr("min", $(this).val());
+    });
+    
+    /*$("#start1").on("change", function () {
+        $("#end1").attr("min", $(this).val());
+    });*/
 
+    $("#start2").on("change", function () {
+        $("#end2").attr("min", $(this).val());
+    });
+
+    /*$("#start3").on("change", function () {
+        $("#end3").attr("min", $(this).val());
+    });*/
+</script>
 <!-- script to not choose  start date before today -->
 
 
@@ -408,11 +434,7 @@
             $('#start').attr('min', date)
         })
 
-        $('#start1').attr('min', today)
-        $('#start1').change(function () {
-            let date = document.getElementById('start1').value
-            $('#start1').attr('min', date)
-        })
+        
 
         $('#start2').attr('min', today)
         $('#start2').change(function () {
@@ -420,34 +442,13 @@
             $('#start2').attr('min', date)
         })
 
-        $('#start3').attr('min', today)
-        $('#start3').change(function () {
-            let date = document.getElementById('start3').value
-            $('#start3').attr('min', date)
-        })
+        
     })
 </script>
 
-<!-- script to not choose expiry date before start date  -->
-<script>
-    $("#start").on("change", function () {
-        $("#end").attr("min", $(this).val());
-    });
-    
-    $("#start1").on("change", function () {
-        $("#end1").attr("min", $(this).val());
-    });
-
-    $("#start2").on("change", function () {
-        $("#end2").attr("min", $(this).val());
-    });
-
-    $("#start3").on("change", function () {
-        $("#end3").attr("min", $(this).val());
-    });
-</script>
 
 
+<!-- sweetalert -->
 <script>
     function p_off_block(event) {
         event.preventDefault();
@@ -586,17 +587,146 @@
 
 {%endblock%}
 {% block js %}
+    <!-- data table -->
+      <script>
+        $(document).ready(function () {
+          $('#example').DataTable({
+            "lengthChange":false,
+          });
+      });
+      </script>
+      <script>
+        $(document).ready(function () {
+          $('#example2').DataTable({
+            "lengthChange":false,
+          });
+      });
+      </script>
 
+
+      <!-- date validation product offer Modal -->
       <script>
-        $(document).ready(function () {
-          $('#example').DataTable();
-      });
+        
+          function changeStart(id) {
+            let today = new Date()
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+            if (dd < 10) {
+              dd = '0' + dd;
+            }
+            if (mm < 10) {
+              mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+            start = document.getElementById('start1'+id).value
+            console.log(start)
+            dd = new Date(start).getDate() + 1;
+            mm = new Date(start).getMonth() + 1;
+            if (dd < 10) {
+              dd = '0' + dd;
+            }
+            if (mm < 10) {
+              mm = '0' + mm;
+            }
+            yyyy = new Date(start).getFullYear();
+            date = yyyy + '-' + mm + '-' + dd;
+            document.getElementById('start1'+id).setAttribute("min", today);
+          }
+          function changeEnd(id) {
+            start = document.getElementById('start1'+id).value
+            document.getElementById('end1'+id).setAttribute("min", start);
+            return true;
+          }
+          
+
       </script>
+
+      <!-- date validation category offer Modal -->
       <script>
-        $(document).ready(function () {
-          $('#example2').DataTable();
-      });
-      </script>
+        
+        function changeStart1(id) {
+          let today = new Date()
+          var dd = today.getDate();
+          var mm = today.getMonth() + 1;
+          var yyyy = today.getFullYear();
+          if (dd < 10) {
+            dd = '0' + dd;
+          }
+          if (mm < 10) {
+            mm = '0' + mm;
+          }
+          today = yyyy + '-' + mm + '-' + dd;
+          start = document.getElementById('start3'+id).value
+          console.log(start)
+          dd = new Date(start).getDate() + 1;
+          mm = new Date(start).getMonth() + 1;
+          if (dd < 10) {
+            dd = '0' + dd;
+          }
+          if (mm < 10) {
+            mm = '0' + mm;
+          }
+          yyyy = new Date(start).getFullYear();
+          date = yyyy + '-' + mm + '-' + dd;
+          document.getElementById('start3'+id).setAttribute("min", today);
+        }
+        function changeEnd1(id) {
+          start = document.getElementById('start3'+id).value
+          document.getElementById('end3'+id).setAttribute("min", start);
+          return true;
+        }
+        
+
+    </script>
+
+      <!-- validation -->
+      <!-- <script>
+        var dateError = document.getElementById('date-error');
+
+        
+        
+    
+
+        function validateDate() {
+            var d_reg = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+            var date=document.getElementById('start1');
+            if (d_reg.test(date)) {
+            console.log("");}
+            else{
+            console.log("Invalid date format");
+            }
+            var invalid = date.value == 'Select date'
+        
+            if (invalid) {
+                dateError.innerHTML='Choose start date';
+                dateError.style.color='red'
+                return false;
+                }
+        
+            dateError.innerHTML='date is valid';
+            dateError.style.color='white'
+            return true;
+        }
+        jQuery_1_7_1(document).on("submit", "form", function (e) {
+            validateDate()
+            
+            if (validateDate()  ) {
+               
+            } else {
+                e.preventDefault();
+                swal('Invalid data! Ensure You have entered correct data');
+                return true;
+            }
+        });
+        
+
+        
+
+        
+
+        
+    </script> -->
       
 
 

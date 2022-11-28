@@ -15,6 +15,8 @@ def cart(request):
         cart = Cart.objects.filter(user=user)
         cart_count = Cart.objects.filter(user=user).count()
         print(cart_count)
+        y = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = y)
         
 
         # for i in cart:
@@ -46,7 +48,7 @@ def cart(request):
                     subtotal = subtotal+x
             shipping = 0
             total = subtotal + shipping
-            return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count})
+            return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count,'cat':cat})
     else:
         if not request.session.session_key:
             request.session.create()
@@ -55,13 +57,15 @@ def cart(request):
         print(request.session.session_key)
         cart = guestCart.objects.filter(user_ref=request.session.session_key)
         cart_count = guestCart.objects.filter(user_ref=request.session.session_key).count()
+        y = ["Hampers","Others"]
+        cat = Category.objects.exclude(category_name__in = y)
         subtotal = 0
         for i in cart:
             x = i.product.price*i.quantity
             subtotal = subtotal+x
         shipping = 0
         total = subtotal + shipping
-        return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count})
+        return render(request, 'cart.html', {'cart': cart, 'subtotal': subtotal, 'total': total,'cart_count':cart_count,'cat':cat})
         
 
 def minus(request,id):
@@ -118,7 +122,8 @@ def up(request,id):
             subtotal = subtotal+x
         shipping = 0
         total = subtotal + shipping
-        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal})
+        stock=cart.product.quantity
+        return JsonResponse({'qty': qty,'total':total,'subtotal':subtotal,'stock':stock})
 
 
 #add to cart using ajax
@@ -142,7 +147,7 @@ def addtocart(request,id):
         product = Products.objects.get(id=id)
         
         # uid = request.user
-        if guestCart.objects.filter(product=id).exists():
+        if guestCart.objects.filter(product=id,user_ref=request.session.session_key).exists():
             print("exists")
             cart = guestCart.objects.get(product=id,user_ref=request.session.session_key)
             cart.quantity = cart.quantity+1

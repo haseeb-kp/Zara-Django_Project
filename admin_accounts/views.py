@@ -91,10 +91,12 @@ def offers(request):
     product_offers = productOffer.objects.all()
     print(product_offers)
     category_offers = categoryOffer.objects.all()
+    p_offer_count = productOffer.objects.all().count()
+    c_offer_count = categoryOffer.objects.all().count()
     products = Products.objects.all()
     category = Category.objects.all()
     return render(request,"offer.html",{'products':products,'category':category,
-        'product_offers':product_offers,'category_offers':category_offers})
+        'product_offers':product_offers,'category_offers':category_offers,'p_offer_count':p_offer_count,'c_offer_count':c_offer_count})
 
 
 
@@ -175,7 +177,8 @@ def category_offer_remove(request,id):
 
 def coupon(request):
     coupons=Coupon.objects.all()
-    return render(request,"coupon.html",{'coupons':coupons})
+    coupon_count=Coupon.objects.all().count()
+    return render(request,"coupon.html",{'coupons':coupons,'coupon_count':coupon_count})
 
 def add_coupon(request):
     

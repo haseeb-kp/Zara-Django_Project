@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Otp Page</title>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript">
     var jQuery_1_7_1 = $.noConflict(true);
     </script>
@@ -126,11 +126,16 @@
   
   function validatePhonenumber(){
     var phonenumber = document.getElementById('phonenumber').value.trim();
-    var num = phonenumber.replace(/[^\d]/g, '');
-    console.log(num)
+    //var num = phonenumber.replace(/[^\d]/g, '');
+    console.log(phonenumber)
     
-    if (num.length==0) {
+    if (phonenumber.length==0) {
       phonenumberError.innerHTML='Otp is Required';
+      phonenumberError.style.color='red'
+      return false;
+    }
+    if (!/^[0-9]+$/.test(phonenumber)) {
+      phonenumberError.innerHTML = "Otp must be digits";
       phonenumberError.style.color='red'
       return false;
     }
