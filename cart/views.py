@@ -200,6 +200,9 @@ def removecart(request,id):
         return redirect('cart')
 
 def checkout(request):
+    if request.method == 'POST' and 'address_id' not in request.POST and 'code' not in request.POST:
+        messages.error(request,"Add Address")
+        return redirect('checkout')
     if request.method == 'POST' and 'address_id' in request.POST:
         
         address_id = request.POST['address_id']

@@ -232,6 +232,14 @@
               //var amount = $('#grand_total').val()
               //var cart = $('#cart').val()
               var address = $('#address_id').val()
+              if (address == undefined){
+                swal('Add address').then(()=>{
+                            location.reload();
+                            })
+        
+              }
+              else{
+
               console.log("----------------------")
               console.log(address)
               
@@ -261,8 +269,10 @@
                  
                 }
               })
+            }
               
             });
+            
           }
         }).render('#paypal-button-container');
           
@@ -270,39 +280,6 @@
               swal("Already Applied", "You have already applied the code", "error");
           }
         </script>
-    <!-- <script>
-        paypal.Buttons({
-            style:{
-                layout: 'vertical',
-                color: 'black',
-                shape:'pill',
-            },
-            
-          // Sets up the transaction when a payment button is clicked
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [{
-                amount: {
-                  value: '{{total}}' // Can also reference a variable or function
-                }
-              }]
-            });
-          },
-          // Finalize the transaction after payer approval
-          onApprove: (data, actions) => {
-            return actions.order.capture().then(function(orderData) {
-              // Successful capture! For dev/demo purposes:
-              //console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-              //const transaction = orderData.purchase_units[0].payments.captures[0];
-              //alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
-              // When ready to go live, remove the alert and show a success message within this page. For example:
-              // const element = document.getElementById('paypal-button-container');
-              // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-              // Or go to another URL:  actions.redirect('thank_you.html');
-            });
-          }
-        }).render('#paypal-button-container');
-      </script> -->
 
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -310,6 +287,13 @@
   $(document).ready(function() {
     $('#rzp-button1').click(function (e) { 
       var address = $('#address_id').val()
+      if (address == undefined){
+        swal('Add address').then(()=>{
+                    location.reload();
+                    })
+
+      }
+      else{
       var payment = "Razorpay"
       var token = $("input[name='csrfmiddlewaretoken']").val()
       e.preventDefault();
@@ -368,9 +352,12 @@
                 var rzp1 = new Razorpay(options);
                 rzp1.open();
             }
+          
         });
+      }
     });
 });
+
 </script>
 
 {% endblock%}
