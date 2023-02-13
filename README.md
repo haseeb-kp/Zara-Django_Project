@@ -2,56 +2,56 @@
 
 Zara is an online store for buying Dry fruits powered with django in backend.
 
-Technologies used :
+<h3>Technologies included :</h3>
 
 
-❖ Django
-❖ Python
-❖ SQL
-❖ JavaScript
-❖ Jquery
-❖ Bootstrap
-❖ NGINX
-❖ Amazon Web Services
-❖ Razorpay and Paypal
-❖ HTML
-❖ CSS
-❖ Twiliio
-❖ Figma
-❖ Luna modeler
+<li> Django
+<li> Python
+<li> SQL
+<li> JavaScript
+<li> Jquery
+<li> Bootstrap
+<li> NGINX
+<li> Amazon Web Services
+<li> Razorpay and Paypal
+<li> HTML
+<li> CSS
+<li> Twiliio
+<li> Figma
+<li> Luna modeler
 
-Features included :
+<h3>Features included :</h3>
 
-User side :
-❖ User Authentication
-❖ OTP Login
-❖ Advanced Payment Options(RazorPay,Paypal)
-❖ Wishlists
-❖ Product filtering
-❖ Order History
-❖ Order tracking
-❖ Invoice (download options)
-❖ Coupon offers
-❖ Image Cropping
-❖ Responsive Design
-❖ Image Zooming
-❖ Multiple Address Management
-❖ Form Validation
-❖ User Profile
-❖ Profile Picture
-❖ Cash on Delivery
+<h4>User side :</h4>
+<li> User Authentication
+<li> OTP Login
+<li> Advanced Payment Options(RazorPay,Paypal)
+<li> Wishlists
+<li> Product filtering
+<li> Order History
+<li> Order tracking
+<li> Invoice (download options)
+<li> Coupon offers
+<li> Image Cropping
+<li> Responsive Design
+<li> Image Zooming
+<li> Multiple Address Management
+<li> Form Validation
+<li> User Profile
+<li> Profile Picture
+<li> Cash on Delivery
 
-Admin side :
-❖ Admin dashboard
-❖ Product Management
-❖ Inventory Management
-❖ User Management (block/unblock)
-❖ Category Management
-❖ Order Management (changing order status , tracking order)
-❖ Product Offers & Category offers
-❖ Coupon offers
-❖ User Management
-❖ Sales Management
-❖ Sales Report
+<h4>Admin side :</h4>
+<li> Admin dashboard
+<li> Product Management
+<li> Inventory Management
+<li> User Management (block/unblock)
+<li> Category Management
+<li> Order Management (changing order status , tracking order)
+<li> Product Offers & Category offers
+<li> Coupon offers
+<li> User Management
+<li> Sales Management
+<li> Sales Report
 
 visit: zaradryfruits.ga
