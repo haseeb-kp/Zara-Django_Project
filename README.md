@@ -54,4 +54,4 @@ Zara is an online store for buying Dry fruits powered with django in backend.
 <li> Sales Management
 <li> Sales Report
 
-visit: zaradryfruits.ga
+[link to zara dryfruits](zaradryfruits.ga)
